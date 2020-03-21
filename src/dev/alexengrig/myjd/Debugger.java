@@ -13,6 +13,7 @@ import com.sun.jdi.request.EventRequestManager;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.logging.Logger;
 
 public class Debugger {
@@ -92,20 +93,22 @@ public class Debugger {
     }
 
     public void displayVariables(LocatableEvent event) throws IncompatibleThreadStateException, AbsentInformationException {
-        StackFrame stackFrame = event.thread().frame(0);
-        Location stackLocation = stackFrame.location();
-        String stackLocationName = stackLocation.toString();
-        String debugClassName = debugClass.getName();
+        final StackFrame stackFrame = event.thread().frame(0);
+        final Location stackLocation = stackFrame.location();
+        final String stackLocationName = stackLocation.toString();
+        final String debugClassName = debugClass.getName();
         if (stackLocationName.contains(debugClassName)) {
-            List<LocalVariable> visibleVariables = stackFrame.visibleVariables();
-            Map<LocalVariable, Value> variableValues = stackFrame.getValues(visibleVariables);
-            log.info("Variables at " + stackLocationName + " > ");
+            final List<LocalVariable> visibleVariables = stackFrame.visibleVariables();
+            final Map<LocalVariable, Value> variableValues = stackFrame.getValues(visibleVariables);
+            final StringJoiner joiner = new StringJoiner(System.lineSeparator())
+                    .add("Variables at " + stackLocationName + " > ");
             for (Map.Entry<LocalVariable, Value> entry : variableValues.entrySet()) {
                 LocalVariable variable = entry.getKey();
                 String variableName = variable.name();
-                Value value = entry.getValue();
-                log.info(variableName + " = " + value);
+                Value variableValue = entry.getValue();
+                joiner.add("\t" + variableName + " = " + variableValue);
             }
+            log.info(joiner.toString());
         }
     }
 }

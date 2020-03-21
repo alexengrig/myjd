@@ -1,6 +1,6 @@
-# JDebugger
+# myjd
 
-My JDI implementation.
+My JDI implementation
 
 
 ## [Structure Overview](https://docs.oracle.com/javase/8/docs/technotes/guides/jpda/architecture.html)

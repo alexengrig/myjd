@@ -18,13 +18,13 @@ import java.util.logging.Logger;
 public class Debugger {
     private static final Logger log = Logger.getLogger(Debugger.class.getSimpleName());
 
-    private Class<ExampleDebuggee> debugClass;
+    private Class<?> debugClass;
     private int[] breakPointLines;
 
     public static void main(String[] args) {
         log.info("Debugger started.");
         Debugger debugger = new Debugger();
-        Class<ExampleDebuggee> debugClass = ExampleDebuggee.class;
+        Class<?> debugClass = ExampleDebuggee.class;
         debugger.setDebugClass(debugClass);
         int[] breakPointLines = {6, 7};
         debugger.setBreakPointLines(breakPointLines);
@@ -52,7 +52,7 @@ public class Debugger {
         log.info("Debugger finished.");
     }
 
-    public void setDebugClass(Class<ExampleDebuggee> debugClass) {
+    public void setDebugClass(Class<?> debugClass) {
         this.debugClass = debugClass;
     }
 

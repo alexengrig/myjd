@@ -13,13 +13,16 @@ import com.sun.jdi.request.EventRequestManager;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class Debugger {
+    private static final Logger log = Logger.getLogger(Debugger.class.getSimpleName());
+
     private Class<Debuggee> debugClass;
     private int[] breakPointLines;
 
     public static void main(String[] args) {
-        System.out.println("Debugger started.");
+        log.info("Debugger started.");
         Debugger debugger = new Debugger();
         Class<Debuggee> debugClass = Debuggee.class;
         debugger.setDebugClass(debugClass);
@@ -42,11 +45,11 @@ public class Debugger {
                 }
             }
         } catch (VMDisconnectedException e) {
-            System.out.println("Virtual Machine is disconnected.");
+            log.info("Virtual Machine is disconnected.");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Debugger finished.");
+        log.info("Debugger finished.");
     }
 
     public void setDebugClass(Class<Debuggee> debugClass) {
@@ -96,12 +99,12 @@ public class Debugger {
         if (stackLocationName.contains(debugClassName)) {
             List<LocalVariable> visibleVariables = stackFrame.visibleVariables();
             Map<LocalVariable, Value> variableValues = stackFrame.getValues(visibleVariables);
-            System.out.println("Variables at " + stackLocationName + " > ");
+            log.info("Variables at " + stackLocationName + " > ");
             for (Map.Entry<LocalVariable, Value> entry : variableValues.entrySet()) {
                 LocalVariable variable = entry.getKey();
                 String variableName = variable.name();
                 Value value = entry.getValue();
-                System.out.println(variableName + " = " + value);
+                log.info(variableName + " = " + value);
             }
         }
     }

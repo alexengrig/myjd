@@ -9,6 +9,7 @@ import com.sun.jdi.event.*;
 import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.ClassPrepareRequest;
 import com.sun.jdi.request.EventRequestManager;
+import dev.alexengrig.myjd.util.ArgsUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,12 +23,15 @@ public class Debugger {
     private Class<?> debugClass;
     private int[] breakPointLines;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException {
         log.info("Debugger started.");
-        Debugger debugger = new Debugger();
-        Class<?> debugClass = ExampleDebuggee.class;
+        final Debugger debugger = new Debugger();
+        final String className = ArgsUtil.getValue(args, "--className")
+                .orElseThrow(() -> new IllegalArgumentException("No '--className' argument value"));
+        final Class<?> debugClass = Class.forName(className);
+        log.info("Debuggee class: " + debugClass.getName());
         debugger.setDebugClass(debugClass);
-        int[] breakPointLines = {6, 7};
+        final int[] breakPointLines = {6, 7};
         debugger.setBreakPointLines(breakPointLines);
         VirtualMachine vm;
         try {

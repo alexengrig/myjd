@@ -1,4 +1,4 @@
-# myjd
+# myjdi
 
 My JDI implementation
 

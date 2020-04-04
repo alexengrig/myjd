@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="DebugRunner" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="MAIN_CLASS_NAME" value="dev.alexengrig.myjd.DebugRunner" />
+    <module name="myjdi.main" />
+    <option name="PROGRAM_PARAMETERS" value="--className dev.alexengrig.myjd.ExampleDebuggee" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="dev.alexengrig.myjd.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

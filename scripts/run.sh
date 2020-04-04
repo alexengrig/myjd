@@ -1,4 +1,4 @@
 ./build.sh
 cd ../build || exit #TODO: Add to classpath
-java -cp "$JDK_18/lib/tools.jar;." dev/alexengrig/myjd/DebugRunner --className dev.alexengrig.myjd.ExampleDebuggee
+"$JDK_18/bin/java" -cp "../lib/tools-1.8.0_241.jar;." dev/alexengrig/myjd/DebugRunner --className dev.alexengrig.myjd.ExampleDebuggee
 cd ../scripts || exit #TODO: Workaround to remove build

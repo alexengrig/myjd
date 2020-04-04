@@ -2,7 +2,7 @@
   <configuration default="false" name="DebugRunner" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="dev.alexengrig.myjdi.DebugRunner" />
     <module name="myjdi.main" />
-    <option name="PROGRAM_PARAMETERS" value="--className dev.alexengrig.myjd.ExampleDebuggee" />
+    <option name="PROGRAM_PARAMETERS" value="--className dev.alexengrig.myjdi.ExampleDebuggee" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="dev.alexengrig.myjdi.*" />

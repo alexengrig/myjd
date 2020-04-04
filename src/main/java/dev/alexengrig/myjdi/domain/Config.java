@@ -1,4 +1,4 @@
-package dev.alexengrig.myjd.domain;
+package dev.alexengrig.myjdi.domain;
 
 import java.util.Map;
 

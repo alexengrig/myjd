@@ -1,4 +1,4 @@
-package dev.alexengrig.myjd;
+package dev.alexengrig.myjdi;
 
 public class ExampleDebuggee {
     public static void main(String[] args) {

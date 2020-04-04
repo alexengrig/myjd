@@ -1,4 +1,4 @@
-package dev.alexengrig.myjd.pretty;
+package dev.alexengrig.myjdi.pretty;
 
 import com.sun.jdi.connect.Connector;
 

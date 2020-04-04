@@ -1,4 +1,4 @@
-package dev.alexengrig.myjd.pretty;
+package dev.alexengrig.myjdi.pretty;
 
 import com.sun.jdi.connect.Connector;
 import org.junit.Assert;
@@ -46,7 +46,7 @@ public class ArgumentPrettierTest {
     @Test
     public void check() {
         final String expected = "" +
-                "Class: dev.alexengrig.myjd.pretty.ArgumentPrettierTest$1." + System.lineSeparator() +
+                "Class: dev.alexengrig.myjdi.pretty.ArgumentPrettierTest$1." + System.lineSeparator() +
                 "Name: NAME." + System.lineSeparator() +
                 "Label: LABEL." + System.lineSeparator() +
                 "Description: DESCRIPTION." + System.lineSeparator() +

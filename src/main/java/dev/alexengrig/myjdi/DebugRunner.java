@@ -1,8 +1,8 @@
-package dev.alexengrig.myjd;
+package dev.alexengrig.myjdi;
 
-import dev.alexengrig.myjd.domain.Config;
-import dev.alexengrig.myjd.service.Debugger;
-import dev.alexengrig.myjd.util.ConfigUtil;
+import dev.alexengrig.myjdi.domain.Config;
+import dev.alexengrig.myjdi.service.Debugger;
+import dev.alexengrig.myjdi.util.ConfigUtil;
 
 import java.util.Arrays;
 import java.util.logging.Logger;

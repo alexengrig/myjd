@@ -1,7 +1,7 @@
-package dev.alexengrig.myjd.util;
+package dev.alexengrig.myjdi.util;
 
-import dev.alexengrig.myjd.domain.Config;
-import dev.alexengrig.myjd.domain.Option;
+import dev.alexengrig.myjdi.domain.Config;
+import dev.alexengrig.myjdi.domain.Option;
 
 import java.util.HashMap;
 import java.util.Map;

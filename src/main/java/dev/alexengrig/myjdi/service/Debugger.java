@@ -1,4 +1,4 @@
-package dev.alexengrig.myjd.service;
+package dev.alexengrig.myjdi.service;
 
 import com.sun.jdi.*;
 import com.sun.jdi.connect.Connector;
@@ -9,9 +9,9 @@ import com.sun.jdi.event.*;
 import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.ClassPrepareRequest;
 import com.sun.jdi.request.EventRequestManager;
-import dev.alexengrig.myjd.DebugRunner;
-import dev.alexengrig.myjd.domain.Config;
-import dev.alexengrig.myjd.domain.Option;
+import dev.alexengrig.myjdi.DebugRunner;
+import dev.alexengrig.myjdi.domain.Config;
+import dev.alexengrig.myjdi.domain.Option;
 
 import java.io.IOException;
 import java.util.List;

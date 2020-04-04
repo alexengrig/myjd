@@ -1,4 +1,4 @@
-package dev.alexengrig.myjd.util;
+package dev.alexengrig.myjdi.util;
 
 import java.util.HashMap;
 import java.util.Map;

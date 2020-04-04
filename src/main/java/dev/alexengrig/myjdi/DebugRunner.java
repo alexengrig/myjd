@@ -11,11 +11,15 @@ public class DebugRunner {
     private static final Logger log = Logger.getLogger(DebugRunner.class.getSimpleName());
 
     public static void main(String[] args) {
-        log.info("DebugRunner started with args: " + Arrays.toString(args) + ".");
+        log.info(String.format("Started with args: %s.", Arrays.toString(args)));
         final Config config = ConfigUtil.getConfig(args);
         final Debugger debugger = new Debugger(config);
-        debugger.run();
-        log.info("DebugRunner finished.");
+        debugger.start();
+        try {
+            debugger.join();
+        } catch (InterruptedException ignore) {
+        }
+        log.info("Finished.");
     }
 
 }

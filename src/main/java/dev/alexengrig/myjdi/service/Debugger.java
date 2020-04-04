@@ -26,23 +26,23 @@ public class Debugger implements Runnable {
 
     private final LaunchingConnectorService launchingConnectorService;
     private final Class<?> debugClass;
-    private int[] breakPointLines;
+    private final Integer[] breakPointLines;
 
     public Debugger(Config config) {
         launchingConnectorService = new LaunchingConnectorService();
         debugClass = config.get(Option.CLASS_NAME);
+        breakPointLines = config.get(Option.BREAK_POINTS);
     }
 
     @Override
     public void run() {
-        final int[] breakPointLines = {6, 7, 12};
-        setBreakPointLines(breakPointLines);
         try {
-            VirtualMachine vm = getLaunchedVm();
+            final VirtualMachine vm = getLaunchedVm();
             vm.setDebugTraceMode(VirtualMachine.TRACE_NONE);
             enableClassPrepareRequest(vm);
+            final EventQueue queue = vm.eventQueue();
             EventSet eventSet;
-            while ((eventSet = vm.eventQueue().remove()) != null) {
+            while ((eventSet = queue.remove()) != null) {
                 for (Event event : eventSet) {
                     log.info(String.format("Event: %s.", event));
                     if (event instanceof ClassPrepareEvent) {
@@ -59,10 +59,6 @@ public class Debugger implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void setBreakPointLines(int[] breakPointLines) {
-        this.breakPointLines = breakPointLines;
     }
 
     public VirtualMachine getLaunchedVm() {

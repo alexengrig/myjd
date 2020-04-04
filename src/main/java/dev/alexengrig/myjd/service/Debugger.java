@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 public class Debugger implements Runnable {
     private static final Logger log = Logger.getLogger(DebugRunner.class.getSimpleName());
 
-    private Class<?> debugClass;
+    private final Class<?> debugClass;
     private int[] breakPointLines;
 
     public Debugger(Config config) {
@@ -31,14 +31,16 @@ public class Debugger implements Runnable {
 
     @Override
     public void run() {
-        final int[] breakPointLines = {6, 7};
+        final int[] breakPointLines = {6, 7, 12};
         setBreakPointLines(breakPointLines);
         try {
-            VirtualMachine vm = connectAndLaunchVM();
+            VirtualMachine vm = launchVm();
+            vm.setDebugTraceMode(VirtualMachine.TRACE_NONE);
             enableClassPrepareRequest(vm);
             EventSet eventSet;
             while ((eventSet = vm.eventQueue().remove()) != null) {
                 for (Event event : eventSet) {
+                    log.info(String.format("Event: %s.", event));
                     if (event instanceof ClassPrepareEvent) {
                         createBreakpoints(vm, (ClassPrepareEvent) event);
                     }
@@ -59,19 +61,45 @@ public class Debugger implements Runnable {
         this.breakPointLines = breakPointLines;
     }
 
-    public VirtualMachine connectAndLaunchVM() throws VMStartException, IllegalConnectorArgumentsException, IOException {
+    public VirtualMachine launchVm() {
+        final LaunchingConnector launchingConnector = getLaunchingConnector();
+        final Map<String, Connector.Argument> arguments = getConnectorArguments(launchingConnector);
+        try {
+            return launchingConnector.launch(arguments);
+        } catch (IOException e) {
+            throw new Error(String.format("Unable to launch target VM: %s.", e));
+        } catch (IllegalConnectorArgumentsException e) {
+            throw new Error(String.format("Internal error: %s.", e));
+        } catch (VMStartException e) {
+            throw new Error(String.format("Target VM failed to initialize: %s.", e.getMessage()));
+        }
+    }
+
+    private LaunchingConnector getLaunchingConnector() {
+        VirtualMachineManager vmManager = getVirtualMachineManager();
+        StringJoiner joiner = new StringJoiner("\n\t");
+        for (Connector connector : vmManager.allConnectors()) {
+            joiner.add(String.format("%s - %s", connector.name(), connector.description()));
+        }
+        log.info(String.format("All connectors:%n\t%s", joiner));
+        LaunchingConnector connector = vmManager.defaultConnector();
+        log.info(String.format("Connector: %s - %s.", connector.name(), connector.description()));
+        return connector;
+    }
+
+    private VirtualMachineManager getVirtualMachineManager() {
         final VirtualMachineManager vmManager = Bootstrap.virtualMachineManager();
         final String version = vmManager.majorInterfaceVersion() + "." + vmManager.minorInterfaceVersion();
-        log.info("VM version: " + version + ".");
-        final LaunchingConnector launchingConnector = vmManager.defaultConnector();
-        final String connectorInfo = launchingConnector.name() + " - " + launchingConnector.description();
-        log.info("Connector: " + connectorInfo + ".");
-        final Map<String, Connector.Argument> arguments = launchingConnector.defaultArguments();
+        log.info(String.format("VM version: %s.", version));
+        return vmManager;
+    }
+
+    private Map<String, Connector.Argument> getConnectorArguments(LaunchingConnector connector) {
+        final Map<String, Connector.Argument> arguments = connector.defaultArguments();
         final Connector.Argument mainArgument = arguments.get("main");
-        String debugClassName = debugClass.getName();
-        mainArgument.setValue(debugClassName);
+        mainArgument.setValue(debugClass.getName());
         log.info("Connector args: " + arguments);
-        return launchingConnector.launch(arguments);
+        return arguments;
     }
 
     public void enableClassPrepareRequest(VirtualMachine vm) {

@@ -12,8 +12,10 @@ import com.sun.jdi.request.EventRequestManager;
 import dev.alexengrig.myjdi.DebugRunner;
 import dev.alexengrig.myjdi.domain.Config;
 import dev.alexengrig.myjdi.domain.Option;
+import dev.alexengrig.myjdi.util.PrettyUtil;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -22,11 +24,13 @@ import java.util.logging.Logger;
 public class Debugger implements Runnable {
     private static final Logger log = Logger.getLogger(DebugRunner.class.getSimpleName());
 
+    private final LaunchingConnectorService launchingConnectorService;
     private final Class<?> debugClass;
     private int[] breakPointLines;
 
     public Debugger(Config config) {
-        this.debugClass = config.get(Option.CLASS_NAME);
+        launchingConnectorService = new LaunchingConnectorService();
+        debugClass = config.get(Option.CLASS_NAME);
     }
 
     @Override
@@ -34,7 +38,7 @@ public class Debugger implements Runnable {
         final int[] breakPointLines = {6, 7, 12};
         setBreakPointLines(breakPointLines);
         try {
-            VirtualMachine vm = launchVm();
+            VirtualMachine vm = getLaunchedVm();
             vm.setDebugTraceMode(VirtualMachine.TRACE_NONE);
             enableClassPrepareRequest(vm);
             EventSet eventSet;
@@ -61,9 +65,13 @@ public class Debugger implements Runnable {
         this.breakPointLines = breakPointLines;
     }
 
-    public VirtualMachine launchVm() {
-        final LaunchingConnector launchingConnector = getLaunchingConnector();
-        final Map<String, Connector.Argument> arguments = getConnectorArguments(launchingConnector);
+    public VirtualMachine getLaunchedVm() {
+        final LaunchingConnector launchingConnector = launchingConnectorService.connect();
+        log.info(String.format("Connector:%n%s", PrettyUtil.pretty(launchingConnector)));
+        final Map<String, String> values = Collections.singletonMap("main", debugClass.getName());
+        log.info(String.format("Connector values: %s.", values));
+        final Map<String, Connector.Argument> arguments = launchingConnectorService.arguments(launchingConnector, values);
+
         try {
             return launchingConnector.launch(arguments);
         } catch (IOException e) {
@@ -75,32 +83,6 @@ public class Debugger implements Runnable {
         }
     }
 
-    private LaunchingConnector getLaunchingConnector() {
-        VirtualMachineManager vmManager = getVirtualMachineManager();
-        StringJoiner joiner = new StringJoiner("\n\t");
-        for (Connector connector : vmManager.allConnectors()) {
-            joiner.add(String.format("%s - %s", connector.name(), connector.description()));
-        }
-        log.info(String.format("All connectors:%n\t%s", joiner));
-        LaunchingConnector connector = vmManager.defaultConnector();
-        log.info(String.format("Connector: %s - %s.", connector.name(), connector.description()));
-        return connector;
-    }
-
-    private VirtualMachineManager getVirtualMachineManager() {
-        final VirtualMachineManager vmManager = Bootstrap.virtualMachineManager();
-        final String version = vmManager.majorInterfaceVersion() + "." + vmManager.minorInterfaceVersion();
-        log.info(String.format("VM version: %s.", version));
-        return vmManager;
-    }
-
-    private Map<String, Connector.Argument> getConnectorArguments(LaunchingConnector connector) {
-        final Map<String, Connector.Argument> arguments = connector.defaultArguments();
-        final Connector.Argument mainArgument = arguments.get("main");
-        mainArgument.setValue(debugClass.getName());
-        log.info("Connector args: " + arguments);
-        return arguments;
-    }
 
     public void enableClassPrepareRequest(VirtualMachine vm) {
         EventRequestManager eventRequestManager = vm.eventRequestManager();

@@ -89,24 +89,140 @@ public class Debugger extends Thread {
     }
 
     protected void handleEvent(Event event) {
-        if (event instanceof VMStartEvent) {
-            handleVmStartEvent((VMStartEvent) event);
+        // watchpoint events
+        if (event instanceof AccessWatchpointEvent) {
+            handleAccessWatchpointEvent((AccessWatchpointEvent) event);
+        } else if (event instanceof ModificationWatchpointEvent) {
+            handleModificationWatchpointEvent((ModificationWatchpointEvent) event);
+        } else if (event instanceof WatchpointEvent) {
+            handleWatchpointEvent((WatchpointEvent) event);
+        }
+        // exception event
+        else if (event instanceof ExceptionEvent) {
+            handleExceptionEvent((ExceptionEvent) event);
+        }
+        // breakpoint event
+        else if (event instanceof BreakpointEvent) {
+            handleBreakpointEvent((BreakpointEvent) event);
+        }
+        // step event
+        else if (event instanceof StepEvent) {
+            handleStepEvent((StepEvent) event);
+        }
+        // method events
+        else if (event instanceof MethodExitEvent) {
+            handleMethodExitEvent((MethodExitEvent) event);
+        } else if (event instanceof MethodEntryEvent) {
+            handleMethodEntryEvent((MethodEntryEvent) event);
+        }
+        // monitor events
+        else if (event instanceof MonitorWaitedEvent) {
+            handleMonitorWaitedEvent((MonitorWaitedEvent) event);
+        } else if (event instanceof MonitorWaitEvent) {
+            handleMonitorWaitEvent((MonitorWaitEvent) event);
+        } else if (event instanceof MonitorContendedEnterEvent) {
+            handleMonitorContendedEnterEvent((MonitorContendedEnterEvent) event);
+        } else if (event instanceof MonitorContendedEnteredEvent) {
+            handleMonitorContendedEnteredEvent((MonitorContendedEnteredEvent) event);
+        }
+        // locatable event
+        else if (event instanceof LocatableEvent) {
+            handleLocatableEvent((LocatableEvent) event);
+        }
+        // class events
+        else if (event instanceof ClassUnloadEvent) {
+            handleClassUnloadEvent((ClassUnloadEvent) event);
         } else if (event instanceof ClassPrepareEvent) {
             handleClassPrepareEvent((ClassPrepareEvent) event);
-        } else if (event instanceof VMDeathEvent) {
+        }
+        // thread events
+        else if (event instanceof ThreadDeathEvent) {
+            handleThreadDeathEvent((ThreadDeathEvent) event);
+        } else if (event instanceof ThreadStartEvent) {
+            handleThreadStartEvent((ThreadStartEvent) event);
+        }
+        // vm events
+        else if (event instanceof VMDeathEvent) {
             handleVmDeathEvent((VMDeathEvent) event);
         } else if (event instanceof VMDisconnectEvent) {
             handleVmDisconnectEvent((VMDisconnectEvent) event);
+        } else if (event instanceof VMStartEvent) {
+            handleVmStartEvent((VMStartEvent) event);
         } else {
-            log.info(String.format("Event: %s.", event));
+            throw new Error(String.format("Unexpected event type: %s.", event.getClass().getName()));
         }
-//        if (event instanceof BreakpointEvent) {
-//            displayVariables((BreakpointEvent) event);
-//        }
     }
 
-    protected void handleVmStartEvent(VMStartEvent event) {
-        log.info("VMStartEvent.");
+//    Watchpoint events
+
+    protected void handleAccessWatchpointEvent(AccessWatchpointEvent event) {
+        log.info("AccessWatchpointEvent.");
+    }
+
+    protected void handleModificationWatchpointEvent(ModificationWatchpointEvent event) {
+        log.info("ModificationWatchpointEvent.");
+    }
+
+    protected void handleWatchpointEvent(WatchpointEvent event) {
+        log.info("WatchpointEvent.");
+    }
+
+//    Exception event
+
+    protected void handleExceptionEvent(ExceptionEvent event) {
+        log.info("ExceptionEvent.");
+    }
+
+//    Breakpoint event
+
+    protected void handleBreakpointEvent(BreakpointEvent event) {
+        log.info("BreakpointEvent.");
+    }
+
+//    Step event
+
+    protected void handleStepEvent(StepEvent event) {
+        log.info("StepEvent.");
+    }
+
+//    Method events
+
+    protected void handleMethodExitEvent(MethodExitEvent event) {
+        log.info("MethodExitEvent.");
+    }
+
+    protected void handleMethodEntryEvent(MethodEntryEvent event) {
+        log.info("MethodEntryEvent.");
+    }
+
+//    Monitor events
+
+    protected void handleMonitorContendedEnteredEvent(MonitorContendedEnteredEvent event) {
+        log.info("MonitorContendedEnteredEvent.");
+    }
+
+    protected void handleMonitorContendedEnterEvent(MonitorContendedEnterEvent event) {
+        log.info("MonitorContendedEnterEvent.");
+    }
+
+    protected void handleMonitorWaitedEvent(MonitorWaitedEvent event) {
+        log.info("MonitorWaitedEvent.");
+    }
+
+    protected void handleMonitorWaitEvent(MonitorWaitEvent event) {
+        log.info("MonitorWaitEvent.");
+    }
+
+// Locatable event
+
+    protected void handleLocatableEvent(LocatableEvent event) {
+        log.info("LocatableEvent.");
+    }
+
+//    Class events
+
+    protected void handleClassUnloadEvent(ClassUnloadEvent event) {
+        log.info("ClassUnloadEvent.");
     }
 
     protected void handleClassPrepareEvent(ClassPrepareEvent event) {
@@ -129,6 +245,18 @@ public class Debugger extends Thread {
 //        }
     }
 
+//    Thread events
+
+    protected void handleThreadDeathEvent(ThreadDeathEvent event) {
+        log.info("ThreadDeathEvent.");
+    }
+
+    protected void handleThreadStartEvent(ThreadStartEvent event) {
+        log.info("ThreadStartEvent.");
+    }
+
+//    Vm events
+
     protected void handleVmDeathEvent(VMDeathEvent event) {
         died = true;
         log.info("-- The application exited --");
@@ -139,6 +267,10 @@ public class Debugger extends Thread {
         if (!died) {
             log.info("-- The application has been disconnected --");
         }
+    }
+
+    protected void handleVmStartEvent(VMStartEvent event) {
+        log.info("VMStartEvent.");
     }
 
     /***

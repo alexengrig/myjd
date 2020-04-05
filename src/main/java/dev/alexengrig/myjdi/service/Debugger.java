@@ -10,15 +10,18 @@ import com.sun.jdi.request.*;
 import dev.alexengrig.myjdi.DebugRunner;
 import dev.alexengrig.myjdi.domain.Config;
 import dev.alexengrig.myjdi.domain.Option;
-import dev.alexengrig.myjdi.util.PrettyUtil;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 public class Debugger extends Thread {
     private static final Logger log = Logger.getLogger(DebugRunner.class.getSimpleName());
+    private static final List<String> EXCLUDED_CLASSES = Arrays.asList(
+            "java.*", "javax.*", "sun.*", "com.sun.*", "jdk.*");
 
     protected final LaunchingConnectorService launchingConnectorService;
     protected final Class<?> debugClass;
@@ -65,9 +68,9 @@ public class Debugger extends Thread {
 
     protected void prepareVm() {
         final LaunchingConnector launchingConnector = launchingConnectorService.connect();
-        log.info(String.format("Connector:%n%s", PrettyUtil.pretty(launchingConnector)));
+//        log.info(String.format("Connector:%n%s", PrettyUtil.pretty(launchingConnector)));
         final Map<String, String> values = Collections.singletonMap("main", debugClass.getName());
-        log.info(String.format("Connector values: %s.", values));
+//        log.info(String.format("Connector values: %s.", values));
         final Map<String, Connector.Argument> arguments = launchingConnectorService.arguments(launchingConnector, values);
         try {
             vm = launchingConnector.launch(arguments);
@@ -83,30 +86,29 @@ public class Debugger extends Thread {
     }
 
     protected void prepareRequests() {
-        enableExceptionRequest(null, true, true);
+//        enableExceptionRequest(null, true, true);
         // method
-        enableMethodExitRequest();
+//        enableMethodExitRequest();
         enableMethodEntryRequest();
         // monitor
-        enableMonitorWaitedRequest();
+        /*enableMonitorWaitedRequest();
         enableMonitorWaitRequest();
         enableMonitorContendedEnteredRequest();
-        enableMonitorContendedEnterRequest();
+        enableMonitorContendedEnterRequest();*/
         // class
         enableClassUnloadRequest();
         enableClassPrepareRequest();
         // thread
-        enableThreadDeathRequest();
-        enableThreadStartRequest();
+        /*enableThreadDeathRequest();
+        enableThreadStartRequest();*/
     }
 
     protected void enableExceptionRequest(ReferenceType refType, boolean notifyCaught, boolean notifyUncaught) {
         final EventRequestManager manager = vm.eventRequestManager();
         final ExceptionRequest request = manager.createExceptionRequest(refType, notifyCaught, notifyUncaught);
-        request.addClassExclusionFilter("java.*");
-        request.addClassExclusionFilter("javax.*");
-        request.addClassExclusionFilter("sun.*");
-        request.addClassExclusionFilter("com.sun.*");
+        for (String excludedClass : EXCLUDED_CLASSES) {
+            request.addClassExclusionFilter(excludedClass);
+        }
         request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
         request.enable();
     }
@@ -146,10 +148,9 @@ public class Debugger extends Thread {
     protected void enableMethodExitRequest() {
         final EventRequestManager manager = vm.eventRequestManager();
         final MethodExitRequest request = manager.createMethodExitRequest();
-        request.addClassExclusionFilter("java.*");
-        request.addClassExclusionFilter("javax.*");
-        request.addClassExclusionFilter("sun.*");
-        request.addClassExclusionFilter("com.sun.*");
+        for (String excludedClass : EXCLUDED_CLASSES) {
+            request.addClassExclusionFilter(excludedClass);
+        }
         request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
         request.enable();
     }
@@ -157,10 +158,9 @@ public class Debugger extends Thread {
     protected void enableMethodEntryRequest() {
         final EventRequestManager manager = vm.eventRequestManager();
         final MethodEntryRequest request = manager.createMethodEntryRequest();
-        request.addClassExclusionFilter("java.*");
-        request.addClassExclusionFilter("javax.*");
-        request.addClassExclusionFilter("sun.*");
-        request.addClassExclusionFilter("com.sun.*");
+        for (String excludedClass : EXCLUDED_CLASSES) {
+            request.addClassExclusionFilter(excludedClass);
+        }
         request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
         request.enable();
     }
@@ -170,10 +170,9 @@ public class Debugger extends Thread {
     protected void enableMonitorWaitedRequest() {
         final EventRequestManager manager = vm.eventRequestManager();
         final MonitorWaitedRequest request = manager.createMonitorWaitedRequest();
-        request.addClassExclusionFilter("java.*");
-        request.addClassExclusionFilter("javax.*");
-        request.addClassExclusionFilter("sun.*");
-        request.addClassExclusionFilter("com.sun.*");
+        for (String excludedClass : EXCLUDED_CLASSES) {
+            request.addClassExclusionFilter(excludedClass);
+        }
         request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
         request.enable();
     }
@@ -181,10 +180,9 @@ public class Debugger extends Thread {
     protected void enableMonitorWaitRequest() {
         final EventRequestManager manager = vm.eventRequestManager();
         final MonitorWaitRequest request = manager.createMonitorWaitRequest();
-        request.addClassExclusionFilter("java.*");
-        request.addClassExclusionFilter("javax.*");
-        request.addClassExclusionFilter("sun.*");
-        request.addClassExclusionFilter("com.sun.*");
+        for (String excludedClass : EXCLUDED_CLASSES) {
+            request.addClassExclusionFilter(excludedClass);
+        }
         request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
         request.enable();
     }
@@ -192,10 +190,9 @@ public class Debugger extends Thread {
     protected void enableMonitorContendedEnteredRequest() {
         final EventRequestManager manager = vm.eventRequestManager();
         final MonitorContendedEnteredRequest request = manager.createMonitorContendedEnteredRequest();
-        request.addClassExclusionFilter("java.*");
-        request.addClassExclusionFilter("javax.*");
-        request.addClassExclusionFilter("sun.*");
-        request.addClassExclusionFilter("com.sun.*");
+        for (String excludedClass : EXCLUDED_CLASSES) {
+            request.addClassExclusionFilter(excludedClass);
+        }
         request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
         request.enable();
     }
@@ -203,10 +200,9 @@ public class Debugger extends Thread {
     protected void enableMonitorContendedEnterRequest() {
         final EventRequestManager manager = vm.eventRequestManager();
         final MonitorContendedEnterRequest request = manager.createMonitorContendedEnterRequest();
-        request.addClassExclusionFilter("java.*");
-        request.addClassExclusionFilter("javax.*");
-        request.addClassExclusionFilter("sun.*");
-        request.addClassExclusionFilter("com.sun.*");
+        for (String excludedClass : EXCLUDED_CLASSES) {
+            request.addClassExclusionFilter(excludedClass);
+        }
         request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
         request.enable();
     }
@@ -216,10 +212,9 @@ public class Debugger extends Thread {
     protected void enableClassUnloadRequest() {
         final EventRequestManager manager = vm.eventRequestManager();
         final ClassUnloadRequest request = manager.createClassUnloadRequest();
-        request.addClassExclusionFilter("java.*");
-        request.addClassExclusionFilter("javax.*");
-        request.addClassExclusionFilter("sun.*");
-        request.addClassExclusionFilter("com.sun.*");
+        for (String excludedClass : EXCLUDED_CLASSES) {
+            request.addClassExclusionFilter(excludedClass);
+        }
         request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
         request.enable();
     }
@@ -227,10 +222,9 @@ public class Debugger extends Thread {
     protected void enableClassPrepareRequest() {
         final EventRequestManager manager = vm.eventRequestManager();
         final ClassPrepareRequest request = manager.createClassPrepareRequest();
-        request.addClassExclusionFilter("java.*");
-        request.addClassExclusionFilter("javax.*");
-        request.addClassExclusionFilter("sun.*");
-        request.addClassExclusionFilter("com.sun.*");
+        for (String excludedClass : EXCLUDED_CLASSES) {
+            request.addClassExclusionFilter(excludedClass);
+        }
         request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
         request.enable();
     }
@@ -316,11 +310,11 @@ public class Debugger extends Thread {
     }
 
     protected void handleBreakpointEvent(BreakpointEvent event) {
-        log.info("BreakpointEvent.");
+        log.info(String.format("Breakpoint: %s.", event.location()));
     }
 
     protected void handleStepEvent(StepEvent event) {
-        log.info("StepEvent.");
+        log.info(String.format("Step: %s.", event.location()));
     }
 
 //    Watchpoint events
@@ -328,40 +322,53 @@ public class Debugger extends Thread {
     protected void handleAccessWatchpointEvent(AccessWatchpointEvent event) {
         final Field field = event.field();
         final Value value = event.valueCurrent();
-        log.info("AccessWatchpointEvent.");
+        log.info(String.format("Field accessed: %s; with value: %s.", field, value));
     }
 
     protected void handleModificationWatchpointEvent(ModificationWatchpointEvent event) {
-        log.info("ModificationWatchpointEvent.");
+        final Field field = event.field();
+        final Value oldValue = event.valueCurrent();
+        final Value newValue = event.valueToBe();
+        log.info(String.format("Field modified: %s; from: %s; to: %s.", field, oldValue, newValue));
 
     }
 
 //    Method events
 
     protected void handleMethodExitEvent(MethodExitEvent event) {
-        log.info("MethodExitEvent.");
+        final Method method = event.method();
+        final Value value = event.returnValue();
+        log.info(String.format("Method: %s; return: %s.", method, value));
     }
 
     protected void handleMethodEntryEvent(MethodEntryEvent event) {
-        log.info("MethodEntryEvent.");
+        final Method method = event.method();
+//        log.info(String.format("Method called: %s.", method));
+        try {
+            for (Location location : method.allLineLocations()) {
+                enableBreakpointRequest(location);
+            }
+        } catch (AbsentInformationException e) {
+            e.printStackTrace(); //TODO: Add handling
+        }
     }
 
 //    Monitor events
 
     protected void handleMonitorWaitedEvent(MonitorWaitedEvent event) {
-        log.info("MonitorWaitedEvent.");
+        log.info("MonitorWaitedEvent."); //TODO: Add implementation
     }
 
     protected void handleMonitorWaitEvent(MonitorWaitEvent event) {
-        log.info("MonitorWaitEvent.");
+        log.info("MonitorWaitEvent."); //TODO: Add implementation
     }
 
     protected void handleMonitorContendedEnteredEvent(MonitorContendedEnteredEvent event) {
-        log.info("MonitorContendedEnteredEvent.");
+        log.info("MonitorContendedEnteredEvent."); //TODO: Add implementation
     }
 
     protected void handleMonitorContendedEnterEvent(MonitorContendedEnterEvent event) {
-        log.info("MonitorContendedEnterEvent.");
+        log.info("MonitorContendedEnterEvent."); //TODO: Add implementation
     }
 
 //    Class events
@@ -371,7 +378,12 @@ public class Debugger extends Thread {
     }
 
     protected void handleClassPrepareEvent(ClassPrepareEvent event) {
-        log.info(String.format("Class prepared: %s.", event.referenceType()));
+        final ReferenceType type = event.referenceType();
+        log.info(String.format("Class prepared: %s.", type));
+        for (Field field : type.allFields()) {
+            enableAccessWatchpointRequest(field);
+            enableModificationWatchpointRequest(field);
+        }
 //        final EventRequestManager manager = vm.eventRequestManager();
 //        final List<Field> fields = event.referenceType().visibleFields();
 //        for (Field field : fields) {
@@ -395,12 +407,12 @@ public class Debugger extends Thread {
 
     protected void handleThreadDeathEvent(ThreadDeathEvent event) {
         final ThreadReference thread = event.thread();
-        log.info(String.format("\"%s\" thread terminated.", thread.name()));
+        log.info(String.format("Thread terminated: %s.", thread));
     }
 
     protected void handleThreadStartEvent(ThreadStartEvent event) {
         final ThreadReference thread = event.thread();
-        log.info(String.format("\"%s\" thread started.", thread.name()));
+        log.info(String.format("Thread started: %s.", thread));
     }
 
 //    Vm events
@@ -419,7 +431,7 @@ public class Debugger extends Thread {
 
     protected void handleVmStartEvent(VMStartEvent event) {
         final ThreadReference thread = event.thread();
-        log.info(String.format("VM started in \"%s\" thread.", thread.name()));
+        log.info(String.format("VM started in thread: %s.", thread));
     }
 
 

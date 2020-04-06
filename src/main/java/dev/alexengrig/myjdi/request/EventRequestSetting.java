@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class EventRequestSetting {
+public class EventRequestSetting<R extends EventRequest> {
     protected final Map<Object, Object> properties;
 
     protected boolean enabled;
@@ -15,6 +15,39 @@ public class EventRequestSetting {
 
     public EventRequestSetting() {
         properties = new HashMap<>();
+    }
+
+    public void apply(R request) {
+        final boolean wasEnabled = request.isEnabled();
+        if (wasEnabled) {
+            request.disable();
+        }
+        doApply(request);
+        if (wasEnabled || enabled) {
+            request.enable();
+        }
+    }
+
+    protected void doApply(R request) {
+        applyProperties(request);
+        applyCountFilter(request);
+        applySuspendPolice(request);
+    }
+
+    protected void applyProperties(R request) {
+        for (Object key : properties.keySet()) {
+            request.putProperty(key, properties.get(key));
+        }
+    }
+
+    protected void applyCountFilter(R request) {
+        if (countFilter > 0) {
+            request.addCountFilter(countFilter);
+        }
+    }
+
+    protected void applySuspendPolice(R request) {
+        request.setSuspendPolicy(suspendPolicy);
     }
 
 //    Properties
@@ -129,11 +162,11 @@ public class EventRequestSetting {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EventRequestSetting that = (EventRequestSetting) o;
+        EventRequestSetting<?> that = (EventRequestSetting<?>) o;
         return enabled == that.enabled &&
                 countFilter == that.countFilter &&
                 suspendPolicy == that.suspendPolicy &&
-                properties.equals(that.properties);
+                Objects.equals(properties, that.properties);
     }
 
     @Override

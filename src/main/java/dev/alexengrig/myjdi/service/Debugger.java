@@ -10,6 +10,9 @@ import com.sun.jdi.request.*;
 import dev.alexengrig.myjdi.DebugRunner;
 import dev.alexengrig.myjdi.domain.Config;
 import dev.alexengrig.myjdi.domain.Option;
+import dev.alexengrig.myjdi.request.ClassPrepareRequestSetting;
+import dev.alexengrig.myjdi.request.ThreadDeathRequestSetting;
+import dev.alexengrig.myjdi.request.ThreadStartRequestSetting;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,6 +30,10 @@ public class Debugger extends Thread {
     protected final Class<?> debugClass;
     protected final Integer[] breakPointLines;
 
+    protected final ClassPrepareRequestSetting classPrepareRequestSetting;
+    protected final ThreadDeathRequestSetting threadDeathRequestSetting;
+    protected final ThreadStartRequestSetting threadStartRequestSetting;
+
     protected VirtualMachine vm;
     protected boolean connected;
     protected boolean died;
@@ -36,6 +43,16 @@ public class Debugger extends Thread {
         launchingConnectorService = new LaunchingConnectorService();
         debugClass = config.get(Option.CLASS_NAME);
         breakPointLines = config.get(Option.BREAK_POINTS);
+        classPrepareRequestSetting = new ClassPrepareRequestSetting();
+        classPrepareRequestSetting.addClassExclusionFilters(EXCLUDED_CLASSES);
+        classPrepareRequestSetting.setSuspendAll();
+        classPrepareRequestSetting.enable();
+        threadDeathRequestSetting = new ThreadDeathRequestSetting();
+        threadDeathRequestSetting.setSuspendAll();
+        threadDeathRequestSetting.disable();
+        threadStartRequestSetting = new ThreadStartRequestSetting();
+        threadStartRequestSetting.setSuspendAll();
+        threadStartRequestSetting.disable();
     }
 
     @Override
@@ -69,6 +86,8 @@ public class Debugger extends Thread {
     protected void prepareVm() {
         final LaunchingConnector launchingConnector = launchingConnectorService.connect();
 //        log.info(String.format("Connector:%n%s", PrettyUtil.pretty(launchingConnector)));
+//        String value = "-cp \"C:\\Users\\Gadmin\\Projects\\myjdi\\example\\build\\classes\\java\\main\\dev\\alexengrig\\example\" " +
+//                "dev.alexengrig.example.Main";
         final Map<String, String> values = Collections.singletonMap("main", debugClass.getName());
 //        log.info(String.format("Connector values: %s.", values));
         final Map<String, Connector.Argument> arguments = launchingConnectorService.arguments(launchingConnector, values);
@@ -89,18 +108,18 @@ public class Debugger extends Thread {
 //        enableExceptionRequest(null, true, true);
         // method
 //        enableMethodExitRequest();
-        enableMethodEntryRequest();
+//        enableMethodEntryRequest();
         // monitor
         /*enableMonitorWaitedRequest();
         enableMonitorWaitRequest();
         enableMonitorContendedEnteredRequest();
         enableMonitorContendedEnterRequest();*/
         // class
-        enableClassUnloadRequest();
-        enableClassPrepareRequest();
+//        enableClassUnloadRequest();
+        createClassPrepareRequest();
         // thread
-        /*enableThreadDeathRequest();
-        enableThreadStartRequest();*/
+        createThreadDeathRequest();
+        createThreadStartRequest();
     }
 
     protected void enableExceptionRequest(ReferenceType refType, boolean notifyCaught, boolean notifyUncaught) {
@@ -219,30 +238,24 @@ public class Debugger extends Thread {
         request.enable();
     }
 
-    protected void enableClassPrepareRequest() {
+    protected void createClassPrepareRequest() {
         final EventRequestManager manager = vm.eventRequestManager();
         final ClassPrepareRequest request = manager.createClassPrepareRequest();
-        for (String excludedClass : EXCLUDED_CLASSES) {
-            request.addClassExclusionFilter(excludedClass);
-        }
-        request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
-        request.enable();
+        classPrepareRequestSetting.apply(request);
     }
 
 //    Thread requests
 
-    protected void enableThreadDeathRequest() {
+    protected void createThreadDeathRequest() {
         final EventRequestManager manager = vm.eventRequestManager();
         final ThreadDeathRequest request = manager.createThreadDeathRequest();
-        request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
-        request.enable();
+        threadDeathRequestSetting.apply(request);
     }
 
-    protected void enableThreadStartRequest() {
+    protected void createThreadStartRequest() {
         final EventRequestManager manager = vm.eventRequestManager();
         final ThreadStartRequest request = manager.createThreadStartRequest();
-        request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
-        request.enable();
+        threadStartRequestSetting.apply(request);
     }
 
 //    Handling
@@ -384,6 +397,8 @@ public class Debugger extends Thread {
             enableAccessWatchpointRequest(field);
             enableModificationWatchpointRequest(field);
         }
+        System.out.println("List: " + vm.classesByName("dev.alexengrig.myjdi.ExampleDebuggee"));
+        System.out.println("Prop: " + event.request().getProperty("test"));
 //        final EventRequestManager manager = vm.eventRequestManager();
 //        final List<Field> fields = event.referenceType().visibleFields();
 //        for (Field field : fields) {

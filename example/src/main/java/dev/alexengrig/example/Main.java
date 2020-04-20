@@ -12,5 +12,6 @@ public class Main {
         int eight = 8;
         int nine = 9;
         int ten = 10;
+        System.out.println("END!");
     }
 }

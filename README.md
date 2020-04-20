@@ -1,6 +1,6 @@
 # myjdi
 
-My JDI implementation
+MYJDI (MYJDI Youth Java Debug Implementation) is JDI implementation.
 
 
 ## [Structure Overview](https://docs.oracle.com/javase/8/docs/technotes/guides/jpda/architecture.html)

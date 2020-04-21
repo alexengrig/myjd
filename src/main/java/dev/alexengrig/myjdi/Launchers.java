@@ -8,6 +8,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class Launchers {
+    public static final String HOME = "home";
+    public static final String OPTIONS = "options";
+    public static final String MAIN = "main";
+    public static final String SUSPEND = "suspend";
+    public static final String QUOTE = "quote";
+    public static final String VMEXEC = "vmexec";
+    public static final String COMMAND = "command";
+    public static final String ADDRESS = "address";
+
     private Launchers() {
     }
 
@@ -195,19 +204,19 @@ public final class Launchers {
         }
 
         public CommandLineLauncherBuilder home(String value) {
-            return argument("home", value);
+            return argument(HOME, value);
         }
 
         public CommandLineLauncherBuilder options(String value) {
-            return argument("options", value);
+            return argument(OPTIONS, value);
         }
 
         public CommandLineLauncherBuilder main(String value) {
-            return argument("main", value);
+            return argument(MAIN, value);
         }
 
         public CommandLineLauncherBuilder suspend(String value) {
-            return argument("suspend", value);
+            return argument(SUSPEND, value);
         }
 
         public CommandLineLauncherBuilder suspend(boolean value) {
@@ -215,11 +224,11 @@ public final class Launchers {
         }
 
         public CommandLineLauncherBuilder quote(String value) {
-            return argument("quote", value);
+            return argument(QUOTE, value);
         }
 
         public CommandLineLauncherBuilder vmexec(String value) {
-            return argument("vmexec", value);
+            return argument(VMEXEC, value);
         }
     }
 
@@ -235,15 +244,15 @@ public final class Launchers {
         }
 
         public RawCommandLineLauncherBuilder command(String value) {
-            return argument("command", value);
+            return argument(COMMAND, value);
         }
 
         public RawCommandLineLauncherBuilder address(String value) {
-            return argument("address", value);
+            return argument(ADDRESS, value);
         }
 
         public RawCommandLineLauncherBuilder quote(String value) {
-            return argument("quote", value);
+            return argument(QUOTE, value);
         }
     }
 }

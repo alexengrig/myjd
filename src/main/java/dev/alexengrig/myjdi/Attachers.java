@@ -35,23 +35,11 @@ public final class Attachers {
     }
 
     public static SocketAttacherBuilder socketAttacherBuilder() {
-        AttachingConnector connector = Connectors.socketAttachingConnector();
-        return new SocketAttacherBuilder(connector.defaultArguments()) {
-            @Override
-            protected Attacher doBuild(Map<String, Connector.Argument> arguments) {
-                return () -> connector.attach(arguments);
-            }
-        };
+        return new SocketAttacherBuilder(Connectors.socketAttachingConnector());
     }
 
     public static SocketAttacherBuilder socketAttacherBuilder(VirtualMachineManager vmManager) {
-        AttachingConnector connector = Connectors.socketAttachingConnector(vmManager);
-        return new SocketAttacherBuilder(connector.defaultArguments()) {
-            @Override
-            protected Attacher doBuild(Map<String, Connector.Argument> arguments) {
-                return () -> connector.attach(arguments);
-            }
-        };
+        return new SocketAttacherBuilder(Connectors.socketAttachingConnector(vmManager));
     }
 
 //    Shared Memory
@@ -74,23 +62,11 @@ public final class Attachers {
     }
 
     public static SharedMemoryAttacherBuilder sharedMemoryAttacherBuilder() {
-        AttachingConnector connector = Connectors.sharedMemoryAttachingConnector();
-        return new SharedMemoryAttacherBuilder(connector.defaultArguments()) {
-            @Override
-            protected Attacher doBuild(Map<String, Connector.Argument> arguments) {
-                return () -> connector.attach(arguments);
-            }
-        };
+        return new SharedMemoryAttacherBuilder(Connectors.sharedMemoryAttachingConnector());
     }
 
     public static SharedMemoryAttacherBuilder sharedMemoryAttacherBuilder(VirtualMachineManager vmManager) {
-        AttachingConnector connector = Connectors.sharedMemoryAttachingConnector(vmManager);
-        return new SharedMemoryAttacherBuilder(connector.defaultArguments()) {
-            @Override
-            protected Attacher doBuild(Map<String, Connector.Argument> arguments) {
-                return () -> connector.attach(arguments);
-            }
-        };
+        return new SharedMemoryAttacherBuilder(Connectors.sharedMemoryAttachingConnector(vmManager));
     }
 
 //    Common
@@ -108,21 +84,18 @@ public final class Attachers {
     }
 
     public static AttacherBuilder attacherBuilder(AttachingConnector connector) {
-        return new AttacherBuilder(connector.defaultArguments()) {
-            @Override
-            protected Attacher doBuild(Map<String, Connector.Argument> arguments) {
-                return () -> connector.attach(arguments);
-            }
-        };
+        return new AttacherBuilder(connector);
     }
 
 //    Builder
 
     public static abstract class BaseAttacherBuilder<B extends BaseAttacherBuilder<B>> {
+        protected final AttachingConnector connector;
         protected final Map<String, Connector.Argument> arguments;
 
-        protected BaseAttacherBuilder(Map<String, Connector.Argument> arguments) {
-            this.arguments = arguments;
+        protected BaseAttacherBuilder(AttachingConnector connector) {
+            this.connector = connector;
+            this.arguments = connector.defaultArguments();
         }
 
         public B argument(String name, String value) {
@@ -133,15 +106,13 @@ public final class Attachers {
         protected abstract B self();
 
         public Attacher build() {
-            return doBuild(arguments);
+            return () -> connector.attach(arguments);
         }
-
-        protected abstract Attacher doBuild(Map<String, Connector.Argument> arguments);
     }
 
-    public static abstract class AttacherBuilder extends BaseAttacherBuilder<AttacherBuilder> {
-        protected AttacherBuilder(Map<String, Connector.Argument> arguments) {
-            super(arguments);
+    public static class AttacherBuilder extends BaseAttacherBuilder<AttacherBuilder> {
+        protected AttacherBuilder(AttachingConnector connector) {
+            super(connector);
         }
 
         @Override
@@ -150,9 +121,9 @@ public final class Attachers {
         }
     }
 
-    public static abstract class SocketAttacherBuilder extends BaseAttacherBuilder<SocketAttacherBuilder> {
-        protected SocketAttacherBuilder(Map<String, Connector.Argument> arguments) {
-            super(arguments);
+    public static class SocketAttacherBuilder extends BaseAttacherBuilder<SocketAttacherBuilder> {
+        protected SocketAttacherBuilder(AttachingConnector connector) {
+            super(connector);
         }
 
         @Override
@@ -181,9 +152,9 @@ public final class Attachers {
         }
     }
 
-    public static abstract class SharedMemoryAttacherBuilder extends BaseAttacherBuilder<SharedMemoryAttacherBuilder> {
-        protected SharedMemoryAttacherBuilder(Map<String, Connector.Argument> arguments) {
-            super(arguments);
+    public static class SharedMemoryAttacherBuilder extends BaseAttacherBuilder<SharedMemoryAttacherBuilder> {
+        protected SharedMemoryAttacherBuilder(AttachingConnector connector) {
+            super(connector);
         }
 
         @Override

@@ -21,6 +21,9 @@ public final class Connectors {
     public static final String SOCKET_LISTEN = "com.sun.jdi.SocketListen";
     public static final String SHARED_MEMORY_LISTEN = "com.sun.jdi.SharedMemoryListen";
 
+    private Connectors() {
+    }
+
 //    Launch
 
     public static LaunchingConnector commandLineLaunchingConnector() {

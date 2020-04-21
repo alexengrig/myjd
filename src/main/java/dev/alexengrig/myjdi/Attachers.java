@@ -125,6 +125,29 @@ public final class Attachers {
         };
     }
 
+//    Common
+
+    public static Attacher attacher(AttachingConnector connector) {
+        return () -> connector.attach(connector.defaultArguments());
+    }
+
+    public static Attacher attacher(AttachingConnector connector, Map<String, Connector.Argument> arguments) {
+        return () -> {
+            Map<String, Connector.Argument> args = connector.defaultArguments();
+            args.putAll(arguments);
+            return connector.attach(args);
+        };
+    }
+
+    public static AttacherBuilder attacherBuilder(AttachingConnector connector) {
+        return new AttacherBuilder(connector.defaultArguments()) {
+            @Override
+            protected Attacher doBuild(Map<String, Connector.Argument> arguments) {
+                return () -> connector.attach(arguments);
+            }
+        };
+    }
+
 //    Builder
 
     public static abstract class BaseAttacherBuilder<B extends BaseAttacherBuilder<B>> {
@@ -146,6 +169,17 @@ public final class Attachers {
         }
 
         protected abstract Attacher doBuild(Map<String, Connector.Argument> arguments);
+    }
+
+    public static abstract class AttacherBuilder extends BaseAttacherBuilder<AttacherBuilder> {
+        protected AttacherBuilder(Map<String, Connector.Argument> arguments) {
+            super(arguments);
+        }
+
+        @Override
+        protected AttacherBuilder self() {
+            return this;
+        }
     }
 
     public static abstract class SocketAttacherBuilder extends BaseAttacherBuilder<SocketAttacherBuilder> {

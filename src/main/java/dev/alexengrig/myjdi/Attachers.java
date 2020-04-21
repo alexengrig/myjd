@@ -11,6 +11,7 @@ public final class Attachers {
     public static final String PORT = "port";
     public static final String TIMEOUT = "timeout";
     public static final String NAME = "name";
+    public static final String PID = "pid";
 
     private Attachers() {
     }
@@ -67,6 +68,33 @@ public final class Attachers {
 
     public static SharedMemoryAttacherBuilder sharedMemoryAttacherBuilder(VirtualMachineManager vmManager) {
         return new SharedMemoryAttacherBuilder(Connectors.sharedMemoryAttachingConnector(vmManager));
+    }
+
+//    Process
+
+    public static Attacher processAttacher() {
+        return attacher(Connectors.processAttachingConnector());
+    }
+
+    public static Attacher processAttacher(VirtualMachineManager vmManager) {
+        return attacher(Connectors.processAttachingConnector(vmManager));
+    }
+
+    public static Attacher processAttacher(Map<String, Connector.Argument> arguments) {
+        return attacher(Connectors.processAttachingConnector(), arguments);
+    }
+
+    public static Attacher processAttacher(VirtualMachineManager vmManager,
+                                           Map<String, Connector.Argument> arguments) {
+        return attacher(Connectors.processAttachingConnector(vmManager), arguments);
+    }
+
+    public static ProcessAttacherBuilder processAttacherBuilder() {
+        return new ProcessAttacherBuilder(Connectors.processAttachingConnector());
+    }
+
+    public static ProcessAttacherBuilder processAttacherBuilder(VirtualMachineManager vmManager) {
+        return new ProcessAttacherBuilder(Connectors.processAttachingConnector(vmManager));
     }
 
 //    Common
@@ -171,6 +199,33 @@ public final class Attachers {
         }
 
         public SharedMemoryAttacherBuilder timeout(long value) {
+            return timeout(Long.toString(value));
+        }
+    }
+
+    public static class ProcessAttacherBuilder extends BaseAttacherBuilder<ProcessAttacherBuilder> {
+        protected ProcessAttacherBuilder(AttachingConnector connector) {
+            super(connector);
+        }
+
+        @Override
+        protected ProcessAttacherBuilder self() {
+            return this;
+        }
+
+        public ProcessAttacherBuilder pid(String value) {
+            return argument(PID, value);
+        }
+
+        public ProcessAttacherBuilder pid(int value) {
+            return pid(Integer.toString(value));
+        }
+
+        public ProcessAttacherBuilder timeout(String value) {
+            return argument(TIMEOUT, value);
+        }
+
+        public ProcessAttacherBuilder timeout(long value) {
             return timeout(Long.toString(value));
         }
     }

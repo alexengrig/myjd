@@ -121,7 +121,7 @@ public final class Attachers {
         protected final AttachingConnector connector;
         protected final Map<String, Connector.Argument> arguments;
 
-        protected BaseAttacherBuilder(AttachingConnector connector) {
+        public BaseAttacherBuilder(AttachingConnector connector) {
             this.connector = connector;
             this.arguments = connector.defaultArguments();
         }
@@ -139,7 +139,7 @@ public final class Attachers {
     }
 
     public static class AttacherBuilder extends BaseAttacherBuilder<AttacherBuilder> {
-        protected AttacherBuilder(AttachingConnector connector) {
+        public AttacherBuilder(AttachingConnector connector) {
             super(connector);
         }
 
@@ -150,7 +150,7 @@ public final class Attachers {
     }
 
     public static class SocketAttacherBuilder extends BaseAttacherBuilder<SocketAttacherBuilder> {
-        protected SocketAttacherBuilder(AttachingConnector connector) {
+        public SocketAttacherBuilder(AttachingConnector connector) {
             super(connector);
         }
 
@@ -181,7 +181,7 @@ public final class Attachers {
     }
 
     public static class SharedMemoryAttacherBuilder extends BaseAttacherBuilder<SharedMemoryAttacherBuilder> {
-        protected SharedMemoryAttacherBuilder(AttachingConnector connector) {
+        public SharedMemoryAttacherBuilder(AttachingConnector connector) {
             super(connector);
         }
 
@@ -204,7 +204,7 @@ public final class Attachers {
     }
 
     public static class ProcessAttacherBuilder extends BaseAttacherBuilder<ProcessAttacherBuilder> {
-        protected ProcessAttacherBuilder(AttachingConnector connector) {
+        public ProcessAttacherBuilder(AttachingConnector connector) {
             super(connector);
         }
 

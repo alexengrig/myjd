@@ -18,36 +18,20 @@ public final class Attachers {
 //    Socket
 
     public static Attacher socketAttacher() {
-        return () -> {
-            AttachingConnector connector = Connectors.socketAttachingConnector();
-            return connector.attach(connector.defaultArguments());
-        };
+        return attacher(Connectors.socketAttachingConnector());
     }
 
     public static Attacher socketAttacher(VirtualMachineManager vmManager) {
-        return () -> {
-            AttachingConnector connector = Connectors.socketAttachingConnector(vmManager);
-            return connector.attach(connector.defaultArguments());
-        };
+        return attacher(Connectors.socketAttachingConnector(vmManager));
     }
 
     public static Attacher socketAttacher(Map<String, Connector.Argument> arguments) {
-        return () -> {
-            AttachingConnector connector = Connectors.socketAttachingConnector();
-            Map<String, Connector.Argument> args = connector.defaultArguments();
-            args.putAll(arguments);
-            return connector.attach(args);
-        };
+        return attacher(Connectors.socketAttachingConnector(), arguments);
     }
 
     public static Attacher socketAttacher(VirtualMachineManager vmManager,
                                           Map<String, Connector.Argument> arguments) {
-        return () -> {
-            AttachingConnector connector = Connectors.socketAttachingConnector(vmManager);
-            Map<String, Connector.Argument> args = connector.defaultArguments();
-            args.putAll(arguments);
-            return connector.attach(args);
-        };
+        return attacher(Connectors.socketAttachingConnector(vmManager), arguments);
     }
 
     public static SocketAttacherBuilder socketAttacherBuilder() {
@@ -73,36 +57,20 @@ public final class Attachers {
 //    Shared Memory
 
     public static Attacher sharedMemoryAttacher() {
-        return () -> {
-            AttachingConnector connector = Connectors.sharedMemoryAttachingConnector();
-            return connector.attach(connector.defaultArguments());
-        };
+        return attacher(Connectors.sharedMemoryAttachingConnector());
     }
 
     public static Attacher sharedMemoryAttacher(VirtualMachineManager vmManager) {
-        return () -> {
-            AttachingConnector connector = Connectors.sharedMemoryAttachingConnector(vmManager);
-            return connector.attach(connector.defaultArguments());
-        };
+        return attacher(Connectors.sharedMemoryAttachingConnector(vmManager));
     }
 
     public static Attacher sharedMemoryAttacher(Map<String, Connector.Argument> arguments) {
-        return () -> {
-            AttachingConnector connector = Connectors.sharedMemoryAttachingConnector();
-            Map<String, Connector.Argument> args = connector.defaultArguments();
-            args.putAll(arguments);
-            return connector.attach(args);
-        };
+        return attacher(Connectors.sharedMemoryAttachingConnector(), arguments);
     }
 
     public static Attacher sharedMemoryAttacher(VirtualMachineManager vmManager,
                                                 Map<String, Connector.Argument> arguments) {
-        return () -> {
-            AttachingConnector connector = Connectors.sharedMemoryAttachingConnector(vmManager);
-            Map<String, Connector.Argument> args = connector.defaultArguments();
-            args.putAll(arguments);
-            return connector.attach(args);
-        };
+        return attacher(Connectors.sharedMemoryAttachingConnector(vmManager), arguments);
     }
 
     public static SharedMemoryAttacherBuilder sharedMemoryAttacherBuilder() {

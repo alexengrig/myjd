@@ -63,6 +63,61 @@ public final class Launchers {
         };
     }
 
+//    Raw Command Line
+
+    public static Launcher rawCommandLineLauncher() {
+        return () -> {
+            LaunchingConnector connector = Connectors.rawCommandLineLaunchingConnector();
+            return connector.launch(connector.defaultArguments());
+        };
+    }
+
+    public static Launcher rawCommandLineLauncher(VirtualMachineManager vmManager) {
+        return () -> {
+            LaunchingConnector connector = Connectors.rawCommandLineLaunchingConnector(vmManager);
+            return connector.launch(connector.defaultArguments());
+        };
+    }
+
+    public static Launcher rawCommandLineLauncher(Map<String, Connector.Argument> arguments) {
+        return () -> {
+            LaunchingConnector connector = Connectors.rawCommandLineLaunchingConnector();
+            Map<String, Connector.Argument> args = connector.defaultArguments();
+            args.putAll(arguments);
+            return connector.launch(args);
+        };
+    }
+
+    public static Launcher rawCommandLineLauncher(VirtualMachineManager vmManager,
+                                                  Map<String, Connector.Argument> arguments) {
+        return () -> {
+            LaunchingConnector connector = Connectors.rawCommandLineLaunchingConnector(vmManager);
+            Map<String, Connector.Argument> args = connector.defaultArguments();
+            args.putAll(arguments);
+            return connector.launch(args);
+        };
+    }
+
+    public static RawCommandLineLauncherBuilder rawCommandLineLauncherBuilder() {
+        final LaunchingConnector connector = Connectors.rawCommandLineLaunchingConnector();
+        return new RawCommandLineLauncherBuilder(connector.defaultArguments()) {
+            @Override
+            protected Launcher doBuild(Map<String, Connector.Argument> arguments) {
+                return () -> connector.launch(arguments);
+            }
+        };
+    }
+
+    public static RawCommandLineLauncherBuilder rawCommandLineLauncherBuilder(VirtualMachineManager vmManager) {
+        final LaunchingConnector connector = Connectors.rawCommandLineLaunchingConnector(vmManager);
+        return new RawCommandLineLauncherBuilder(connector.defaultArguments()) {
+            @Override
+            protected Launcher doBuild(Map<String, Connector.Argument> arguments) {
+                return () -> connector.launch(arguments);
+            }
+        };
+    }
+
 //    Builder
 
     public static abstract class BaseLauncherBuilder<B extends BaseLauncherBuilder<B>> {
@@ -123,6 +178,30 @@ public final class Launchers {
 
         public CommandLineLauncherBuilder vmexec(String value) {
             return argument("vmexec", value);
+        }
+    }
+
+    public static abstract class RawCommandLineLauncherBuilder
+            extends BaseLauncherBuilder<RawCommandLineLauncherBuilder> {
+        protected RawCommandLineLauncherBuilder(Map<String, Connector.Argument> arguments) {
+            super(arguments);
+        }
+
+        @Override
+        protected RawCommandLineLauncherBuilder self() {
+            return this;
+        }
+
+        public RawCommandLineLauncherBuilder command(String value) {
+            return argument("command", value);
+        }
+
+        public RawCommandLineLauncherBuilder address(String value) {
+            return argument("address", value);
+        }
+
+        public RawCommandLineLauncherBuilder quote(String value) {
+            return argument("quote", value);
         }
     }
 }

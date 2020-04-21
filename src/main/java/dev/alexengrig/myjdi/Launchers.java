@@ -4,6 +4,7 @@ import com.sun.jdi.VirtualMachineManager;
 import com.sun.jdi.connect.Connector;
 import com.sun.jdi.connect.LaunchingConnector;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public final class Launchers {
@@ -118,6 +119,33 @@ public final class Launchers {
         };
     }
 
+//    Common
+
+    public static Launcher launcher(LaunchingConnector connector) {
+        return () -> {
+            Map<String, Connector.Argument> args = new HashMap<>(connector.defaultArguments());
+            args.putAll(connector.defaultArguments());
+            return connector.launch(args);
+        };
+    }
+
+    public static Launcher launcher(LaunchingConnector connector, Map<String, Connector.Argument> arguments) {
+        return () -> {
+            Map<String, Connector.Argument> args = new HashMap<>(connector.defaultArguments());
+            args.putAll(arguments);
+            return connector.launch(args);
+        };
+    }
+
+    public static LauncherBuilder launcherBuilder(LaunchingConnector connector) {
+        return new LauncherBuilder(connector.defaultArguments()) {
+            @Override
+            protected Launcher doBuild(Map<String, Connector.Argument> arguments) {
+                return () -> connector.launch(arguments);
+            }
+        };
+    }
+
 //    Builder
 
     public static abstract class BaseLauncherBuilder<B extends BaseLauncherBuilder<B>> {
@@ -139,6 +167,18 @@ public final class Launchers {
         }
 
         protected abstract Launcher doBuild(Map<String, Connector.Argument> arguments);
+    }
+
+    public static abstract class LauncherBuilder
+            extends BaseLauncherBuilder<LauncherBuilder> {
+        protected LauncherBuilder(Map<String, Connector.Argument> arguments) {
+            super(arguments);
+        }
+
+        @Override
+        protected LauncherBuilder self() {
+            return this;
+        }
     }
 
     public static abstract class CommandLineLauncherBuilder

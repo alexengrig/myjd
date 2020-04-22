@@ -23,111 +23,55 @@ public final class Launchers {
 //    Command Line
 
     public static Launcher commandLineLauncher() {
-        return () -> {
-            LaunchingConnector connector = Connectors.commandLineLaunchingConnector();
-            return connector.launch(connector.defaultArguments());
-        };
+        return launcher(Connectors.commandLineLaunchingConnector());
     }
 
     public static Launcher commandLineLauncher(VirtualMachineManager vmManager) {
-        return () -> {
-            LaunchingConnector connector = Connectors.commandLineLaunchingConnector(vmManager);
-            return connector.launch(connector.defaultArguments());
-        };
+        return launcher(Connectors.commandLineLaunchingConnector(vmManager));
     }
 
     public static Launcher commandLineLauncher(Map<String, Connector.Argument> arguments) {
-        return () -> {
-            LaunchingConnector connector = Connectors.commandLineLaunchingConnector();
-            Map<String, Connector.Argument> args = connector.defaultArguments();
-            args.putAll(arguments);
-            return connector.launch(args);
-        };
+        return launcher(Connectors.commandLineLaunchingConnector(), arguments);
     }
 
     public static Launcher commandLineLauncher(VirtualMachineManager vmManager,
                                                Map<String, Connector.Argument> arguments) {
-        return () -> {
-            LaunchingConnector connector = Connectors.commandLineLaunchingConnector(vmManager);
-            Map<String, Connector.Argument> args = connector.defaultArguments();
-            args.putAll(arguments);
-            return connector.launch(args);
-        };
+        return launcher(Connectors.commandLineLaunchingConnector(vmManager), arguments);
     }
 
     public static CommandLineLauncherBuilder commandLineLauncherBuilder() {
-        final LaunchingConnector connector = Connectors.commandLineLaunchingConnector();
-        return new CommandLineLauncherBuilder(connector.defaultArguments()) {
-            @Override
-            protected Launcher doBuild(Map<String, Connector.Argument> arguments) {
-                return () -> connector.launch(arguments);
-            }
-        };
+        return new CommandLineLauncherBuilder(Connectors.commandLineLaunchingConnector());
     }
 
     public static CommandLineLauncherBuilder commandLineLauncherBuilder(VirtualMachineManager vmManager) {
-        final LaunchingConnector connector = Connectors.commandLineLaunchingConnector(vmManager);
-        return new CommandLineLauncherBuilder(connector.defaultArguments()) {
-            @Override
-            protected Launcher doBuild(Map<String, Connector.Argument> arguments) {
-                return () -> connector.launch(arguments);
-            }
-        };
+        return new CommandLineLauncherBuilder(Connectors.commandLineLaunchingConnector(vmManager));
     }
 
 //    Raw Command Line
 
     public static Launcher rawCommandLineLauncher() {
-        return () -> {
-            LaunchingConnector connector = Connectors.rawCommandLineLaunchingConnector();
-            return connector.launch(connector.defaultArguments());
-        };
+        return launcher(Connectors.rawCommandLineLaunchingConnector());
     }
 
     public static Launcher rawCommandLineLauncher(VirtualMachineManager vmManager) {
-        return () -> {
-            LaunchingConnector connector = Connectors.rawCommandLineLaunchingConnector(vmManager);
-            return connector.launch(connector.defaultArguments());
-        };
+        return launcher(Connectors.rawCommandLineLaunchingConnector(vmManager));
     }
 
     public static Launcher rawCommandLineLauncher(Map<String, Connector.Argument> arguments) {
-        return () -> {
-            LaunchingConnector connector = Connectors.rawCommandLineLaunchingConnector();
-            Map<String, Connector.Argument> args = connector.defaultArguments();
-            args.putAll(arguments);
-            return connector.launch(args);
-        };
+        return launcher(Connectors.rawCommandLineLaunchingConnector(), arguments);
     }
 
     public static Launcher rawCommandLineLauncher(VirtualMachineManager vmManager,
                                                   Map<String, Connector.Argument> arguments) {
-        return () -> {
-            LaunchingConnector connector = Connectors.rawCommandLineLaunchingConnector(vmManager);
-            Map<String, Connector.Argument> args = connector.defaultArguments();
-            args.putAll(arguments);
-            return connector.launch(args);
-        };
+        return launcher(Connectors.rawCommandLineLaunchingConnector(vmManager), arguments);
     }
 
     public static RawCommandLineLauncherBuilder rawCommandLineLauncherBuilder() {
-        final LaunchingConnector connector = Connectors.rawCommandLineLaunchingConnector();
-        return new RawCommandLineLauncherBuilder(connector.defaultArguments()) {
-            @Override
-            protected Launcher doBuild(Map<String, Connector.Argument> arguments) {
-                return () -> connector.launch(arguments);
-            }
-        };
+        return new RawCommandLineLauncherBuilder(Connectors.rawCommandLineLaunchingConnector());
     }
 
     public static RawCommandLineLauncherBuilder rawCommandLineLauncherBuilder(VirtualMachineManager vmManager) {
-        final LaunchingConnector connector = Connectors.rawCommandLineLaunchingConnector(vmManager);
-        return new RawCommandLineLauncherBuilder(connector.defaultArguments()) {
-            @Override
-            protected Launcher doBuild(Map<String, Connector.Argument> arguments) {
-                return () -> connector.launch(arguments);
-            }
-        };
+        return new RawCommandLineLauncherBuilder(Connectors.rawCommandLineLaunchingConnector(vmManager));
     }
 
 //    Common
@@ -149,21 +93,18 @@ public final class Launchers {
     }
 
     public static LauncherBuilder launcherBuilder(LaunchingConnector connector) {
-        return new LauncherBuilder(connector.defaultArguments()) {
-            @Override
-            protected Launcher doBuild(Map<String, Connector.Argument> arguments) {
-                return () -> connector.launch(arguments);
-            }
-        };
+        return new LauncherBuilder(connector);
     }
 
 //    Builder
 
     public static abstract class BaseLauncherBuilder<B extends BaseLauncherBuilder<B>> {
+        protected final LaunchingConnector connector;
         protected final Map<String, Connector.Argument> arguments;
 
-        protected BaseLauncherBuilder(Map<String, Connector.Argument> arguments) {
-            this.arguments = arguments;
+        protected BaseLauncherBuilder(LaunchingConnector connector) {
+            this.connector = connector;
+            this.arguments = connector.defaultArguments();
         }
 
         public B argument(String name, String value) {
@@ -174,16 +115,14 @@ public final class Launchers {
         protected abstract B self();
 
         public Launcher build() {
-            return doBuild(arguments);
+            return () -> connector.launch(arguments);
         }
-
-        protected abstract Launcher doBuild(Map<String, Connector.Argument> arguments);
     }
 
-    public static abstract class LauncherBuilder
+    public static class LauncherBuilder
             extends BaseLauncherBuilder<LauncherBuilder> {
-        protected LauncherBuilder(Map<String, Connector.Argument> arguments) {
-            super(arguments);
+        protected LauncherBuilder(LaunchingConnector connector) {
+            super(connector);
         }
 
         @Override
@@ -192,10 +131,10 @@ public final class Launchers {
         }
     }
 
-    public static abstract class CommandLineLauncherBuilder
+    public static class CommandLineLauncherBuilder
             extends BaseLauncherBuilder<CommandLineLauncherBuilder> {
-        public CommandLineLauncherBuilder(Map<String, Connector.Argument> arguments) {
-            super(arguments);
+        protected CommandLineLauncherBuilder(LaunchingConnector connector) {
+            super(connector);
         }
 
         @Override
@@ -232,10 +171,10 @@ public final class Launchers {
         }
     }
 
-    public static abstract class RawCommandLineLauncherBuilder
+    public static class RawCommandLineLauncherBuilder
             extends BaseLauncherBuilder<RawCommandLineLauncherBuilder> {
-        protected RawCommandLineLauncherBuilder(Map<String, Connector.Argument> arguments) {
-            super(arguments);
+        protected RawCommandLineLauncherBuilder(LaunchingConnector connector) {
+            super(connector);
         }
 
         @Override

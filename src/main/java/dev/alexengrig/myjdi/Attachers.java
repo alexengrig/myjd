@@ -12,6 +12,9 @@ public final class Attachers {
     public static final String TIMEOUT = "timeout";
     public static final String NAME = "name";
     public static final String PID = "pid";
+    public static final String CORE = "core";
+    public static final String JAVA_EXECUTABLE = "javaExecutable";
+    public static final String DEBUG_SERVER_NAME = "debugServerName";
 
     private Attachers() {
     }
@@ -95,6 +98,87 @@ public final class Attachers {
 
     public static ProcessAttacherBuilder processAttacherBuilder(VirtualMachineManager vmManager) {
         return new ProcessAttacherBuilder(Connectors.processAttachingConnector(vmManager));
+    }
+
+//    SA Core
+
+    public static Attacher saCoreAttacher() {
+        return attacher(Connectors.saCoreAttachingConnector());
+    }
+
+    public static Attacher saCoreAttacher(VirtualMachineManager vmManager) {
+        return attacher(Connectors.saCoreAttachingConnector(vmManager));
+    }
+
+    public static Attacher saCoreAttacher(Map<String, Connector.Argument> arguments) {
+        return attacher(Connectors.saCoreAttachingConnector(), arguments);
+    }
+
+    public static Attacher saCoreAttacher(VirtualMachineManager vmManager,
+                                          Map<String, Connector.Argument> arguments) {
+        return attacher(Connectors.saCoreAttachingConnector(vmManager), arguments);
+    }
+
+    public static SACoreAttacherBuilder saCoreAttacherBuilder() {
+        return new SACoreAttacherBuilder(Connectors.saCoreAttachingConnector());
+    }
+
+    public static SACoreAttacherBuilder saCoreAttacherBuilder(VirtualMachineManager vmManager) {
+        return new SACoreAttacherBuilder(Connectors.saCoreAttachingConnector(vmManager));
+    }
+
+//    SA PID
+
+    public static Attacher saPIDAttacher() {
+        return attacher(Connectors.saPIDAttachingConnector());
+    }
+
+    public static Attacher saPIDAttacher(VirtualMachineManager vmManager) {
+        return attacher(Connectors.saPIDAttachingConnector(vmManager));
+    }
+
+    public static Attacher saPIDAttacher(Map<String, Connector.Argument> arguments) {
+        return attacher(Connectors.saPIDAttachingConnector(), arguments);
+    }
+
+    public static Attacher saPIDAttacher(VirtualMachineManager vmManager,
+                                         Map<String, Connector.Argument> arguments) {
+        return attacher(Connectors.saPIDAttachingConnector(vmManager), arguments);
+    }
+
+    public static SAPIDAttacherBuilder saPIDAttacherBuilder() {
+        return new SAPIDAttacherBuilder(Connectors.saPIDAttachingConnector());
+    }
+
+    public static SAPIDAttacherBuilder saPIDAttacherBuilder(VirtualMachineManager vmManager) {
+        return new SAPIDAttacherBuilder(Connectors.saPIDAttachingConnector(vmManager));
+    }
+
+//    SA Debug Server
+
+    public static Attacher saDebugServerAttacher() {
+        return attacher(Connectors.saDebugServerAttachingConnector());
+    }
+
+    public static Attacher saDebugServerAttacher(VirtualMachineManager vmManager) {
+        return attacher(Connectors.saDebugServerAttachingConnector(vmManager));
+    }
+
+    public static Attacher saDebugServerAttacher(Map<String, Connector.Argument> arguments) {
+        return attacher(Connectors.saDebugServerAttachingConnector(), arguments);
+    }
+
+    public static Attacher saDebugServerAttacher(VirtualMachineManager vmManager,
+                                                 Map<String, Connector.Argument> arguments) {
+        return attacher(Connectors.saDebugServerAttachingConnector(vmManager), arguments);
+    }
+
+    public static SADebugServerAttacherBuilder saDebugServerAttacherBuilder() {
+        return new SADebugServerAttacherBuilder(Connectors.saDebugServerAttachingConnector());
+    }
+
+    public static SADebugServerAttacherBuilder saDebugServerAttacherBuilder(VirtualMachineManager vmManager) {
+        return new SADebugServerAttacherBuilder(Connectors.saDebugServerAttachingConnector(vmManager));
     }
 
 //    Common
@@ -227,6 +311,59 @@ public final class Attachers {
 
         public ProcessAttacherBuilder timeout(long value) {
             return timeout(Long.toString(value));
+        }
+    }
+
+    public static class SACoreAttacherBuilder extends BaseAttacherBuilder<SACoreAttacherBuilder> {
+        public SACoreAttacherBuilder(AttachingConnector connector) {
+            super(connector);
+        }
+
+        @Override
+        protected SACoreAttacherBuilder self() {
+            return this;
+        }
+
+        public SACoreAttacherBuilder core(String value) {
+            return argument(CORE, value);
+        }
+
+        public SACoreAttacherBuilder javaExecutable(String value) {
+            return argument(JAVA_EXECUTABLE, value);
+        }
+    }
+
+    public static class SAPIDAttacherBuilder extends BaseAttacherBuilder<SAPIDAttacherBuilder> {
+        public SAPIDAttacherBuilder(AttachingConnector connector) {
+            super(connector);
+        }
+
+        @Override
+        protected SAPIDAttacherBuilder self() {
+            return this;
+        }
+
+        public SAPIDAttacherBuilder pid(String value) {
+            return argument(PID, value);
+        }
+
+        public SAPIDAttacherBuilder pid(int value) {
+            return pid(Integer.toString(value));
+        }
+    }
+
+    public static class SADebugServerAttacherBuilder extends BaseAttacherBuilder<SADebugServerAttacherBuilder> {
+        public SADebugServerAttacherBuilder(AttachingConnector connector) {
+            super(connector);
+        }
+
+        @Override
+        protected SADebugServerAttacherBuilder self() {
+            return this;
+        }
+
+        public SADebugServerAttacherBuilder debugServerName(String value) {
+            return argument(DEBUG_SERVER_NAME, value);
         }
     }
 }

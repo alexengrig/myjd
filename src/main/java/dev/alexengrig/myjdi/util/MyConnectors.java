@@ -4,7 +4,6 @@ import com.sun.jdi.VirtualMachineManager;
 import com.sun.jdi.connect.AttachingConnector;
 import com.sun.jdi.connect.Connector;
 import com.sun.jdi.connect.LaunchingConnector;
-import dev.alexengrig.myjdi.MyConnector;
 
 import java.util.Map;
 

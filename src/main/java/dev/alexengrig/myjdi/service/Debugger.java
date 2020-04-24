@@ -7,7 +7,6 @@ import com.sun.jdi.connect.LaunchingConnector;
 import com.sun.jdi.connect.VMStartException;
 import com.sun.jdi.event.*;
 import com.sun.jdi.request.*;
-import dev.alexengrig.myjdi.DebugRunner;
 import dev.alexengrig.myjdi.domain.Config;
 import dev.alexengrig.myjdi.domain.Option;
 import dev.alexengrig.myjdi.request.ClassPrepareRequestSetting;
@@ -22,7 +21,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class Debugger extends Thread {
-    private static final Logger log = Logger.getLogger(DebugRunner.class.getSimpleName());
+    private static final Logger log = Logger.getLogger(Debugger.class.getSimpleName());
     private static final List<String> EXCLUDED_CLASSES = Arrays.asList(
             "java.*", "javax.*", "sun.*", "com.sun.*", "jdk.*");
 

@@ -2,7 +2,6 @@ package dev.alexengrig.myjdi.util;
 
 import com.sun.jdi.connect.Connector;
 import com.sun.jdi.connect.Transport;
-import dev.alexengrig.myjdi.MyConnector;
 
 import java.util.Map;
 

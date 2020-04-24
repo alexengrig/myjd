@@ -11,6 +11,23 @@ public final class MyConnectors {
     private MyConnectors() {
     }
 
+//    Popular
+
+    public static MyConnector socket(int port) {
+        AttachingConnector connector = Connectors.socketAttachingConnector();
+        return connector(connector, SocketArgumentsBuilder.from(connector.defaultArguments())
+                .port(port)
+                .build());
+    }
+
+    public static MyConnector socket(String hostname, int port) {
+        AttachingConnector connector = Connectors.socketAttachingConnector();
+        return connector(connector, SocketArgumentsBuilder.from(connector.defaultArguments())
+                .hostname(hostname)
+                .port(port)
+                .build());
+    }
+
 //    Launcher
 
     public static MyConnector commandLineLaunchingConnector() {

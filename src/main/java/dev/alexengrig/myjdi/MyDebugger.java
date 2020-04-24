@@ -1,28 +1,22 @@
 package dev.alexengrig.myjdi;
 
-import com.sun.jdi.Bootstrap;
 import com.sun.jdi.VMDisconnectedException;
 import com.sun.jdi.VirtualMachine;
-import com.sun.jdi.VirtualMachineManager;
-import com.sun.jdi.connect.AttachingConnector;
-import com.sun.jdi.connect.Connector;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
+import com.sun.jdi.connect.VMStartException;
 import com.sun.jdi.event.*;
 import com.sun.jdi.request.ClassPrepareRequest;
 import com.sun.jdi.request.EventRequestManager;
+import dev.alexengrig.myjdi.util.MyConnector;
+import dev.alexengrig.myjdi.util.MyConnectors;
 
 import java.io.IOException;
-import java.util.Map;
 
 public class MyDebugger {
-    public static void main(String[] args) throws IOException, IllegalConnectorArgumentsException, InterruptedException {
+    public static void main(String[] args) throws IOException, IllegalConnectorArgumentsException, InterruptedException, VMStartException {
         System.out.println("Started");
-        VirtualMachineManager vmManager = Bootstrap.virtualMachineManager();
-        AttachingConnector connector = vmManager.attachingConnectors().get(0);
-        Map<String, Connector.Argument> arguments = connector.defaultArguments();
-        arguments.get("port").setValue("8000");
-        arguments.get("hostname").setValue("localhost");
-        VirtualMachine vm = connector.attach(arguments);
+        MyConnector connector = MyConnectors.socket("localhost", 8000);
+        VirtualMachine vm = connector.connect();
         EventRequestManager requestManager = vm.eventRequestManager();
         ClassPrepareRequest classPrepareRequest = requestManager.createClassPrepareRequest();
         classPrepareRequest.addClassFilter("dev.alexengrig.example.Main");

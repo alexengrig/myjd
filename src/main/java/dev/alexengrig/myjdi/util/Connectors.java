@@ -1,4 +1,4 @@
-package dev.alexengrig.myjdi;
+package dev.alexengrig.myjdi.util;
 
 import com.sun.jdi.Bootstrap;
 import com.sun.jdi.VirtualMachineManager;

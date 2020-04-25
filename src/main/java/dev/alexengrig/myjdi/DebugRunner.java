@@ -12,7 +12,7 @@ import dev.alexengrig.myjdi.util.MyConnectors;
 
 import java.io.IOException;
 
-public class MyDebugger {
+public class DebugRunner {
     public static void main(String[] args) throws IOException, IllegalConnectorArgumentsException, InterruptedException, VMStartException {
         System.out.println("Started");
         MyConnector connector = MyConnectors.socket("localhost", 8000);

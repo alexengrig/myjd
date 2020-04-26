@@ -2,18 +2,35 @@ package dev.alexengrig.myjdi;
 
 import com.sun.jdi.*;
 import com.sun.jdi.event.*;
+import dev.alexengrig.myjdi.event.EventHandler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class EventQueueHandler implements Runnable {
     private static final Logger log = Logger.getLogger(EventQueueHandler.class.getSimpleName());
 
     private final EventQueue eventQueue;
+
+    private final List<EventHandler<ClassPrepareEvent>> classPrepareEventHandlers;
+    private final List<EventHandler<BreakpointEvent>> breakpointEventHandlers;
+
     private boolean handling;
     private boolean vmDied;
 
     public EventQueueHandler(EventQueue eventQueue) {
         this.eventQueue = eventQueue;
+        classPrepareEventHandlers = new ArrayList<>();
+        breakpointEventHandlers = new ArrayList<>();
+    }
+
+    public void addClassPrepareEventListener(EventHandler<ClassPrepareEvent> handler) {
+        classPrepareEventHandlers.add(handler);
+    }
+
+    public void addBreakpointEventListener(EventHandler<BreakpointEvent> handler) {
+        breakpointEventHandlers.add(handler);
     }
 
     @Override
@@ -128,6 +145,9 @@ public class EventQueueHandler implements Runnable {
 
     private void handleBreakpointEvent(BreakpointEvent event) {
         log.info(String.format("Breakpoint: %s.", event.location()));
+        for (EventHandler<BreakpointEvent> handler : breakpointEventHandlers) {
+            handler.handle(event);
+        }
     }
 
     private void handleStepEvent(StepEvent event) {
@@ -190,6 +210,9 @@ public class EventQueueHandler implements Runnable {
     private void handleClassPrepareEvent(ClassPrepareEvent event) {
         final ReferenceType type = event.referenceType();
         log.info(String.format("Class prepared: %s.", type.name()));
+        for (EventHandler<ClassPrepareEvent> handler : classPrepareEventHandlers) {
+            handler.handle(event);
+        }
     }
 
 //    Thread events

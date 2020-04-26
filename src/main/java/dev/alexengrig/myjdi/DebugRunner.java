@@ -3,8 +3,7 @@ package dev.alexengrig.myjdi;
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.VMStartException;
-import com.sun.jdi.request.ClassPrepareRequest;
-import com.sun.jdi.request.EventRequestManager;
+import dev.alexengrig.myjdi.util.MyConnector;
 import dev.alexengrig.myjdi.util.MyConnectors;
 
 import java.io.IOException;
@@ -15,12 +14,12 @@ public class DebugRunner {
 
     public static void main(String[] args) throws IOException, IllegalConnectorArgumentsException, VMStartException {
         log.info("Started.");
-        VirtualMachine vm = MyConnectors.socket("localhost", 8000).connect();
-        EventRequestManager requestManager = vm.eventRequestManager();
-        ClassPrepareRequest classPrepareRequest = requestManager.createClassPrepareRequest();
-        classPrepareRequest.addClassFilter("dev.alexengrig.example.Main");
-        classPrepareRequest.enable();
-        new EventQueueHandler(vm.eventQueue()).run();
+        MyConnector connector = MyConnectors.socket("localhost", 8000);
+        VirtualMachine vm = connector.connect();
+        MyDebugger debugger = new MyDebugger(vm);
+        debugger.addBreakpoint("dev.alexengrig.example.Main", 9);
+        debugger.addBreakpoint("dev.alexengrig.example.Main", 14);
+        debugger.run();
         log.info("Finished.");
     }
 }

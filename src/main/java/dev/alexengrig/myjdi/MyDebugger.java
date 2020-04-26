@@ -23,6 +23,23 @@ public class MyDebugger implements Runnable {
         eventRequestManager = vm.eventRequestManager();
         eventQueueHandler = new EventQueueHandler(vm.eventQueue());
         classPrepareRequestMap = new HashMap<>();
+        init();
+    }
+
+    private void init() {
+        eventQueueHandler.addBreakpointEventListener(e -> {
+            try {
+                StackFrame frame = e.thread().frame(0);
+                Map<LocalVariable, Value> values = frame.getValues(frame.visibleVariables());
+                StringJoiner joiner = new StringJoiner("\n");
+                for (Map.Entry<LocalVariable, Value> entry : values.entrySet()) {
+                    joiner.add(entry.getKey().name() + " = " + entry.getValue());
+                }
+                log.info("Stack:\n" + joiner.toString());
+            } catch (IncompatibleThreadStateException | AbsentInformationException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -51,20 +68,6 @@ public class MyDebugger implements Runnable {
                     ex.printStackTrace();
                 }
             }
-        });
-        eventQueueHandler.addBreakpointEventListener(e -> {
-            try {
-                StackFrame frame = e.thread().frame(0);
-                Map<LocalVariable, Value> values = frame.getValues(frame.visibleVariables());
-                StringJoiner joiner = new StringJoiner("\n");
-                for (Map.Entry<LocalVariable, Value> entry : values.entrySet()) {
-                    joiner.add(entry.getKey().name() + " = " + entry.getValue());
-                }
-                log.info("Stack:\n" + joiner.toString());
-            } catch (IncompatibleThreadStateException | AbsentInformationException ex) {
-                ex.printStackTrace();
-            }
-
         });
     }
 }

@@ -10,17 +10,18 @@ import dev.alexengrig.myjdi.util.MyConnectors;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class DebugGUI extends JFrame {
     private final ExecutorService background = Executors.newCachedThreadPool();
 
-    private List<String> fileLines;
+    private final List<String> fileLines;
     private JTextField hostField;
     private JTextField portField;
     private JButton resumeButton;
@@ -64,6 +65,7 @@ public class DebugGUI extends JFrame {
         pane.add(portField);
         resumeButton = new JButton("Resume");
         JButton connectButton = new JButton("Connect");
+        StackFramePane stackFramePane = new StackFramePane();
         connectButton.addActionListener(a -> background.execute(() -> {
             try {
                 String hostname = hostField.getText();
@@ -77,13 +79,19 @@ public class DebugGUI extends JFrame {
                     try {
                         StackFrame frame = e.thread().frame(0);
                         Map<LocalVariable, Value> values = frame.getValues(frame.visibleVariables());
-                        StringJoiner joiner = new StringJoiner("\n");
+                        List<JComponent> components = new ArrayList<>();
                         for (Map.Entry<LocalVariable, Value> entry : values.entrySet()) {
-                            joiner.add(entry.getKey().name() + " = " + entry.getValue());
+                            String text = entry.getKey().name() + " = " + entry.getValue();
+                            JLabel label = new JLabel(text);
+                            components.add(label);
                         }
-                        System.out.println("Stack:\n" + joiner.toString());
+                        SwingUtilities.invokeAndWait(() -> {
+                            stackFramePane.removeAll();
+                            stackFramePane.add(components);
+                            stackFramePane.rerender();
+                        });
                         e.virtualMachine().suspend();
-                    } catch (IncompatibleThreadStateException | AbsentInformationException ex) {
+                    } catch (IncompatibleThreadStateException | AbsentInformationException | InterruptedException | InvocationTargetException ex) {
                         ex.printStackTrace();
                     }
                 });
@@ -98,6 +106,7 @@ public class DebugGUI extends JFrame {
         }));
         pane.add(connectButton);
         pane.add(resumeButton);
+        pane.add(stackFramePane);
         debugPane.add(pane);
         return debugPane;
     }

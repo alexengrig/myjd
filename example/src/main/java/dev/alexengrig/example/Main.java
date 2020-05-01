@@ -12,6 +12,12 @@ public class Main {
         int eight = 8;
         int nine = 9;
         int ten = 10;
+        foo();
         System.out.println("END!");
+    }
+
+    public static void foo() {
+        int numberA = 'A';
+        int numberB = 'B';
     }
 }

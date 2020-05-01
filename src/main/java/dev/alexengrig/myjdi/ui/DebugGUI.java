@@ -1,6 +1,9 @@
 package dev.alexengrig.myjdi.ui;
 
-import com.sun.jdi.*;
+import com.sun.jdi.IncompatibleThreadStateException;
+import com.sun.jdi.StackFrame;
+import com.sun.jdi.ThreadReference;
+import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.VMStartException;
 import dev.alexengrig.myjdi.MyDebugger;
@@ -14,7 +17,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -65,7 +67,7 @@ public class DebugGUI extends JFrame {
         pane.add(portField);
         resumeButton = new JButton("Resume");
         JButton connectButton = new JButton("Connect");
-        StackFramePane stackFramePane = new StackFramePane();
+        JStackFramePane stackFramePane = new JStackFramePane();
         connectButton.addActionListener(a -> background.execute(() -> {
             try {
                 String hostname = hostField.getText();
@@ -77,32 +79,26 @@ public class DebugGUI extends JFrame {
                 resumeButton.addActionListener(ac -> vm.resume());
                 debugger.addBreakpointHandler(e -> {
                     try {
-                        StackFrame frame = e.thread().frame(0);
-                        Map<LocalVariable, Value> values = frame.getValues(frame.visibleVariables());
-                        List<JComponent> components = new ArrayList<>();
-                        for (Map.Entry<LocalVariable, Value> entry : values.entrySet()) {
-                            String text = entry.getKey().name() + " = " + entry.getValue();
-                            JLabel label = new JLabel(text);
-                            components.add(label);
+                        ThreadReference thread = e.thread();
+                        List<StackFrame> frames = thread.frames();
+                        List<String> frameValues = new ArrayList<>();
+                        for (StackFrame frame : frames) {
+                            frameValues.add(frame.location().toString());
                         }
-                        SwingUtilities.invokeAndWait(() -> {
-                            stackFramePane.removeAll();
-                            stackFramePane.add(components);
-                            stackFramePane.rerender();
-                        });
+                        SwingUtilities.invokeAndWait(() -> stackFramePane.updateValues(frameValues));
                         e.virtualMachine().suspend();
-                    } catch (IncompatibleThreadStateException | AbsentInformationException | InterruptedException | InvocationTargetException ex) {
+                    } catch (IncompatibleThreadStateException | InterruptedException | InvocationTargetException ex) {
                         ex.printStackTrace();
                     }
                 });
                 debugger.addBreakpoint("dev.alexengrig.example.Main", 9);
                 debugger.addBreakpoint("dev.alexengrig.example.Main", 14);
+                debugger.addBreakpoint("dev.alexengrig.example.Main", 20);
                 debugger.run();
                 System.out.println("Finished.");
             } catch (IllegalConnectorArgumentsException | IOException | VMStartException ex) {
                 ex.printStackTrace();
             }
-
         }));
         pane.add(connectButton);
         pane.add(resumeButton);

@@ -1,9 +1,6 @@
 package dev.alexengrig.myjdi.ui;
 
-import com.sun.jdi.IncompatibleThreadStateException;
-import com.sun.jdi.StackFrame;
-import com.sun.jdi.ThreadReference;
-import com.sun.jdi.VirtualMachine;
+import com.sun.jdi.*;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.VMStartException;
 import dev.alexengrig.myjdi.MyDebugger;
@@ -16,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -25,6 +23,7 @@ public class DebugGUI extends JFrame {
     private final List<String> fileLines;
     private JButton resumeButton;
     private JStackFramePane stackFramePane;
+    private JVariablePane variablePane;
 
     public DebugGUI() throws HeadlessException {
         fileLines = Arrays.asList("First line", "Second line", "Third line", "Fourth line", "Fifth line",
@@ -74,7 +73,8 @@ public class DebugGUI extends JFrame {
 
         stackFramePane = new JStackFramePane();
         JPanel panel = new JPanel();
-        panel.add(new JLabel("Variables"));
+        variablePane = new JVariablePane();
+        panel.add(variablePane);
 
         JSplitPane debugPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, stackFramePane, panel);
         rootPane.add(debugPane, BorderLayout.CENTER);
@@ -112,8 +112,16 @@ public class DebugGUI extends JFrame {
                             frameValues.add(frame.location().toString());
                         }
                         SwingUtilities.invokeAndWait(() -> stackFramePane.updateValues(frameValues));
+                        StackFrame frame = frames.get(0);
+                        Map<LocalVariable, Value> values = frame.getValues(frame.visibleVariables());
+                        ArrayList<String> variables = new ArrayList<>();
+                        variables.add("this=" + frame.thisObject());
+                        for (Map.Entry<LocalVariable, Value> entry : values.entrySet()) {
+                            variables.add(entry.getKey().name() + "=" + entry.getValue());
+                        }
+                        SwingUtilities.invokeAndWait(() -> variablePane.updateValues(variables));
                         e.virtualMachine().suspend();
-                    } catch (IncompatibleThreadStateException | InterruptedException | InvocationTargetException ex) {
+                    } catch (IncompatibleThreadStateException | InterruptedException | InvocationTargetException | AbsentInformationException ex) {
                         ex.printStackTrace();
                     }
                 });

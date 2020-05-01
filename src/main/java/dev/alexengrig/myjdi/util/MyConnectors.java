@@ -13,6 +13,14 @@ public final class MyConnectors {
 
 //    Popular
 
+    public static MyConnector commandLine(String classpath, String mainClass) {
+        LaunchingConnector connector = Connectors.commandLineLaunchingConnector();
+        Map<String, Connector.Argument> arguments = connector.defaultArguments();
+        arguments.get("options").setValue("-cp " + classpath);
+        arguments.get("main").setValue(mainClass);
+        return connector(connector, arguments);
+    }
+
     public static MyConnector socket(int port) {
         AttachingConnector connector = Connectors.socketAttachingConnector();
         return connector(connector, SocketArgumentsBuilder.from(connector.defaultArguments())

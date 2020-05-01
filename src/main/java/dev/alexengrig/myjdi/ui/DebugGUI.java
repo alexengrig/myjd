@@ -59,25 +59,26 @@ public class DebugGUI extends JFrame {
     }
 
     private void initComponents() {
-        JPanel rootPane = new JPanel();
-        rootPane.setLayout(new BoxLayout(rootPane, BoxLayout.X_AXIS));
-        final JPanel debugPane = createDebugPane();
-        rootPane.add(debugPane);
         final JPanel filePane = createFilePane();
-        rootPane.add(filePane);
+        final JComponent debugPane = createDebugPane();
+        JSplitPane rootPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, filePane, debugPane);
         setContentPane(rootPane);
     }
 
-    private JPanel createDebugPane() {
-        final JPanel debugPane = new JPanel(new BorderLayout());
-        JPanel pane = new JPanel();
-        pane.setLayout(new FlowLayout(FlowLayout.CENTER));
+    private JComponent createDebugPane() {
+        JPanel rootPane = new JPanel(new BorderLayout());
+        JPanel actionPane = new JPanel();
         resumeButton = new JButton("Resume");
+        actionPane.add(resumeButton);
+        rootPane.add(resumeButton, BorderLayout.NORTH);
+
         stackFramePane = new JStackFramePane();
-        pane.add(resumeButton);
-        pane.add(stackFramePane);
-        debugPane.add(pane);
-        return debugPane;
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Variables"));
+
+        JSplitPane debugPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, stackFramePane, panel);
+        rootPane.add(debugPane, BorderLayout.CENTER);
+        return rootPane;
     }
 
     private JPanel createFilePane() {

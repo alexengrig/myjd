@@ -49,7 +49,7 @@ public class MyDebugger implements Runnable {
             ReferenceType type = e.referenceType();
             if (className.equals(type.name())) {
                 try {
-                    List<Location> locations = type.locationsOfLine(line);
+                    List<Location> locations = type.locationsOfLine(type.defaultStratum(), type.sourceName(), line);
                     if (!locations.isEmpty()) {
                         Location location = locations.get(0);
                         BreakpointRequest request = eventRequestManager.createBreakpointRequest(location);

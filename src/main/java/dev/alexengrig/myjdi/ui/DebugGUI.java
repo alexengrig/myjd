@@ -8,7 +8,6 @@ import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.VMStartException;
 import dev.alexengrig.myjdi.MyDebugger;
 import dev.alexengrig.myjdi.util.MyConnector;
-import dev.alexengrig.myjdi.util.MyConnectors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,9 +23,8 @@ public class DebugGUI extends JFrame {
     private final ExecutorService background = Executors.newCachedThreadPool();
 
     private final List<String> fileLines;
-    private JTextField hostField;
-    private JTextField portField;
     private JButton resumeButton;
+    private JStackFramePane stackFramePane;
 
     public DebugGUI() throws HeadlessException {
         fileLines = Arrays.asList("First line", "Second line", "Third line", "Fourth line", "Fifth line",
@@ -35,12 +33,29 @@ public class DebugGUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(600, 600);
         setLocationRelativeTo(null);
+        initMenuBar();
         initComponents();
         setVisible(true);
     }
 
     public static void main(String[] args) {
         new DebugGUI();
+    }
+
+    private void initMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        JMenu newMenu = new JMenu("New");
+
+        JMenuItem runMenuItem = new JMenuItem("Run");
+        runMenuItem.addActionListener(ignore -> new JRunDialog(this, this::doDebug));
+        newMenu.add(runMenuItem);
+
+        JMenuItem connectMenuItem = new JMenuItem("Connect");
+        connectMenuItem.addActionListener(ignore -> new JConnectDialog(this, this::doDebug));
+        newMenu.add(connectMenuItem);
+
+        menuBar.add(newMenu);
+        setJMenuBar(menuBar);
     }
 
     private void initComponents() {
@@ -57,23 +72,33 @@ public class DebugGUI extends JFrame {
         final JPanel debugPane = new JPanel(new BorderLayout());
         JPanel pane = new JPanel();
         pane.setLayout(new FlowLayout(FlowLayout.CENTER));
-        hostField = new JTextField("localhost");
-        hostField.setPreferredSize(new Dimension(100, 25));
-        pane.add(new JLabel("host: "));
-        pane.add(hostField);
-        portField = new JTextField("8000");
-        portField.setPreferredSize(new Dimension(100, 25));
-        pane.add(new JLabel("port: "));
-        pane.add(portField);
         resumeButton = new JButton("Resume");
-        JButton connectButton = new JButton("Connect");
-        JStackFramePane stackFramePane = new JStackFramePane();
-        connectButton.addActionListener(a -> background.execute(() -> {
+        stackFramePane = new JStackFramePane();
+        pane.add(resumeButton);
+        pane.add(stackFramePane);
+        debugPane.add(pane);
+        return debugPane;
+    }
+
+    private JPanel createFilePane() {
+        final JPanel rootPane = new JPanel(new BorderLayout());
+        JPanel fileLinesPane = new JPanel();
+        fileLinesPane.setLayout(new BoxLayout(fileLinesPane, BoxLayout.Y_AXIS));
+        fileLinesPane.setBorder(BorderFactory.createLoweredBevelBorder());
+        for (int i = 0, size = fileLines.size(); i < size; i++) {
+            String fileLine = fileLines.get(i);
+            final String text = String.format("%2d | %s", i + 1, fileLine);
+            final JLabel label = new JLabel(text);
+            label.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+            fileLinesPane.add(label);
+        }
+        rootPane.add(new JScrollPane(fileLinesPane));
+        return rootPane;
+    }
+
+    private void doDebug(MyConnector connector) {
+        background.execute(() -> {
             try {
-                String hostname = hostField.getText();
-                String port = portField.getText();
-                System.out.println("Started.");
-                MyConnector connector = MyConnectors.socket(hostname, Integer.parseInt(port));
                 VirtualMachine vm = connector.connect();
                 MyDebugger debugger = new MyDebugger(vm);
                 resumeButton.addActionListener(ac -> vm.resume());
@@ -99,28 +124,6 @@ public class DebugGUI extends JFrame {
             } catch (IllegalConnectorArgumentsException | IOException | VMStartException ex) {
                 ex.printStackTrace();
             }
-        }));
-        pane.add(connectButton);
-        pane.add(resumeButton);
-        pane.add(stackFramePane);
-        debugPane.add(pane);
-        return debugPane;
+        });
     }
-
-    private JPanel createFilePane() {
-        final JPanel rootPane = new JPanel(new BorderLayout());
-        JPanel fileLinesPane = new JPanel();
-        fileLinesPane.setLayout(new BoxLayout(fileLinesPane, BoxLayout.Y_AXIS));
-        fileLinesPane.setBorder(BorderFactory.createLoweredBevelBorder());
-        for (int i = 0, size = fileLines.size(); i < size; i++) {
-            String fileLine = fileLines.get(i);
-            final String text = String.format("%2d | %s", i + 1, fileLine);
-            final JLabel label = new JLabel(text);
-            label.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-            fileLinesPane.add(label);
-        }
-        rootPane.add(new JScrollPane(fileLinesPane));
-        return rootPane;
-    }
-
 }

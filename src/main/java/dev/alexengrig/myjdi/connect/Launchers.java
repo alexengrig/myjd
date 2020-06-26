@@ -1,4 +1,4 @@
-package dev.alexengrig.myjdi.connection;
+package dev.alexengrig.myjdi.connect;
 
 import com.sun.jdi.VirtualMachineManager;
 import com.sun.jdi.connect.Connector;

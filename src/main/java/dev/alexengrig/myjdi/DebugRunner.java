@@ -3,8 +3,8 @@ package dev.alexengrig.myjdi;
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.VMStartException;
-import dev.alexengrig.myjdi.connection.MyConnector;
-import dev.alexengrig.myjdi.connection.MyConnectors;
+import dev.alexengrig.myjdi.connect.MyConnector;
+import dev.alexengrig.myjdi.connect.MyConnectors;
 
 import java.io.IOException;
 import java.util.logging.Logger;

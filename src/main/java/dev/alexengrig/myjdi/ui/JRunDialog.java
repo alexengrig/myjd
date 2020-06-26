@@ -1,7 +1,7 @@
 package dev.alexengrig.myjdi.ui;
 
-import dev.alexengrig.myjdi.connection.MyConnector;
-import dev.alexengrig.myjdi.connection.MyConnectors;
+import dev.alexengrig.myjdi.connect.MyConnector;
+import dev.alexengrig.myjdi.connect.MyConnectors;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

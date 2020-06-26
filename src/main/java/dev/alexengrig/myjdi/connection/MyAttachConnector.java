@@ -7,7 +7,7 @@ import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import java.io.IOException;
 import java.util.Map;
 
-public class MyAttachConnector extends ProxyConnector<AttachingConnector> {
+public class MyAttachConnector extends ConnectorDelegate<AttachingConnector> {
     protected final Attacher attacher;
 
     public MyAttachConnector(AttachingConnector connector) {

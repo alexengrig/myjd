@@ -5,10 +5,10 @@ import com.sun.jdi.connect.Transport;
 
 import java.util.Map;
 
-public abstract class ProxyConnector<T extends Connector> implements MyConnector {
+public abstract class ConnectorDelegate<T extends Connector> implements MyConnector {
     protected final T connector;
 
-    protected ProxyConnector(T connector) {
+    protected ConnectorDelegate(T connector) {
         this.connector = connector;
     }
 

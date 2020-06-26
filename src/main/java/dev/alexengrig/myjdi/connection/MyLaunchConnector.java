@@ -8,7 +8,7 @@ import com.sun.jdi.connect.VMStartException;
 import java.io.IOException;
 import java.util.Map;
 
-public class MyLaunchConnector extends ProxyConnector<LaunchingConnector> {
+public class MyLaunchConnector extends ConnectorDelegate<LaunchingConnector> {
     protected final Launcher launcher;
 
     public MyLaunchConnector(LaunchingConnector connector) {

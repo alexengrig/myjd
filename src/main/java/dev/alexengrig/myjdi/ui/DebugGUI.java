@@ -4,7 +4,7 @@ import com.sun.jdi.*;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.VMStartException;
 import dev.alexengrig.myjdi.MyDebugger;
-import dev.alexengrig.myjdi.util.MyConnector;
+import dev.alexengrig.myjdi.connection.MyConnector;
 
 import javax.swing.*;
 import java.awt.*;

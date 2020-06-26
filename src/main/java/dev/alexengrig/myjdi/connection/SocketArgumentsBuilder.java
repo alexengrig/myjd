@@ -1,6 +1,7 @@
-package dev.alexengrig.myjdi.util;
+package dev.alexengrig.myjdi.connection;
 
 import com.sun.jdi.connect.Connector;
+import dev.alexengrig.myjdi.util.ArgumentsBuilder;
 
 import java.util.Map;
 

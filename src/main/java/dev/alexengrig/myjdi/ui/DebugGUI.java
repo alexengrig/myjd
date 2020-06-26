@@ -25,7 +25,7 @@ public class DebugGUI extends JFrame {
     private JStackFramePane stackFramePane;
     private JVariablePane variablePane;
 
-    public DebugGUI() throws HeadlessException {
+    public DebugGUI() {
         fileLines = Arrays.asList("First line", "Second line", "Third line", "Fourth line", "Fifth line",
                 "Sixth line", "Seventh line", "Eighth line", "Ninth line", "Tenth line", "Eleventh line");
         setTitle("My Debugger");
@@ -35,10 +35,6 @@ public class DebugGUI extends JFrame {
         initMenuBar();
         initComponents();
         setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new DebugGUI();
     }
 
     private void initMenuBar() {

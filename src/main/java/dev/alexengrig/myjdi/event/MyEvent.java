@@ -3,6 +3,7 @@ package dev.alexengrig.myjdi.event;
 import com.sun.jdi.event.*;
 import dev.alexengrig.myjdi.event.delegate.*;
 import dev.alexengrig.myjdi.handle.MyEventHandler;
+import dev.alexengrig.myjdi.request.MyEventRequest;
 
 public interface MyEvent extends Event {
     static MyEvent of(Event event) {
@@ -60,6 +61,9 @@ public interface MyEvent extends Event {
             throw new Error(String.format("Unexpected event type: %s.", event.getClass().getName()));
         }
     }
+
+    @Override
+    MyEventRequest request();
 
     default void accept(MyEventHandler handler) {
         handler.handle(this);

@@ -1,9 +1,10 @@
-package dev.alexengrig.myjdi.event;
+package dev.alexengrig.myjdi.event.delegate;
 
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.event.Event;
-import com.sun.jdi.event.EventIterator;
 import com.sun.jdi.event.EventSet;
+import dev.alexengrig.myjdi.event.MyEventIterator;
+import dev.alexengrig.myjdi.event.MyEventSet;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -12,21 +13,21 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public abstract class EventSetDelegate implements EventSet {
+public class EventSetDelegate implements MyEventSet {
     protected final EventSet set;
 
-    protected EventSetDelegate(EventSet set) {
+    public EventSetDelegate(EventSet set) {
         this.set = set;
+    }
+
+    @Override
+    public MyEventIterator eventIterator() {
+        return new EventIteratorDelegate(set.eventIterator());
     }
 
     @Override
     public int suspendPolicy() {
         return set.suspendPolicy();
-    }
-
-    @Override
-    public EventIterator eventIterator() {
-        return set.eventIterator();
     }
 
     @Override

@@ -1,15 +1,16 @@
-package dev.alexengrig.myjdi.event;
+package dev.alexengrig.myjdi.event.delegate;
 
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.event.Event;
 import com.sun.jdi.request.EventRequest;
+import dev.alexengrig.myjdi.event.MyEvent;
 
 import java.util.Objects;
 
-public abstract class EventDelegate<T extends Event> implements MyEvent {
-    protected final T event;
+public class EventDelegate<E extends Event> implements MyEvent {
+    protected final E event;
 
-    protected EventDelegate(T event) {
+    public EventDelegate(E event) {
         this.event = Objects.requireNonNull(event, "The event must not be null");
     }
 

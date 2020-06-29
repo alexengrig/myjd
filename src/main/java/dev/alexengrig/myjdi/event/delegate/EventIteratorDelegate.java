@@ -17,7 +17,7 @@ public class EventIteratorDelegate implements MyEventIterator {
 
     @Override
     public MyEvent nextEvent() {
-        return MyEvent.of(iterator.nextEvent());
+        return MyEvent.delegate(iterator.nextEvent());
     }
 
     @Override

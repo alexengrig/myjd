@@ -6,7 +6,7 @@ import dev.alexengrig.myjdi.handle.MyEventHandler;
 import dev.alexengrig.myjdi.request.MyEventRequest;
 
 public interface MyEvent extends Event {
-    static MyEvent of(Event event) {
+    static MyEvent delegate(Event event) {
         if (event instanceof ExceptionEvent) {
             return new ExceptionEventDelegate((ExceptionEvent) event);
         } else if (event instanceof BreakpointEvent) {

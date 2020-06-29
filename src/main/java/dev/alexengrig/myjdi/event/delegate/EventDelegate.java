@@ -2,8 +2,8 @@ package dev.alexengrig.myjdi.event.delegate;
 
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.event.Event;
-import com.sun.jdi.request.EventRequest;
 import dev.alexengrig.myjdi.event.MyEvent;
+import dev.alexengrig.myjdi.request.MyEventRequest;
 
 import java.util.Objects;
 
@@ -15,8 +15,8 @@ public class EventDelegate<E extends Event> implements MyEvent {
     }
 
     @Override
-    public EventRequest request() {
-        return event.request();
+    public MyEventRequest request() {
+        return MyEventRequest.delegate(event.request());
     }
 
     @Override

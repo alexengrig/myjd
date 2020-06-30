@@ -1,18 +1,38 @@
 package dev.alexengrig.myjdi;
 
 import com.sun.jdi.*;
-import com.sun.jdi.event.EventQueue;
-import com.sun.jdi.request.EventRequestManager;
+import dev.alexengrig.myjdi.event.MyEventQueue;
+import dev.alexengrig.myjdi.request.MyEventRequestManager;
 
 import java.util.List;
 import java.util.Map;
 
 public interface MyVirtualMachine extends VirtualMachine {
+    static MyVirtualMachine delegate(VirtualMachine virtualMachine) {
+        return new Delegate(virtualMachine);
+    }
+
+    @Override
+    MyEventQueue eventQueue();
+
+    @Override
+    MyEventRequestManager eventRequestManager();
+
     class Delegate implements MyVirtualMachine {
         protected final VirtualMachine virtualMachine;
 
         public Delegate(VirtualMachine virtualMachine) {
             this.virtualMachine = virtualMachine;
+        }
+
+        @Override
+        public MyEventQueue eventQueue() {
+            return MyEventQueue.delegate(virtualMachine.eventQueue());
+        }
+
+        @Override
+        public MyEventRequestManager eventRequestManager() {
+            return MyEventRequestManager.delegate(virtualMachine.eventRequestManager());
         }
 
         @Override
@@ -48,16 +68,6 @@ public interface MyVirtualMachine extends VirtualMachine {
         @Override
         public List<ThreadGroupReference> topLevelThreadGroups() {
             return virtualMachine.topLevelThreadGroups();
-        }
-
-        @Override
-        public EventQueue eventQueue() {
-            return virtualMachine.eventQueue();
-        }
-
-        @Override
-        public EventRequestManager eventRequestManager() {
-            return virtualMachine.eventRequestManager();
         }
 
         @Override

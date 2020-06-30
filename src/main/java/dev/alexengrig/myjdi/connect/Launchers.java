@@ -3,6 +3,7 @@ package dev.alexengrig.myjdi.connect;
 import com.sun.jdi.VirtualMachineManager;
 import com.sun.jdi.connect.Connector;
 import com.sun.jdi.connect.LaunchingConnector;
+import dev.alexengrig.myjdi.MyVirtualMachine;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -80,7 +81,7 @@ public final class Launchers {
         return () -> {
             Map<String, Connector.Argument> args = new HashMap<>(connector.defaultArguments());
             args.putAll(connector.defaultArguments());
-            return connector.launch(args);
+            return MyVirtualMachine.delegate(connector.launch(args));
         };
     }
 
@@ -88,7 +89,7 @@ public final class Launchers {
         return () -> {
             Map<String, Connector.Argument> args = new HashMap<>(connector.defaultArguments());
             args.putAll(arguments);
-            return connector.launch(args);
+            return MyVirtualMachine.delegate(connector.launch(args));
         };
     }
 
@@ -115,7 +116,7 @@ public final class Launchers {
         protected abstract B self();
 
         public Launcher build() {
-            return () -> connector.launch(arguments);
+            return () -> MyVirtualMachine.delegate(connector.launch(arguments));
         }
     }
 

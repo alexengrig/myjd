@@ -1,9 +1,9 @@
 package dev.alexengrig.myjdi.connect;
 
-import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.LaunchingConnector;
 import com.sun.jdi.connect.VMStartException;
+import dev.alexengrig.myjdi.MyVirtualMachine;
 
 import java.io.IOException;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class MyLaunchConnector extends ConnectorDelegate<LaunchingConnector> {
     }
 
     @Override
-    public VirtualMachine connect() throws IOException, IllegalConnectorArgumentsException, VMStartException {
+    public MyVirtualMachine connect() throws IOException, IllegalConnectorArgumentsException, VMStartException {
         return launcher.launch();
     }
 }

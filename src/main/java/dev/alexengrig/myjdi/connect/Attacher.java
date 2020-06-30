@@ -1,11 +1,11 @@
 package dev.alexengrig.myjdi.connect;
 
-import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
+import dev.alexengrig.myjdi.MyVirtualMachine;
 
 import java.io.IOException;
 
 @FunctionalInterface
 public interface Attacher {
-    VirtualMachine attach() throws IOException, IllegalConnectorArgumentsException;
+    MyVirtualMachine attach() throws IOException, IllegalConnectorArgumentsException;
 }

@@ -1,7 +1,6 @@
 package dev.alexengrig.myjdi;
 
 import com.sun.jdi.VMDisconnectedException;
-import com.sun.jdi.VirtualMachine;
 import dev.alexengrig.myjdi.event.MyEvent;
 import dev.alexengrig.myjdi.event.MyEventIterator;
 import dev.alexengrig.myjdi.event.MyEventQueue;
@@ -14,8 +13,8 @@ public class SimpleEventHandler extends OmitEventHandler implements Runnable {
     protected boolean vmDied;
     protected boolean disconnected;
 
-    public SimpleEventHandler(VirtualMachine virtualMachine) {
-        this.eventQueue = MyEventQueue.delegate(virtualMachine.eventQueue());
+    public SimpleEventHandler(MyVirtualMachine virtualMachine) {
+        this.eventQueue = virtualMachine.eventQueue();
     }
 
     @Override

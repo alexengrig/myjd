@@ -3,7 +3,7 @@ package dev.alexengrig.myjdi.event;
 import com.sun.jdi.ObjectReference;
 import com.sun.jdi.event.MonitorWaitedEvent;
 import dev.alexengrig.myjdi.event.delegate.YouthLocatableEventDelegate;
-import dev.alexengrig.myjdi.handle.MyEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthMonitorWaitedEvent extends YouthEvent, MonitorWaitedEvent {
     static YouthMonitorWaitedEvent delegate(MonitorWaitedEvent event) {
@@ -11,7 +11,7 @@ public interface YouthMonitorWaitedEvent extends YouthEvent, MonitorWaitedEvent 
     }
 
     @Override
-    default void accept(MyEventHandler handler) {
+    default void accept(YouthEventHandler handler) {
         handler.handleMonitorWaited(this);
     }
 

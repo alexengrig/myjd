@@ -2,7 +2,7 @@ package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.event.VMStartEvent;
-import dev.alexengrig.myjdi.handle.MyEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthVMStartEvent extends YouthEvent, VMStartEvent {
     static YouthVMStartEvent delegate(VMStartEvent event) {
@@ -10,7 +10,7 @@ public interface YouthVMStartEvent extends YouthEvent, VMStartEvent {
     }
 
     @Override
-    default void accept(MyEventHandler handler) {
+    default void accept(YouthEventHandler handler) {
         handler.handleVmStart(this);
     }
 

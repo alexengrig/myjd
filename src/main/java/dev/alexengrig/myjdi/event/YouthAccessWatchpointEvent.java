@@ -2,7 +2,7 @@ package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.event.AccessWatchpointEvent;
 import dev.alexengrig.myjdi.event.delegate.YouthWatchpointEventDelegate;
-import dev.alexengrig.myjdi.handle.MyEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthAccessWatchpointEvent extends YouthEvent, AccessWatchpointEvent {
     static YouthAccessWatchpointEvent delegate(AccessWatchpointEvent event) {
@@ -10,7 +10,7 @@ public interface YouthAccessWatchpointEvent extends YouthEvent, AccessWatchpoint
     }
 
     @Override
-    default void accept(MyEventHandler handler) {
+    default void accept(YouthEventHandler handler) {
         handler.handleAccessWatchpoint(this);
     }
 

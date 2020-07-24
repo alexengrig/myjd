@@ -1,7 +1,7 @@
 package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.event.ClassUnloadEvent;
-import dev.alexengrig.myjdi.handle.MyEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthClassUnloadEvent extends YouthEvent, ClassUnloadEvent {
     static YouthClassUnloadEvent delegate(ClassUnloadEvent event) {
@@ -9,7 +9,7 @@ public interface YouthClassUnloadEvent extends YouthEvent, ClassUnloadEvent {
     }
 
     @Override
-    default void accept(MyEventHandler handler) {
+    default void accept(YouthEventHandler handler) {
         handler.handleClassUnload(this);
     }
 

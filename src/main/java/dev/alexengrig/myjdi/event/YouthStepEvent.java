@@ -2,7 +2,7 @@ package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.event.StepEvent;
 import dev.alexengrig.myjdi.event.delegate.YouthLocatableEventDelegate;
-import dev.alexengrig.myjdi.handle.MyEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthStepEvent extends YouthEvent, StepEvent {
     static YouthStepEvent delegate(StepEvent event) {
@@ -10,7 +10,7 @@ public interface YouthStepEvent extends YouthEvent, StepEvent {
     }
 
     @Override
-    default void accept(MyEventHandler handler) {
+    default void accept(YouthEventHandler handler) {
         handler.handleStep(this);
     }
 

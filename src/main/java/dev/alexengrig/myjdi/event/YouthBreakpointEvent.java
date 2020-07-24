@@ -2,7 +2,7 @@ package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.event.BreakpointEvent;
 import dev.alexengrig.myjdi.event.delegate.YouthLocatableEventDelegate;
-import dev.alexengrig.myjdi.handle.MyEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthBreakpointEvent extends YouthEvent, BreakpointEvent {
     static YouthBreakpointEvent delegate(BreakpointEvent event) {
@@ -10,7 +10,7 @@ public interface YouthBreakpointEvent extends YouthEvent, BreakpointEvent {
     }
 
     @Override
-    default void accept(MyEventHandler handler) {
+    default void accept(YouthEventHandler handler) {
         handler.handleBreakpoint(this);
     }
 

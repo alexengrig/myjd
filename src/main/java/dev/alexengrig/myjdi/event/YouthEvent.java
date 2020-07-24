@@ -3,7 +3,7 @@ package dev.alexengrig.myjdi.event;
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.event.*;
 import dev.alexengrig.myjdi.event.delegate.YouthBreakpointEventDelegate;
-import dev.alexengrig.myjdi.handle.MyEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandler;
 import dev.alexengrig.myjdi.request.MyEventRequest;
 
 import java.util.Objects;
@@ -72,7 +72,7 @@ public interface YouthEvent extends Event {
     @Override
     MyEventRequest request();
 
-    default void accept(MyEventHandler handler) {
+    default void accept(YouthEventHandler handler) {
         handler.handle(this);
     }
 

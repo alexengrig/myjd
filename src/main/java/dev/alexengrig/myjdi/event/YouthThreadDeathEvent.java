@@ -2,7 +2,7 @@ package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.event.ThreadDeathEvent;
-import dev.alexengrig.myjdi.handle.MyEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthThreadDeathEvent extends YouthEvent, ThreadDeathEvent {
     static YouthThreadDeathEvent delegate(ThreadDeathEvent event) {
@@ -10,7 +10,7 @@ public interface YouthThreadDeathEvent extends YouthEvent, ThreadDeathEvent {
     }
 
     @Override
-    default void accept(MyEventHandler handler) {
+    default void accept(YouthEventHandler handler) {
         handler.handleThreadDeath(this);
     }
 

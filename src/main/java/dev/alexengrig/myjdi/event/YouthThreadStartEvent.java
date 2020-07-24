@@ -2,7 +2,7 @@ package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.event.ThreadStartEvent;
-import dev.alexengrig.myjdi.handle.MyEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthThreadStartEvent extends YouthEvent, ThreadStartEvent {
     static YouthThreadStartEvent delegate(ThreadStartEvent event) {
@@ -10,7 +10,7 @@ public interface YouthThreadStartEvent extends YouthEvent, ThreadStartEvent {
     }
 
     @Override
-    default void accept(MyEventHandler handler) {
+    default void accept(YouthEventHandler handler) {
         handler.handleThreadStart(this);
     }
 

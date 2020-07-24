@@ -1,7 +1,7 @@
 package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.event.VMDeathEvent;
-import dev.alexengrig.myjdi.handle.MyEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthVMDeathEvent extends YouthEvent, VMDeathEvent {
     static YouthVMDeathEvent delegate(VMDeathEvent event) {
@@ -9,7 +9,7 @@ public interface YouthVMDeathEvent extends YouthEvent, VMDeathEvent {
     }
 
     @Override
-    default void accept(MyEventHandler handler) {
+    default void accept(YouthEventHandler handler) {
         handler.handleVmDeath(this);
     }
 

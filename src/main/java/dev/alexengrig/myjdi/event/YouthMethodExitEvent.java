@@ -4,7 +4,7 @@ import com.sun.jdi.Method;
 import com.sun.jdi.Value;
 import com.sun.jdi.event.MethodExitEvent;
 import dev.alexengrig.myjdi.event.delegate.YouthLocatableEventDelegate;
-import dev.alexengrig.myjdi.handle.MyEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthMethodExitEvent extends YouthEvent, MethodExitEvent {
     static YouthMethodExitEvent delegate(MethodExitEvent event) {
@@ -12,7 +12,7 @@ public interface YouthMethodExitEvent extends YouthEvent, MethodExitEvent {
     }
 
     @Override
-    default void accept(MyEventHandler handler) {
+    default void accept(YouthEventHandler handler) {
         handler.handleMethodExit(this);
     }
 

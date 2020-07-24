@@ -3,7 +3,7 @@ package dev.alexengrig.myjdi.event;
 import com.sun.jdi.ReferenceType;
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.event.ClassPrepareEvent;
-import dev.alexengrig.myjdi.handle.MyEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthClassPrepareEvent extends YouthEvent, ClassPrepareEvent {
     static YouthClassPrepareEvent delegate(ClassPrepareEvent event) {
@@ -11,7 +11,7 @@ public interface YouthClassPrepareEvent extends YouthEvent, ClassPrepareEvent {
     }
 
     @Override
-    default void accept(MyEventHandler handler) {
+    default void accept(YouthEventHandler handler) {
         handler.handleClassPrepare(this);
     }
 

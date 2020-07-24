@@ -1,7 +1,7 @@
 package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.event.VMDisconnectEvent;
-import dev.alexengrig.myjdi.handle.MyEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthVMDisconnectEvent extends YouthEvent, VMDisconnectEvent {
     static YouthVMDisconnectEvent delegate(VMDisconnectEvent event) {
@@ -9,7 +9,7 @@ public interface YouthVMDisconnectEvent extends YouthEvent, VMDisconnectEvent {
     }
 
     @Override
-    default void accept(MyEventHandler handler) {
+    default void accept(YouthEventHandler handler) {
         handler.handleVmDisconnect(this);
     }
 

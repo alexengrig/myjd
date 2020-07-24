@@ -1,6 +1,6 @@
 package dev.alexengrig.myjdi.ui;
 
-import com.sun.jdi.*;
+import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.VMStartException;
 import dev.alexengrig.myjdi.MyDebugger;
@@ -9,11 +9,8 @@ import dev.alexengrig.myjdi.connect.YouthConnector;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -99,7 +96,7 @@ public class DebugGUI extends JFrame {
                 VirtualMachine vm = connector.connect();
                 MyDebugger debugger = new MyDebugger(vm);
                 resumeButton.addActionListener(ac -> vm.resume());
-                debugger.addBreakpointHandler(e -> {
+/*                debugger.addBreakpointHandler(e -> {
                     try {
                         ThreadReference thread = e.thread();
                         List<StackFrame> frames = thread.frames();
@@ -120,7 +117,7 @@ public class DebugGUI extends JFrame {
                     } catch (IncompatibleThreadStateException | InterruptedException | InvocationTargetException | AbsentInformationException ex) {
                         ex.printStackTrace();
                     }
-                });
+                })*/
                 debugger.addBreakpoint("dev.alexengrig.example.Main", 9);
                 debugger.addBreakpoint("dev.alexengrig.example.Main", 14);
                 debugger.addBreakpoint("dev.alexengrig.example.Main", 20);

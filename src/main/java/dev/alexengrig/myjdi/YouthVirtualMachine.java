@@ -2,6 +2,7 @@ package dev.alexengrig.myjdi;
 
 import com.sun.jdi.*;
 import dev.alexengrig.myjdi.event.YouthEventQueue;
+import dev.alexengrig.myjdi.handle.YouthEventHandleManager;
 import dev.alexengrig.myjdi.request.YouthEventRequestManager;
 
 import java.util.List;
@@ -17,6 +18,10 @@ public interface YouthVirtualMachine extends VirtualMachine {
 
     @Override
     YouthEventRequestManager eventRequestManager();
+
+    default YouthEventHandleManager eventHandleManager() {
+        throw new UnsupportedOperationException();
+    }
 
     class Delegate implements YouthVirtualMachine {
         protected final VirtualMachine virtualMachine;

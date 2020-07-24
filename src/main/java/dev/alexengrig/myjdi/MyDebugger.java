@@ -1,17 +1,12 @@
 package dev.alexengrig.myjdi;
 
-import com.sun.jdi.AbsentInformationException;
-import com.sun.jdi.Location;
-import com.sun.jdi.ReferenceType;
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.event.BreakpointEvent;
-import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.ClassPrepareRequest;
 import com.sun.jdi.request.EventRequestManager;
-import dev.alexengrig.myjdi.event.YouthEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandle;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -45,8 +40,8 @@ public class MyDebugger implements Runnable {
             request.enable();
             classPrepareRequestMap.put(className, request);
         }
-        eventQueueHandler.addClassPrepareEventListener(e -> {
-            ReferenceType type = e.referenceType();
+/*        eventQueueHandler.addClassPrepareEventListener(event -> {
+            ReferenceType type = event.referenceType();
             if (className.equals(type.name())) {
                 try {
                     List<Location> locations = type.locationsOfLine(type.defaultStratum(), type.sourceName(), line);
@@ -59,10 +54,10 @@ public class MyDebugger implements Runnable {
                     ex.printStackTrace();
                 }
             }
-        });
+        })*/
     }
 
-    public void addBreakpointHandler(YouthEventHandler<BreakpointEvent> handler) {
+    public void addBreakpointHandler(YouthEventHandle<BreakpointEvent> handler) {
         eventQueueHandler.addBreakpointEventListener(handler);
     }
 }

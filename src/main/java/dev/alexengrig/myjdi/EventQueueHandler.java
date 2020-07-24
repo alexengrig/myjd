@@ -2,7 +2,7 @@ package dev.alexengrig.myjdi;
 
 import com.sun.jdi.*;
 import com.sun.jdi.event.*;
-import dev.alexengrig.myjdi.event.YouthEventHandler;
+import dev.alexengrig.myjdi.handle.YouthEventHandle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,8 @@ public class EventQueueHandler implements Runnable {
 
     private final EventQueue eventQueue;
 
-    private final List<YouthEventHandler<ClassPrepareEvent>> classPrepareEventHandlers;
-    private final List<YouthEventHandler<BreakpointEvent>> breakpointEventHandlers;
+    private final List<YouthEventHandle<ClassPrepareEvent>> classPrepareEventHandlers;
+    private final List<YouthEventHandle<BreakpointEvent>> breakpointEventHandlers;
 
     private boolean handling;
     private boolean vmDied;
@@ -25,11 +25,11 @@ public class EventQueueHandler implements Runnable {
         breakpointEventHandlers = new ArrayList<>();
     }
 
-    public void addClassPrepareEventListener(YouthEventHandler<ClassPrepareEvent> handler) {
+    public void addClassPrepareEventListener(YouthEventHandle<ClassPrepareEvent> handler) {
         classPrepareEventHandlers.add(handler);
     }
 
-    public void addBreakpointEventListener(YouthEventHandler<BreakpointEvent> handler) {
+    public void addBreakpointEventListener(YouthEventHandle<BreakpointEvent> handler) {
         breakpointEventHandlers.add(handler);
     }
 
@@ -145,7 +145,7 @@ public class EventQueueHandler implements Runnable {
 
     private void handleBreakpointEvent(BreakpointEvent event) {
         log.info(String.format("Breakpoint: %s.", event.location()));
-        for (YouthEventHandler<BreakpointEvent> handler : breakpointEventHandlers) {
+        for (YouthEventHandle<BreakpointEvent> handler : breakpointEventHandlers) {
             handler.handle(event);
         }
     }
@@ -210,7 +210,7 @@ public class EventQueueHandler implements Runnable {
     private void handleClassPrepareEvent(ClassPrepareEvent event) {
         final ReferenceType type = event.referenceType();
         log.info(String.format("Class prepared: %s.", type.name()));
-        for (YouthEventHandler<ClassPrepareEvent> handler : classPrepareEventHandlers) {
+        for (YouthEventHandle<ClassPrepareEvent> handler : classPrepareEventHandlers) {
             handler.handle(event);
         }
     }

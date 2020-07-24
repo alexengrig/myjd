@@ -3,6 +3,7 @@ package dev.alexengrig.myjdi.connect;
 import com.sun.jdi.VirtualMachineManager;
 import com.sun.jdi.connect.Connector;
 import com.sun.jdi.connect.LaunchingConnector;
+import dev.alexengrig.myjdi.MyVirtualMachine;
 import dev.alexengrig.myjdi.YouthVirtualMachine;
 
 import java.util.HashMap;
@@ -89,7 +90,7 @@ public final class YouthLaunchers {
         return () -> {
             Map<String, Connector.Argument> args = new HashMap<>(connector.defaultArguments());
             args.putAll(arguments);
-            return YouthVirtualMachine.delegate(connector.launch(args));
+            return new MyVirtualMachine(connector.launch(args));
         };
     }
 

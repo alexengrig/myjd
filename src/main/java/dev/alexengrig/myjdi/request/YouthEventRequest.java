@@ -3,12 +3,12 @@ package dev.alexengrig.myjdi.request;
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.request.EventRequest;
 
-public interface MyEventRequest extends EventRequest {
-    static MyEventRequest delegate(EventRequest request) {
+public interface YouthEventRequest extends EventRequest {
+    static YouthEventRequest delegate(EventRequest request) {
         return new Delegate(request);
     }
 
-    class Delegate implements MyEventRequest {
+    class Delegate implements YouthEventRequest {
         protected final EventRequest request;
 
         public Delegate(EventRequest request) {

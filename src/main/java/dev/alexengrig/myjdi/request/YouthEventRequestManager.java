@@ -10,6 +10,10 @@ public interface YouthEventRequestManager extends EventRequestManager {
         return new Delegate(requestManager);
     }
 
+    default void createBreakpointRequest(String className, int line) {
+        throw new UnsupportedOperationException();
+    }
+
     class Delegate implements YouthEventRequestManager {
         protected final EventRequestManager requestManager;
 

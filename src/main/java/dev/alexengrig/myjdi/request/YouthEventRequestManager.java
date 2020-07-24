@@ -5,12 +5,12 @@ import com.sun.jdi.request.*;
 
 import java.util.List;
 
-public interface MyEventRequestManager extends EventRequestManager {
-    static MyEventRequestManager delegate(EventRequestManager requestManager) {
+public interface YouthEventRequestManager extends EventRequestManager {
+    static YouthEventRequestManager delegate(EventRequestManager requestManager) {
         return new Delegate(requestManager);
     }
 
-    class Delegate implements MyEventRequestManager {
+    class Delegate implements YouthEventRequestManager {
         protected final EventRequestManager requestManager;
 
         public Delegate(EventRequestManager requestManager) {

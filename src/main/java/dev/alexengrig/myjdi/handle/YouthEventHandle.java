@@ -1,9 +1,8 @@
-package dev.alexengrig.myjdi.event;
+package dev.alexengrig.myjdi.handle;
 
 import com.sun.jdi.event.Event;
 
-@FunctionalInterface
-public interface YouthEventHandler<E extends Event> {
+public interface YouthEventHandle<E extends Event> {
     void handle(E event);
 
     @SuppressWarnings("unchecked")
@@ -23,5 +22,17 @@ public interface YouthEventHandler<E extends Event> {
 
     default Class<? super E> getTargetType() {
         return Event.class;
+    }
+
+    boolean isEnabled();
+
+    void setEnabled(boolean enabled);
+
+    default void disable() {
+        setEnabled(false);
+    }
+
+    default void enable() {
+        setEnabled(true);
     }
 }

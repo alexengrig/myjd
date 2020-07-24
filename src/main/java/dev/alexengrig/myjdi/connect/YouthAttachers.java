@@ -7,7 +7,7 @@ import dev.alexengrig.myjdi.YouthVirtualMachine;
 
 import java.util.Map;
 
-public final class Attachers {
+public final class YouthAttachers {
     public static final String HOSTNAME = "hostname";
     public static final String PORT = "port";
     public static final String TIMEOUT = "timeout";
@@ -17,25 +17,25 @@ public final class Attachers {
     public static final String JAVA_EXECUTABLE = "javaExecutable";
     public static final String DEBUG_SERVER_NAME = "debugServerName";
 
-    private Attachers() {
+    private YouthAttachers() {
     }
 
 //    Socket
 
-    public static Attacher socketAttacher() {
+    public static YouthAttacher socketAttacher() {
         return attacher(Connectors.socketAttachingConnector());
     }
 
-    public static Attacher socketAttacher(VirtualMachineManager vmManager) {
+    public static YouthAttacher socketAttacher(VirtualMachineManager vmManager) {
         return attacher(Connectors.socketAttachingConnector(vmManager));
     }
 
-    public static Attacher socketAttacher(Map<String, Connector.Argument> arguments) {
+    public static YouthAttacher socketAttacher(Map<String, Connector.Argument> arguments) {
         return attacher(Connectors.socketAttachingConnector(), arguments);
     }
 
-    public static Attacher socketAttacher(VirtualMachineManager vmManager,
-                                          Map<String, Connector.Argument> arguments) {
+    public static YouthAttacher socketAttacher(VirtualMachineManager vmManager,
+                                               Map<String, Connector.Argument> arguments) {
         return attacher(Connectors.socketAttachingConnector(vmManager), arguments);
     }
 
@@ -49,20 +49,20 @@ public final class Attachers {
 
 //    Shared Memory
 
-    public static Attacher sharedMemoryAttacher() {
+    public static YouthAttacher sharedMemoryAttacher() {
         return attacher(Connectors.sharedMemoryAttachingConnector());
     }
 
-    public static Attacher sharedMemoryAttacher(VirtualMachineManager vmManager) {
+    public static YouthAttacher sharedMemoryAttacher(VirtualMachineManager vmManager) {
         return attacher(Connectors.sharedMemoryAttachingConnector(vmManager));
     }
 
-    public static Attacher sharedMemoryAttacher(Map<String, Connector.Argument> arguments) {
+    public static YouthAttacher sharedMemoryAttacher(Map<String, Connector.Argument> arguments) {
         return attacher(Connectors.sharedMemoryAttachingConnector(), arguments);
     }
 
-    public static Attacher sharedMemoryAttacher(VirtualMachineManager vmManager,
-                                                Map<String, Connector.Argument> arguments) {
+    public static YouthAttacher sharedMemoryAttacher(VirtualMachineManager vmManager,
+                                                     Map<String, Connector.Argument> arguments) {
         return attacher(Connectors.sharedMemoryAttachingConnector(vmManager), arguments);
     }
 
@@ -76,20 +76,20 @@ public final class Attachers {
 
 //    Process
 
-    public static Attacher processAttacher() {
+    public static YouthAttacher processAttacher() {
         return attacher(Connectors.processAttachingConnector());
     }
 
-    public static Attacher processAttacher(VirtualMachineManager vmManager) {
+    public static YouthAttacher processAttacher(VirtualMachineManager vmManager) {
         return attacher(Connectors.processAttachingConnector(vmManager));
     }
 
-    public static Attacher processAttacher(Map<String, Connector.Argument> arguments) {
+    public static YouthAttacher processAttacher(Map<String, Connector.Argument> arguments) {
         return attacher(Connectors.processAttachingConnector(), arguments);
     }
 
-    public static Attacher processAttacher(VirtualMachineManager vmManager,
-                                           Map<String, Connector.Argument> arguments) {
+    public static YouthAttacher processAttacher(VirtualMachineManager vmManager,
+                                                Map<String, Connector.Argument> arguments) {
         return attacher(Connectors.processAttachingConnector(vmManager), arguments);
     }
 
@@ -103,20 +103,20 @@ public final class Attachers {
 
 //    SA Core
 
-    public static Attacher saCoreAttacher() {
+    public static YouthAttacher saCoreAttacher() {
         return attacher(Connectors.saCoreAttachingConnector());
     }
 
-    public static Attacher saCoreAttacher(VirtualMachineManager vmManager) {
+    public static YouthAttacher saCoreAttacher(VirtualMachineManager vmManager) {
         return attacher(Connectors.saCoreAttachingConnector(vmManager));
     }
 
-    public static Attacher saCoreAttacher(Map<String, Connector.Argument> arguments) {
+    public static YouthAttacher saCoreAttacher(Map<String, Connector.Argument> arguments) {
         return attacher(Connectors.saCoreAttachingConnector(), arguments);
     }
 
-    public static Attacher saCoreAttacher(VirtualMachineManager vmManager,
-                                          Map<String, Connector.Argument> arguments) {
+    public static YouthAttacher saCoreAttacher(VirtualMachineManager vmManager,
+                                               Map<String, Connector.Argument> arguments) {
         return attacher(Connectors.saCoreAttachingConnector(vmManager), arguments);
     }
 
@@ -130,20 +130,20 @@ public final class Attachers {
 
 //    SA PID
 
-    public static Attacher saPIDAttacher() {
+    public static YouthAttacher saPIDAttacher() {
         return attacher(Connectors.saPIDAttachingConnector());
     }
 
-    public static Attacher saPIDAttacher(VirtualMachineManager vmManager) {
+    public static YouthAttacher saPIDAttacher(VirtualMachineManager vmManager) {
         return attacher(Connectors.saPIDAttachingConnector(vmManager));
     }
 
-    public static Attacher saPIDAttacher(Map<String, Connector.Argument> arguments) {
+    public static YouthAttacher saPIDAttacher(Map<String, Connector.Argument> arguments) {
         return attacher(Connectors.saPIDAttachingConnector(), arguments);
     }
 
-    public static Attacher saPIDAttacher(VirtualMachineManager vmManager,
-                                         Map<String, Connector.Argument> arguments) {
+    public static YouthAttacher saPIDAttacher(VirtualMachineManager vmManager,
+                                              Map<String, Connector.Argument> arguments) {
         return attacher(Connectors.saPIDAttachingConnector(vmManager), arguments);
     }
 
@@ -157,20 +157,20 @@ public final class Attachers {
 
 //    SA Debug Server
 
-    public static Attacher saDebugServerAttacher() {
+    public static YouthAttacher saDebugServerAttacher() {
         return attacher(Connectors.saDebugServerAttachingConnector());
     }
 
-    public static Attacher saDebugServerAttacher(VirtualMachineManager vmManager) {
+    public static YouthAttacher saDebugServerAttacher(VirtualMachineManager vmManager) {
         return attacher(Connectors.saDebugServerAttachingConnector(vmManager));
     }
 
-    public static Attacher saDebugServerAttacher(Map<String, Connector.Argument> arguments) {
+    public static YouthAttacher saDebugServerAttacher(Map<String, Connector.Argument> arguments) {
         return attacher(Connectors.saDebugServerAttachingConnector(), arguments);
     }
 
-    public static Attacher saDebugServerAttacher(VirtualMachineManager vmManager,
-                                                 Map<String, Connector.Argument> arguments) {
+    public static YouthAttacher saDebugServerAttacher(VirtualMachineManager vmManager,
+                                                      Map<String, Connector.Argument> arguments) {
         return attacher(Connectors.saDebugServerAttachingConnector(vmManager), arguments);
     }
 
@@ -184,11 +184,11 @@ public final class Attachers {
 
 //    Common
 
-    public static Attacher attacher(AttachingConnector connector) {
+    public static YouthAttacher attacher(AttachingConnector connector) {
         return () -> YouthVirtualMachine.delegate(connector.attach(connector.defaultArguments()));
     }
 
-    public static Attacher attacher(AttachingConnector connector, Map<String, Connector.Argument> arguments) {
+    public static YouthAttacher attacher(AttachingConnector connector, Map<String, Connector.Argument> arguments) {
         return () -> {
             Map<String, Connector.Argument> args = connector.defaultArguments();
             args.putAll(arguments);
@@ -218,7 +218,7 @@ public final class Attachers {
 
         protected abstract B self();
 
-        public Attacher build() {
+        public YouthAttacher build() {
             return () -> YouthVirtualMachine.delegate(connector.attach(arguments));
         }
     }

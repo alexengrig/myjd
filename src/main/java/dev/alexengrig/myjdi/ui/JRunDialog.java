@@ -1,7 +1,7 @@
 package dev.alexengrig.myjdi.ui;
 
-import dev.alexengrig.myjdi.connect.MyConnector;
-import dev.alexengrig.myjdi.connect.MyConnectors;
+import dev.alexengrig.myjdi.connect.YouthConnector;
+import dev.alexengrig.myjdi.connect.YouthConnectors;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.function.Consumer;
 
 public class JRunDialog extends JDialog {
-    public JRunDialog(Window owner, Consumer<MyConnector> connectorConsumer) {
+    public JRunDialog(Window owner, Consumer<YouthConnector> connectorConsumer) {
         super(owner);
         setTitle("My Debugger | Run");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -28,7 +28,7 @@ public class JRunDialog extends JDialog {
         runButton.addActionListener(ignore -> {
             String classpath = classpathFiled.getText();
             String mainClass = mainClassField.getText();
-            MyConnector connector = MyConnectors.commandLine(classpath, mainClass);
+            YouthConnector connector = YouthConnectors.commandLine(classpath, mainClass);
             setVisible(false);
             dispose();
             connectorConsumer.accept(connector);

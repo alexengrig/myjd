@@ -1,12 +1,12 @@
 package dev.alexengrig.myjdi.connect;
 
+import com.sun.jdi.connect.Connector;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.VMStartException;
 import dev.alexengrig.myjdi.YouthVirtualMachine;
 
 import java.io.IOException;
 
-@FunctionalInterface
-public interface Launcher {
-    YouthVirtualMachine launch() throws IOException, IllegalConnectorArgumentsException, VMStartException;
+public interface YouthConnector extends Connector {
+    YouthVirtualMachine connect() throws IOException, IllegalConnectorArgumentsException, VMStartException;
 }

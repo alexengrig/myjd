@@ -6,6 +6,6 @@ import dev.alexengrig.myjdi.YouthVirtualMachine;
 import java.io.IOException;
 
 @FunctionalInterface
-public interface Attacher {
+public interface YouthAttacher {
     YouthVirtualMachine attach() throws IOException, IllegalConnectorArgumentsException;
 }

@@ -7,13 +7,13 @@ import com.sun.jdi.connect.LaunchingConnector;
 
 import java.util.Map;
 
-public final class MyConnectors {
-    private MyConnectors() {
+public final class YouthConnectors {
+    private YouthConnectors() {
     }
 
 //    Popular
 
-    public static MyConnector commandLine(String classpath, String mainClass) {
+    public static YouthConnector commandLine(String classpath, String mainClass) {
         LaunchingConnector connector = Connectors.commandLineLaunchingConnector();
         Map<String, Connector.Argument> arguments = connector.defaultArguments();
         arguments.get("options").setValue("-cp " + classpath);
@@ -21,14 +21,14 @@ public final class MyConnectors {
         return connector(connector, arguments);
     }
 
-    public static MyConnector socket(int port) {
+    public static YouthConnector socket(int port) {
         AttachingConnector connector = Connectors.socketAttachingConnector();
         return connector(connector, SocketArgumentsBuilder.from(connector.defaultArguments())
                 .port(port)
                 .build());
     }
 
-    public static MyConnector socket(String hostname, int port) {
+    public static YouthConnector socket(String hostname, int port) {
         AttachingConnector connector = Connectors.socketAttachingConnector();
         return connector(connector, SocketArgumentsBuilder.from(connector.defaultArguments())
                 .hostname(hostname)
@@ -38,61 +38,61 @@ public final class MyConnectors {
 
 //    Launcher
 
-    public static MyConnector commandLineLaunchingConnector() {
+    public static YouthConnector commandLineLaunchingConnector() {
         return connector(Connectors.commandLineLaunchingConnector());
     }
 
-    public static MyConnector commandLineLaunchingConnector(VirtualMachineManager vmManger) {
+    public static YouthConnector commandLineLaunchingConnector(VirtualMachineManager vmManger) {
         return connector(Connectors.commandLineLaunchingConnector(vmManger));
     }
 
-    public static MyConnector rawCommandLineLaunchingConnector() {
+    public static YouthConnector rawCommandLineLaunchingConnector() {
         return connector(Connectors.rawCommandLineLaunchingConnector());
     }
 
-    public static MyConnector rawCommandLineLaunchingConnector(VirtualMachineManager vmManger) {
+    public static YouthConnector rawCommandLineLaunchingConnector(VirtualMachineManager vmManger) {
         return connector(Connectors.rawCommandLineLaunchingConnector(vmManger));
     }
 
-    public static MyConnector connector(LaunchingConnector connector) {
-        return new MyLaunchConnector(connector);
+    public static YouthConnector connector(LaunchingConnector connector) {
+        return new YouthLaunchConnector(connector);
     }
 
-    public static MyConnector connector(LaunchingConnector connector, Map<String, Connector.Argument> arguments) {
-        return new MyLaunchConnector(connector, arguments);
+    public static YouthConnector connector(LaunchingConnector connector, Map<String, Connector.Argument> arguments) {
+        return new YouthLaunchConnector(connector, arguments);
     }
 
 //    Attacher
 
-    public static MyConnector socketAttachingConnector() {
+    public static YouthConnector socketAttachingConnector() {
         return connector(Connectors.socketAttachingConnector());
     }
 
-    public static MyConnector socketAttachingConnector(VirtualMachineManager vmManger) {
+    public static YouthConnector socketAttachingConnector(VirtualMachineManager vmManger) {
         return connector(Connectors.socketAttachingConnector(vmManger));
     }
 
-    public static MyConnector sharedMemoryAttachingConnector() {
+    public static YouthConnector sharedMemoryAttachingConnector() {
         return connector(Connectors.sharedMemoryAttachingConnector());
     }
 
-    public static MyConnector sharedMemoryAttachingConnector(VirtualMachineManager vmManger) {
+    public static YouthConnector sharedMemoryAttachingConnector(VirtualMachineManager vmManger) {
         return connector(Connectors.sharedMemoryAttachingConnector(vmManger));
     }
 
-    public static MyConnector processAttachingConnector() {
+    public static YouthConnector processAttachingConnector() {
         return connector(Connectors.processAttachingConnector());
     }
 
-    public static MyConnector processAttachingConnector(VirtualMachineManager vmManger) {
+    public static YouthConnector processAttachingConnector(VirtualMachineManager vmManger) {
         return connector(Connectors.processAttachingConnector(vmManger));
     }
 
-    public static MyConnector connector(AttachingConnector connector) {
-        return new MyAttachConnector(connector);
+    public static YouthConnector connector(AttachingConnector connector) {
+        return new YouthAttachConnector(connector);
     }
 
-    public static MyConnector connector(AttachingConnector connector, Map<String, Connector.Argument> arguments) {
-        return new MyAttachConnector(connector, arguments);
+    public static YouthConnector connector(AttachingConnector connector, Map<String, Connector.Argument> arguments) {
+        return new YouthAttachConnector(connector, arguments);
     }
 }

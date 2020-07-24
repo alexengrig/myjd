@@ -8,7 +8,7 @@ import dev.alexengrig.myjdi.YouthVirtualMachine;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class Launchers {
+public final class YouthLaunchers {
     public static final String HOME = "home";
     public static final String OPTIONS = "options";
     public static final String MAIN = "main";
@@ -18,25 +18,25 @@ public final class Launchers {
     public static final String COMMAND = "command";
     public static final String ADDRESS = "address";
 
-    private Launchers() {
+    private YouthLaunchers() {
     }
 
 //    Command Line
 
-    public static Launcher commandLineLauncher() {
+    public static YouthLauncher commandLineLauncher() {
         return launcher(Connectors.commandLineLaunchingConnector());
     }
 
-    public static Launcher commandLineLauncher(VirtualMachineManager vmManager) {
+    public static YouthLauncher commandLineLauncher(VirtualMachineManager vmManager) {
         return launcher(Connectors.commandLineLaunchingConnector(vmManager));
     }
 
-    public static Launcher commandLineLauncher(Map<String, Connector.Argument> arguments) {
+    public static YouthLauncher commandLineLauncher(Map<String, Connector.Argument> arguments) {
         return launcher(Connectors.commandLineLaunchingConnector(), arguments);
     }
 
-    public static Launcher commandLineLauncher(VirtualMachineManager vmManager,
-                                               Map<String, Connector.Argument> arguments) {
+    public static YouthLauncher commandLineLauncher(VirtualMachineManager vmManager,
+                                                    Map<String, Connector.Argument> arguments) {
         return launcher(Connectors.commandLineLaunchingConnector(vmManager), arguments);
     }
 
@@ -50,20 +50,20 @@ public final class Launchers {
 
 //    Raw Command Line
 
-    public static Launcher rawCommandLineLauncher() {
+    public static YouthLauncher rawCommandLineLauncher() {
         return launcher(Connectors.rawCommandLineLaunchingConnector());
     }
 
-    public static Launcher rawCommandLineLauncher(VirtualMachineManager vmManager) {
+    public static YouthLauncher rawCommandLineLauncher(VirtualMachineManager vmManager) {
         return launcher(Connectors.rawCommandLineLaunchingConnector(vmManager));
     }
 
-    public static Launcher rawCommandLineLauncher(Map<String, Connector.Argument> arguments) {
+    public static YouthLauncher rawCommandLineLauncher(Map<String, Connector.Argument> arguments) {
         return launcher(Connectors.rawCommandLineLaunchingConnector(), arguments);
     }
 
-    public static Launcher rawCommandLineLauncher(VirtualMachineManager vmManager,
-                                                  Map<String, Connector.Argument> arguments) {
+    public static YouthLauncher rawCommandLineLauncher(VirtualMachineManager vmManager,
+                                                       Map<String, Connector.Argument> arguments) {
         return launcher(Connectors.rawCommandLineLaunchingConnector(vmManager), arguments);
     }
 
@@ -77,7 +77,7 @@ public final class Launchers {
 
 //    Common
 
-    public static Launcher launcher(LaunchingConnector connector) {
+    public static YouthLauncher launcher(LaunchingConnector connector) {
         return () -> {
             Map<String, Connector.Argument> args = new HashMap<>(connector.defaultArguments());
             args.putAll(connector.defaultArguments());
@@ -85,7 +85,7 @@ public final class Launchers {
         };
     }
 
-    public static Launcher launcher(LaunchingConnector connector, Map<String, Connector.Argument> arguments) {
+    public static YouthLauncher launcher(LaunchingConnector connector, Map<String, Connector.Argument> arguments) {
         return () -> {
             Map<String, Connector.Argument> args = new HashMap<>(connector.defaultArguments());
             args.putAll(arguments);
@@ -115,7 +115,7 @@ public final class Launchers {
 
         protected abstract B self();
 
-        public Launcher build() {
+        public YouthLauncher build() {
             return () -> YouthVirtualMachine.delegate(connector.launch(arguments));
         }
     }

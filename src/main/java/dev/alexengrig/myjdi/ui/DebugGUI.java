@@ -4,7 +4,7 @@ import com.sun.jdi.*;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.VMStartException;
 import dev.alexengrig.myjdi.MyDebugger;
-import dev.alexengrig.myjdi.connect.MyConnector;
+import dev.alexengrig.myjdi.connect.YouthConnector;
 
 import javax.swing.*;
 import java.awt.*;
@@ -93,7 +93,7 @@ public class DebugGUI extends JFrame {
         return rootPane;
     }
 
-    private void doDebug(MyConnector connector) {
+    private void doDebug(YouthConnector connector) {
         background.execute(() -> {
             try {
                 VirtualMachine vm = connector.connect();

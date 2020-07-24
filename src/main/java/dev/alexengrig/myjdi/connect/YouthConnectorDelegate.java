@@ -5,10 +5,10 @@ import com.sun.jdi.connect.Transport;
 
 import java.util.Map;
 
-public abstract class ConnectorDelegate<T extends Connector> implements MyConnector {
+public abstract class YouthConnectorDelegate<T extends Connector> implements YouthConnector {
     protected final T connector;
 
-    protected ConnectorDelegate(T connector) {
+    protected YouthConnectorDelegate(T connector) {
         this.connector = connector;
     }
 

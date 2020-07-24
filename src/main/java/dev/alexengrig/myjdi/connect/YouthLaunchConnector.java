@@ -8,18 +8,18 @@ import dev.alexengrig.myjdi.YouthVirtualMachine;
 import java.io.IOException;
 import java.util.Map;
 
-public class MyLaunchConnector extends ConnectorDelegate<LaunchingConnector> {
-    protected final Launcher launcher;
+public class YouthLaunchConnector extends YouthConnectorDelegate<LaunchingConnector> {
+    protected final YouthLauncher launcher;
 
-    public MyLaunchConnector(LaunchingConnector connector) {
-        this(connector, Launchers.launcher(connector));
+    public YouthLaunchConnector(LaunchingConnector connector) {
+        this(connector, YouthLaunchers.launcher(connector));
     }
 
-    public MyLaunchConnector(LaunchingConnector connector, Map<String, Argument> arguments) {
-        this(connector, Launchers.launcher(connector, arguments));
+    public YouthLaunchConnector(LaunchingConnector connector, Map<String, Argument> arguments) {
+        this(connector, YouthLaunchers.launcher(connector, arguments));
     }
 
-    protected MyLaunchConnector(LaunchingConnector connector, Launcher launcher) {
+    protected YouthLaunchConnector(LaunchingConnector connector, YouthLauncher launcher) {
         super(connector);
         this.launcher = launcher;
     }

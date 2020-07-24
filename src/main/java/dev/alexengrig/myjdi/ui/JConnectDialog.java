@@ -1,7 +1,7 @@
 package dev.alexengrig.myjdi.ui;
 
-import dev.alexengrig.myjdi.connect.MyConnector;
-import dev.alexengrig.myjdi.connect.MyConnectors;
+import dev.alexengrig.myjdi.connect.YouthConnector;
+import dev.alexengrig.myjdi.connect.YouthConnectors;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.function.Consumer;
 
 public class JConnectDialog extends JDialog {
-    public JConnectDialog(Window owner, Consumer<MyConnector> connectorConsumer) {
+    public JConnectDialog(Window owner, Consumer<YouthConnector> connectorConsumer) {
         super(owner);
         setTitle("My Debugger | Connect");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -28,7 +28,7 @@ public class JConnectDialog extends JDialog {
         connectButton.addActionListener(ignore -> {
             String hostname = hostField.getText();
             int port = Integer.parseInt(portField.getText());
-            MyConnector connector = MyConnectors.socket(hostname, port);
+            YouthConnector connector = YouthConnectors.socket(hostname, port);
             setVisible(false);
             dispose();
             connectorConsumer.accept(connector);

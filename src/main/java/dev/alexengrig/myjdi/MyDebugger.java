@@ -8,7 +8,7 @@ import com.sun.jdi.event.BreakpointEvent;
 import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.ClassPrepareRequest;
 import com.sun.jdi.request.EventRequestManager;
-import dev.alexengrig.myjdi.event.EventHandler;
+import dev.alexengrig.myjdi.event.YouthEventHandler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -62,7 +62,7 @@ public class MyDebugger implements Runnable {
         });
     }
 
-    public void addBreakpointHandler(EventHandler<BreakpointEvent> handler) {
+    public void addBreakpointHandler(YouthEventHandler<BreakpointEvent> handler) {
         eventQueueHandler.addBreakpointEventListener(handler);
     }
 }

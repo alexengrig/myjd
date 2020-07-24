@@ -6,18 +6,18 @@ import com.sun.jdi.event.EventIterator;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public interface MyEventIterator extends EventIterator {
-    static MyEventIterator delegate(EventIterator event) {
+public interface YouthEventIterator extends EventIterator {
+    static YouthEventIterator delegate(EventIterator event) {
         return new Delegate(event);
     }
 
     @Override
-    MyEvent nextEvent();
+    YouthEvent nextEvent();
 
     @Override
-    MyEvent next();
+    YouthEvent next();
 
-    class Delegate implements MyEventIterator {
+    class Delegate implements YouthEventIterator {
         protected final EventIterator iterator;
 
         public Delegate(EventIterator iterator) {
@@ -25,12 +25,12 @@ public interface MyEventIterator extends EventIterator {
         }
 
         @Override
-        public MyEvent nextEvent() {
-            return MyEvent.findOut(iterator.nextEvent());
+        public YouthEvent nextEvent() {
+            return YouthEvent.findOut(iterator.nextEvent());
         }
 
         @Override
-        public MyEvent next() {
+        public YouthEvent next() {
             return nextEvent();
         }
 

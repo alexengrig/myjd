@@ -1,8 +1,8 @@
 package dev.alexengrig.myjdi;
 
 import com.sun.jdi.VMDisconnectedException;
-import dev.alexengrig.myjdi.event.MyEvent;
-import dev.alexengrig.myjdi.event.MyEventIterator;
+import dev.alexengrig.myjdi.event.YouthEvent;
+import dev.alexengrig.myjdi.event.YouthEventIterator;
 import dev.alexengrig.myjdi.event.YouthEventQueue;
 import dev.alexengrig.myjdi.handle.OmitEventHandler;
 
@@ -22,9 +22,9 @@ public class SimpleEventHandler extends OmitEventHandler implements Runnable {
         running = true;
         while (running) {
             try {
-                MyEventIterator iterator = eventQueue.remove().eventIterator();
+                YouthEventIterator iterator = eventQueue.remove().eventIterator();
                 while (iterator.hasNext()) {
-                    MyEvent event = iterator.nextEvent();
+                    YouthEvent event = iterator.nextEvent();
                     event.accept(this);
                 }
                 eventQueue.virtualMachine().resume();

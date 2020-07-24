@@ -4,8 +4,8 @@ import com.sun.jdi.ThreadReference;
 import com.sun.jdi.event.ThreadDeathEvent;
 import dev.alexengrig.myjdi.handle.MyEventHandler;
 
-public interface MyThreadDeathEvent extends MyEvent, ThreadDeathEvent {
-    static MyThreadDeathEvent delegate(ThreadDeathEvent event) {
+public interface YouthThreadDeathEvent extends YouthEvent, ThreadDeathEvent {
+    static YouthThreadDeathEvent delegate(ThreadDeathEvent event) {
         return new Delegate(event);
     }
 
@@ -15,8 +15,8 @@ public interface MyThreadDeathEvent extends MyEvent, ThreadDeathEvent {
     }
 
     class Delegate
-            extends MyEvent.Delegate<ThreadDeathEvent>
-            implements MyThreadDeathEvent {
+            extends YouthEvent.Delegate<ThreadDeathEvent>
+            implements YouthThreadDeathEvent {
         public Delegate(ThreadDeathEvent event) {
             super(event);
         }

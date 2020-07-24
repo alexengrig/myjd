@@ -2,11 +2,11 @@ package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.ObjectReference;
 import com.sun.jdi.event.MonitorWaitEvent;
-import dev.alexengrig.myjdi.event.delegate.LocatableEventDelegate;
+import dev.alexengrig.myjdi.event.delegate.YouthLocatableEventDelegate;
 import dev.alexengrig.myjdi.handle.MyEventHandler;
 
-public interface MyMonitorWaitEvent extends MyEvent, MonitorWaitEvent {
-    static MyMonitorWaitEvent delegate(MonitorWaitEvent event) {
+public interface YouthMonitorWaitEvent extends YouthEvent, MonitorWaitEvent {
+    static YouthMonitorWaitEvent delegate(MonitorWaitEvent event) {
         return new Delegate(event);
     }
 
@@ -16,8 +16,8 @@ public interface MyMonitorWaitEvent extends MyEvent, MonitorWaitEvent {
     }
 
     class Delegate
-            extends LocatableEventDelegate<MonitorWaitEvent>
-            implements MyMonitorWaitEvent {
+            extends YouthLocatableEventDelegate<MonitorWaitEvent>
+            implements YouthMonitorWaitEvent {
         public Delegate(MonitorWaitEvent event) {
             super(event);
         }

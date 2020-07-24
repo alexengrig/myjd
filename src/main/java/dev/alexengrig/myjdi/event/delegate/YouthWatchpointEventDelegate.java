@@ -5,10 +5,10 @@ import com.sun.jdi.ObjectReference;
 import com.sun.jdi.Value;
 import com.sun.jdi.event.WatchpointEvent;
 
-public abstract class WatchpointEventDelegate<E extends WatchpointEvent>
-        extends LocatableEventDelegate<E>
+public abstract class YouthWatchpointEventDelegate<E extends WatchpointEvent>
+        extends YouthLocatableEventDelegate<E>
         implements WatchpointEvent {
-    public WatchpointEventDelegate(E event) {
+    public YouthWatchpointEventDelegate(E event) {
         super(event);
     }
 

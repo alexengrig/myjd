@@ -1,11 +1,11 @@
 package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.event.StepEvent;
-import dev.alexengrig.myjdi.event.delegate.LocatableEventDelegate;
+import dev.alexengrig.myjdi.event.delegate.YouthLocatableEventDelegate;
 import dev.alexengrig.myjdi.handle.MyEventHandler;
 
-public interface MyStepEvent extends MyEvent, StepEvent {
-    static MyStepEvent delegate(StepEvent event) {
+public interface YouthStepEvent extends YouthEvent, StepEvent {
+    static YouthStepEvent delegate(StepEvent event) {
         return new Delegate(event);
     }
 
@@ -15,8 +15,8 @@ public interface MyStepEvent extends MyEvent, StepEvent {
     }
 
     class Delegate
-            extends LocatableEventDelegate<StepEvent>
-            implements MyStepEvent {
+            extends YouthLocatableEventDelegate<StepEvent>
+            implements YouthStepEvent {
         public Delegate(StepEvent event) {
             super(event);
         }

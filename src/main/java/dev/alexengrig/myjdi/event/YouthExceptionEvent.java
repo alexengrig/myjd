@@ -3,11 +3,11 @@ package dev.alexengrig.myjdi.event;
 import com.sun.jdi.Location;
 import com.sun.jdi.ObjectReference;
 import com.sun.jdi.event.ExceptionEvent;
-import dev.alexengrig.myjdi.event.delegate.LocatableEventDelegate;
+import dev.alexengrig.myjdi.event.delegate.YouthLocatableEventDelegate;
 import dev.alexengrig.myjdi.handle.MyEventHandler;
 
-public interface MyExceptionEvent extends MyEvent, ExceptionEvent {
-    static MyExceptionEvent delegate(ExceptionEvent event) {
+public interface YouthExceptionEvent extends YouthEvent, ExceptionEvent {
+    static YouthExceptionEvent delegate(ExceptionEvent event) {
         return new Delegate(event);
     }
 
@@ -17,8 +17,8 @@ public interface MyExceptionEvent extends MyEvent, ExceptionEvent {
     }
 
     class Delegate
-            extends LocatableEventDelegate<ExceptionEvent>
-            implements MyExceptionEvent {
+            extends YouthLocatableEventDelegate<ExceptionEvent>
+            implements YouthExceptionEvent {
         public Delegate(ExceptionEvent event) {
             super(event);
         }

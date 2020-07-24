@@ -2,11 +2,11 @@ package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.Method;
 import com.sun.jdi.event.MethodEntryEvent;
-import dev.alexengrig.myjdi.event.delegate.LocatableEventDelegate;
+import dev.alexengrig.myjdi.event.delegate.YouthLocatableEventDelegate;
 import dev.alexengrig.myjdi.handle.MyEventHandler;
 
-public interface MyMethodEntryEvent extends MyEvent, MethodEntryEvent {
-    static MyMethodEntryEvent delegate(MethodEntryEvent event) {
+public interface YouthMethodEntryEvent extends YouthEvent, MethodEntryEvent {
+    static YouthMethodEntryEvent delegate(MethodEntryEvent event) {
         return new Delegate(event);
     }
 
@@ -16,8 +16,8 @@ public interface MyMethodEntryEvent extends MyEvent, MethodEntryEvent {
     }
 
     class Delegate
-            extends LocatableEventDelegate<MethodEntryEvent>
-            implements MyMethodEntryEvent {
+            extends YouthLocatableEventDelegate<MethodEntryEvent>
+            implements YouthMethodEntryEvent {
         public Delegate(MethodEntryEvent event) {
             super(event);
         }

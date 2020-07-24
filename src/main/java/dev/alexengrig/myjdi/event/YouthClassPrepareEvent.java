@@ -5,8 +5,8 @@ import com.sun.jdi.ThreadReference;
 import com.sun.jdi.event.ClassPrepareEvent;
 import dev.alexengrig.myjdi.handle.MyEventHandler;
 
-public interface MyClassPrepareEvent extends MyEvent, ClassPrepareEvent {
-    static MyClassPrepareEvent delegate(ClassPrepareEvent event) {
+public interface YouthClassPrepareEvent extends YouthEvent, ClassPrepareEvent {
+    static YouthClassPrepareEvent delegate(ClassPrepareEvent event) {
         return new Delegate(event);
     }
 
@@ -16,8 +16,8 @@ public interface MyClassPrepareEvent extends MyEvent, ClassPrepareEvent {
     }
 
     class Delegate
-            extends MyEvent.Delegate<ClassPrepareEvent>
-            implements MyClassPrepareEvent {
+            extends YouthEvent.Delegate<ClassPrepareEvent>
+            implements YouthClassPrepareEvent {
         public Delegate(ClassPrepareEvent event) {
             super(event);
         }

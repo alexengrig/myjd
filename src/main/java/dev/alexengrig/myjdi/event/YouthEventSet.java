@@ -11,15 +11,15 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public interface MyEventSet extends EventSet {
-    static MyEventSet delegate(EventSet event) {
+public interface YouthEventSet extends EventSet {
+    static YouthEventSet delegate(EventSet event) {
         return new Delegate(event);
     }
 
     @Override
-    MyEventIterator eventIterator();
+    YouthEventIterator eventIterator();
 
-    class Delegate implements MyEventSet {
+    class Delegate implements YouthEventSet {
         protected final EventSet set;
 
         public Delegate(EventSet set) {
@@ -27,8 +27,8 @@ public interface MyEventSet extends EventSet {
         }
 
         @Override
-        public MyEventIterator eventIterator() {
-            return new MyEventIterator.Delegate(set.eventIterator());
+        public YouthEventIterator eventIterator() {
+            return new YouthEventIterator.Delegate(set.eventIterator());
         }
 
         @Override

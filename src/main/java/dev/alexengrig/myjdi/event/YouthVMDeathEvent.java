@@ -3,8 +3,8 @@ package dev.alexengrig.myjdi.event;
 import com.sun.jdi.event.VMDeathEvent;
 import dev.alexengrig.myjdi.handle.MyEventHandler;
 
-public interface MyVMDeathEvent extends MyEvent, VMDeathEvent {
-    static MyVMDeathEvent delegate(VMDeathEvent event) {
+public interface YouthVMDeathEvent extends YouthEvent, VMDeathEvent {
+    static YouthVMDeathEvent delegate(VMDeathEvent event) {
         return new Delegate(event);
     }
 
@@ -14,8 +14,8 @@ public interface MyVMDeathEvent extends MyEvent, VMDeathEvent {
     }
 
     class Delegate
-            extends MyEvent.Delegate<VMDeathEvent>
-            implements MyVMDeathEvent {
+            extends YouthEvent.Delegate<VMDeathEvent>
+            implements YouthVMDeathEvent {
         public Delegate(VMDeathEvent event) {
             super(event);
         }

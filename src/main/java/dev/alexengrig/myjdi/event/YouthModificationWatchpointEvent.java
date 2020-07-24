@@ -2,11 +2,11 @@ package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.Value;
 import com.sun.jdi.event.ModificationWatchpointEvent;
-import dev.alexengrig.myjdi.event.delegate.WatchpointEventDelegate;
+import dev.alexengrig.myjdi.event.delegate.YouthWatchpointEventDelegate;
 import dev.alexengrig.myjdi.handle.MyEventHandler;
 
-public interface MyModificationWatchpointEvent extends MyEvent, ModificationWatchpointEvent {
-    static MyModificationWatchpointEvent delegate(ModificationWatchpointEvent event) {
+public interface YouthModificationWatchpointEvent extends YouthEvent, ModificationWatchpointEvent {
+    static YouthModificationWatchpointEvent delegate(ModificationWatchpointEvent event) {
         return new Delegate(event);
     }
 
@@ -16,8 +16,8 @@ public interface MyModificationWatchpointEvent extends MyEvent, ModificationWatc
     }
 
     class Delegate
-            extends WatchpointEventDelegate<ModificationWatchpointEvent>
-            implements MyModificationWatchpointEvent {
+            extends YouthWatchpointEventDelegate<ModificationWatchpointEvent>
+            implements YouthModificationWatchpointEvent {
         public Delegate(ModificationWatchpointEvent event) {
             super(event);
         }

@@ -3,41 +3,41 @@ package dev.alexengrig.myjdi.handle;
 import dev.alexengrig.myjdi.event.*;
 
 public interface MyEventHandler {
-    void handle(MyEvent event);
+    void handle(YouthEvent event);
 
-    void handleException(MyExceptionEvent event);
+    void handleException(YouthExceptionEvent event);
 
-    void handleBreakpoint(MyBreakpointEvent event);
+    void handleBreakpoint(YouthBreakpointEvent event);
 
-    void handleStep(MyStepEvent event);
+    void handleStep(YouthStepEvent event);
 
-    void handleAccessWatchpoint(MyAccessWatchpointEvent event);
+    void handleAccessWatchpoint(YouthAccessWatchpointEvent event);
 
-    void handleModificationWatchpoint(MyModificationWatchpointEvent event);
+    void handleModificationWatchpoint(YouthModificationWatchpointEvent event);
 
-    void handleMethodExit(MyMethodExitEvent event);
+    void handleMethodExit(YouthMethodExitEvent event);
 
-    void handleMethodEntry(MyMethodEntryEvent event);
+    void handleMethodEntry(YouthMethodEntryEvent event);
 
-    void handleMonitorWaited(MyMonitorWaitedEvent event);
+    void handleMonitorWaited(YouthMonitorWaitedEvent event);
 
-    void handleMonitorWait(MyMonitorWaitEvent event);
+    void handleMonitorWait(YouthMonitorWaitEvent event);
 
-    void handleMonitorContendedEntered(MyMonitorContendedEnteredEvent event);
+    void handleMonitorContendedEntered(YouthMonitorContendedEnteredEvent event);
 
-    void handleMonitorContendedEnter(MyMonitorContendedEnterEvent event);
+    void handleMonitorContendedEnter(YouthMonitorContendedEnterEvent event);
 
-    void handleClassUnload(MyClassUnloadEvent event);
+    void handleClassUnload(YouthClassUnloadEvent event);
 
-    void handleClassPrepare(MyClassPrepareEvent event);
+    void handleClassPrepare(YouthClassPrepareEvent event);
 
-    void handleThreadDeath(MyThreadDeathEvent event);
+    void handleThreadDeath(YouthThreadDeathEvent event);
 
-    void handleThreadStart(MyThreadStartEvent event);
+    void handleThreadStart(YouthThreadStartEvent event);
 
-    void handleVmDeath(MyVMDeathEvent event);
+    void handleVmDeath(YouthVMDeathEvent event);
 
-    void handleVmDisconnect(MyVMDisconnectEvent event);
+    void handleVmDisconnect(YouthVMDisconnectEvent event);
 
-    void handleVmStart(MyVMStartEvent event);
+    void handleVmStart(YouthVMStartEvent event);
 }

@@ -3,8 +3,8 @@ package dev.alexengrig.myjdi.event;
 import com.sun.jdi.event.VMDisconnectEvent;
 import dev.alexengrig.myjdi.handle.MyEventHandler;
 
-public interface MyVMDisconnectEvent extends MyEvent, VMDisconnectEvent {
-    static MyVMDisconnectEvent delegate(VMDisconnectEvent event) {
+public interface YouthVMDisconnectEvent extends YouthEvent, VMDisconnectEvent {
+    static YouthVMDisconnectEvent delegate(VMDisconnectEvent event) {
         return new Delegate(event);
     }
 
@@ -14,8 +14,8 @@ public interface MyVMDisconnectEvent extends MyEvent, VMDisconnectEvent {
     }
 
     class Delegate
-            extends MyEvent.Delegate<VMDisconnectEvent>
-            implements MyVMDisconnectEvent {
+            extends YouthEvent.Delegate<VMDisconnectEvent>
+            implements YouthVMDisconnectEvent {
         public Delegate(VMDisconnectEvent event) {
             super(event);
         }

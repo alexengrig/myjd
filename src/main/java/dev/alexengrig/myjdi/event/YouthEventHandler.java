@@ -3,7 +3,7 @@ package dev.alexengrig.myjdi.event;
 import com.sun.jdi.event.Event;
 
 @FunctionalInterface
-public interface EventHandler<E extends Event> {
+public interface YouthEventHandler<E extends Event> {
     void handle(E event);
 
     @SuppressWarnings("unchecked")

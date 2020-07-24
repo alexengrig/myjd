@@ -2,11 +2,11 @@ package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.ObjectReference;
 import com.sun.jdi.event.MonitorContendedEnterEvent;
-import dev.alexengrig.myjdi.event.delegate.LocatableEventDelegate;
+import dev.alexengrig.myjdi.event.delegate.YouthLocatableEventDelegate;
 import dev.alexengrig.myjdi.handle.MyEventHandler;
 
-public interface MyMonitorContendedEnterEvent extends MyEvent, MonitorContendedEnterEvent {
-    static MyMonitorContendedEnterEvent delegate(MonitorContendedEnterEvent event) {
+public interface YouthMonitorContendedEnterEvent extends YouthEvent, MonitorContendedEnterEvent {
+    static YouthMonitorContendedEnterEvent delegate(MonitorContendedEnterEvent event) {
         return new Delegate(event);
     }
 
@@ -16,8 +16,8 @@ public interface MyMonitorContendedEnterEvent extends MyEvent, MonitorContendedE
     }
 
     class Delegate
-            extends LocatableEventDelegate<MonitorContendedEnterEvent>
-            implements MyMonitorContendedEnterEvent {
+            extends YouthLocatableEventDelegate<MonitorContendedEnterEvent>
+            implements YouthMonitorContendedEnterEvent {
         public Delegate(MonitorContendedEnterEvent event) {
             super(event);
         }

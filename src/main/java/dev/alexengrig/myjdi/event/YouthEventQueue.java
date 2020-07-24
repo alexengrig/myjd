@@ -10,10 +10,10 @@ public interface YouthEventQueue extends EventQueue {
     }
 
     @Override
-    MyEventSet remove() throws InterruptedException;
+    YouthEventSet remove() throws InterruptedException;
 
     @Override
-    MyEventSet remove(long timeout) throws InterruptedException;
+    YouthEventSet remove(long timeout) throws InterruptedException;
 
     class Delegate implements YouthEventQueue {
         protected final EventQueue queue;
@@ -22,17 +22,17 @@ public interface YouthEventQueue extends EventQueue {
             this.queue = queue;
         }
 
-        protected MyEventSet wrap(EventSet set) {
-            return new MyEventSet.Delegate(set);
+        protected YouthEventSet wrap(EventSet set) {
+            return new YouthEventSet.Delegate(set);
         }
 
         @Override
-        public MyEventSet remove() throws InterruptedException {
+        public YouthEventSet remove() throws InterruptedException {
             return wrap(queue.remove());
         }
 
         @Override
-        public MyEventSet remove(long timeout) throws InterruptedException {
+        public YouthEventSet remove(long timeout) throws InterruptedException {
             return wrap(queue.remove(timeout));
         }
 

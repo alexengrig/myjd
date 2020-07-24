@@ -8,97 +8,97 @@ public class OmitEventHandler implements MyEventHandler {
     private static final Logger log = Logger.getLogger(OmitEventHandler.class.getSimpleName());
 
     @Override
-    public void handle(MyEvent event) {
+    public void handle(YouthEvent event) {
         log.info("Omitted event: " + event);
     }
 
     @Override
-    public void handleException(MyExceptionEvent event) {
+    public void handleException(YouthExceptionEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleBreakpoint(MyBreakpointEvent event) {
+    public void handleBreakpoint(YouthBreakpointEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleStep(MyStepEvent event) {
+    public void handleStep(YouthStepEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleAccessWatchpoint(MyAccessWatchpointEvent event) {
+    public void handleAccessWatchpoint(YouthAccessWatchpointEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleModificationWatchpoint(MyModificationWatchpointEvent event) {
+    public void handleModificationWatchpoint(YouthModificationWatchpointEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleMethodExit(MyMethodExitEvent event) {
+    public void handleMethodExit(YouthMethodExitEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleMethodEntry(MyMethodEntryEvent event) {
+    public void handleMethodEntry(YouthMethodEntryEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleMonitorWaited(MyMonitorWaitedEvent event) {
+    public void handleMonitorWaited(YouthMonitorWaitedEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleMonitorWait(MyMonitorWaitEvent event) {
+    public void handleMonitorWait(YouthMonitorWaitEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleMonitorContendedEntered(MyMonitorContendedEnteredEvent event) {
+    public void handleMonitorContendedEntered(YouthMonitorContendedEnteredEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleMonitorContendedEnter(MyMonitorContendedEnterEvent event) {
+    public void handleMonitorContendedEnter(YouthMonitorContendedEnterEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleClassUnload(MyClassUnloadEvent event) {
+    public void handleClassUnload(YouthClassUnloadEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleClassPrepare(MyClassPrepareEvent event) {
+    public void handleClassPrepare(YouthClassPrepareEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleThreadDeath(MyThreadDeathEvent event) {
+    public void handleThreadDeath(YouthThreadDeathEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleThreadStart(MyThreadStartEvent event) {
+    public void handleThreadStart(YouthThreadStartEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleVmDeath(MyVMDeathEvent event) {
+    public void handleVmDeath(YouthVMDeathEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleVmDisconnect(MyVMDisconnectEvent event) {
+    public void handleVmDisconnect(YouthVMDisconnectEvent event) {
         handle(event);
     }
 
     @Override
-    public void handleVmStart(MyVMStartEvent event) {
+    public void handleVmStart(YouthVMStartEvent event) {
         handle(event);
     }
 }

@@ -1,7 +1,7 @@
 package dev.alexengrig.myjdi;
 
 import com.sun.jdi.*;
-import dev.alexengrig.myjdi.event.MyEventQueue;
+import dev.alexengrig.myjdi.event.YouthEventQueue;
 import dev.alexengrig.myjdi.request.MyEventRequestManager;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public interface YouthVirtualMachine extends VirtualMachine {
     }
 
     @Override
-    MyEventQueue eventQueue();
+    YouthEventQueue eventQueue();
 
     @Override
     MyEventRequestManager eventRequestManager();
@@ -26,8 +26,8 @@ public interface YouthVirtualMachine extends VirtualMachine {
         }
 
         @Override
-        public MyEventQueue eventQueue() {
-            return MyEventQueue.delegate(virtualMachine.eventQueue());
+        public YouthEventQueue eventQueue() {
+            return YouthEventQueue.delegate(virtualMachine.eventQueue());
         }
 
         @Override

@@ -4,8 +4,8 @@ import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.event.EventQueue;
 import com.sun.jdi.event.EventSet;
 
-public interface MyEventQueue extends EventQueue {
-    static MyEventQueue delegate(EventQueue event) {
+public interface YouthEventQueue extends EventQueue {
+    static YouthEventQueue delegate(EventQueue event) {
         return new Delegate(event);
     }
 
@@ -15,7 +15,7 @@ public interface MyEventQueue extends EventQueue {
     @Override
     MyEventSet remove(long timeout) throws InterruptedException;
 
-    class Delegate implements MyEventQueue {
+    class Delegate implements YouthEventQueue {
         protected final EventQueue queue;
 
         public Delegate(EventQueue queue) {

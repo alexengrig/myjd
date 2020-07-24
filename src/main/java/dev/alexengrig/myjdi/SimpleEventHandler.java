@@ -3,11 +3,11 @@ package dev.alexengrig.myjdi;
 import com.sun.jdi.VMDisconnectedException;
 import dev.alexengrig.myjdi.event.MyEvent;
 import dev.alexengrig.myjdi.event.MyEventIterator;
-import dev.alexengrig.myjdi.event.MyEventQueue;
+import dev.alexengrig.myjdi.event.YouthEventQueue;
 import dev.alexengrig.myjdi.handle.OmitEventHandler;
 
 public class SimpleEventHandler extends OmitEventHandler implements Runnable {
-    protected final MyEventQueue eventQueue;
+    protected final YouthEventQueue eventQueue;
 
     protected boolean running;
     protected boolean vmDied;

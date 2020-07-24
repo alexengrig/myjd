@@ -16,7 +16,7 @@ public class DebugRunner {
         String classpath = "./example/build/classes/java/main";
         String mainClass = "dev.alexengrig.example.Main";
         MyConnector connector = MyConnectors.commandLine(classpath, mainClass);
-        MyVirtualMachine vm = connector.connect();
+        YouthVirtualMachine vm = connector.connect();
         SimpleEventHandler handler = new SimpleEventHandler(vm);
         handler.run();
         log.info("Finished.");

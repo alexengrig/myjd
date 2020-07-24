@@ -13,7 +13,7 @@ public class SimpleEventHandler extends OmitEventHandler implements Runnable {
     protected boolean vmDied;
     protected boolean disconnected;
 
-    public SimpleEventHandler(MyVirtualMachine virtualMachine) {
+    public SimpleEventHandler(YouthVirtualMachine virtualMachine) {
         this.eventQueue = virtualMachine.eventQueue();
     }
 

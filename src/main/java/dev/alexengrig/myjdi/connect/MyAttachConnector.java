@@ -2,7 +2,7 @@ package dev.alexengrig.myjdi.connect;
 
 import com.sun.jdi.connect.AttachingConnector;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
-import dev.alexengrig.myjdi.MyVirtualMachine;
+import dev.alexengrig.myjdi.YouthVirtualMachine;
 
 import java.io.IOException;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class MyAttachConnector extends ConnectorDelegate<AttachingConnector> {
     }
 
     @Override
-    public MyVirtualMachine connect() throws IOException, IllegalConnectorArgumentsException {
+    public YouthVirtualMachine connect() throws IOException, IllegalConnectorArgumentsException {
         return attacher.attach();
     }
 }

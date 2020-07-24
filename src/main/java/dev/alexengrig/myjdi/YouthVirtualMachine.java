@@ -7,8 +7,8 @@ import dev.alexengrig.myjdi.request.MyEventRequestManager;
 import java.util.List;
 import java.util.Map;
 
-public interface MyVirtualMachine extends VirtualMachine {
-    static MyVirtualMachine delegate(VirtualMachine virtualMachine) {
+public interface YouthVirtualMachine extends VirtualMachine {
+    static YouthVirtualMachine delegate(VirtualMachine virtualMachine) {
         return new Delegate(virtualMachine);
     }
 
@@ -18,7 +18,7 @@ public interface MyVirtualMachine extends VirtualMachine {
     @Override
     MyEventRequestManager eventRequestManager();
 
-    class Delegate implements MyVirtualMachine {
+    class Delegate implements YouthVirtualMachine {
         protected final VirtualMachine virtualMachine;
 
         public Delegate(VirtualMachine virtualMachine) {

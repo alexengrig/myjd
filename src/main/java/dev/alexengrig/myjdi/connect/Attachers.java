@@ -3,7 +3,7 @@ package dev.alexengrig.myjdi.connect;
 import com.sun.jdi.VirtualMachineManager;
 import com.sun.jdi.connect.AttachingConnector;
 import com.sun.jdi.connect.Connector;
-import dev.alexengrig.myjdi.MyVirtualMachine;
+import dev.alexengrig.myjdi.YouthVirtualMachine;
 
 import java.util.Map;
 
@@ -185,14 +185,14 @@ public final class Attachers {
 //    Common
 
     public static Attacher attacher(AttachingConnector connector) {
-        return () -> MyVirtualMachine.delegate(connector.attach(connector.defaultArguments()));
+        return () -> YouthVirtualMachine.delegate(connector.attach(connector.defaultArguments()));
     }
 
     public static Attacher attacher(AttachingConnector connector, Map<String, Connector.Argument> arguments) {
         return () -> {
             Map<String, Connector.Argument> args = connector.defaultArguments();
             args.putAll(arguments);
-            return MyVirtualMachine.delegate(connector.attach(args));
+            return YouthVirtualMachine.delegate(connector.attach(args));
         };
     }
 
@@ -219,7 +219,7 @@ public final class Attachers {
         protected abstract B self();
 
         public Attacher build() {
-            return () -> MyVirtualMachine.delegate(connector.attach(arguments));
+            return () -> YouthVirtualMachine.delegate(connector.attach(arguments));
         }
     }
 

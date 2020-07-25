@@ -24,7 +24,7 @@ public class MyEventHandleManager implements YouthEventHandleManager {
     public YouthClassPrepareHandle createClassPrepareHandle(Consumer<YouthClassPrepareEvent> handler) {
         MyClassPrepareHandle classPrepareHandle = new MyClassPrepareHandle(handler);
         classPrepareHandles.add(classPrepareHandle);
-        virtualMachine.eventSubscriptionManager().subscribeOnClassPrepare(handler);
+        virtualMachine.eventSubscriptionManager().subscribeOnClassPrepare(handler::accept);
         return classPrepareHandle;
     }
 
@@ -37,7 +37,7 @@ public class MyEventHandleManager implements YouthEventHandleManager {
     public YouthEventHandle<YouthBreakpointEvent> createBreakpointHandle(Consumer<YouthBreakpointEvent> handler) {
         MyBreakpointHandle breakpointHandle = new MyBreakpointHandle(handler);
         breakpointHandles.add(breakpointHandle);
-        virtualMachine.eventSubscriptionManager().subscribeOnBreakpoint(handler);
+        virtualMachine.eventSubscriptionManager().subscribeOnBreakpoint(handler::accept);
         return breakpointHandle;
     }
 

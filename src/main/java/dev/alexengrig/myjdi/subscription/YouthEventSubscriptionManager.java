@@ -2,78 +2,76 @@ package dev.alexengrig.myjdi.subscription;
 
 import dev.alexengrig.myjdi.event.*;
 
-import java.util.function.Consumer;
-
 public interface YouthEventSubscriptionManager {
-    void subscribeOnException(Consumer<YouthExceptionEvent> listener);
+    void subscribeOnException(YouthEventSubscriber<YouthExceptionEvent> listener);
 
     void notifyOfException(YouthExceptionEvent event);
 
-    void subscribeOnBreakpoint(Consumer<YouthBreakpointEvent> listener);
+    void subscribeOnBreakpoint(YouthEventSubscriber<YouthBreakpointEvent> listener);
 
     void notifyOfBreakpoint(YouthBreakpointEvent event);
 
-    void subscribeOnStep(Consumer<YouthStepEvent> listener);
+    void subscribeOnStep(YouthEventSubscriber<YouthStepEvent> listener);
 
     void notifyOfStep(YouthStepEvent event);
 
-    void subscribeOnVMDeath(Consumer<YouthVMDeathEvent> listener);
+    void subscribeOnVMDeath(YouthEventSubscriber<YouthVMDeathEvent> listener);
 
     void notifyOfVMDeath(YouthVMDeathEvent event);
 
-    void subscribeOnVMDisconnect(Consumer<YouthVMDisconnectEvent> listener);
+    void subscribeOnVMDisconnect(YouthEventSubscriber<YouthVMDisconnectEvent> listener);
 
     void notifyOfVMDisconnect(YouthVMDisconnectEvent event);
 
-    void subscribeOnVMStart(Consumer<YouthVMStartEvent> listener);
+    void subscribeOnVMStart(YouthEventSubscriber<YouthVMStartEvent> listener);
 
     void notifyOfVMStart(YouthVMStartEvent event);
 
-    void subscribeOnClassUnload(Consumer<YouthClassUnloadEvent> listener);
+    void subscribeOnClassUnload(YouthEventSubscriber<YouthClassUnloadEvent> listener);
 
     void notifyOfClassUnload(YouthClassUnloadEvent event);
 
-    void subscribeOnClassPrepare(Consumer<YouthClassPrepareEvent> listener);
+    void subscribeOnClassPrepare(YouthEventSubscriber<YouthClassPrepareEvent> listener);
 
     void notifyOfClassPrepare(YouthClassPrepareEvent event);
 
-    void subscribeOnMethodExit(Consumer<YouthMethodExitEvent> listener);
+    void subscribeOnMethodExit(YouthEventSubscriber<YouthMethodExitEvent> listener);
 
     void notifyOfMethodExit(YouthMethodExitEvent event);
 
-    void subscribeOnMethodEntry(Consumer<YouthMethodEntryEvent> listener);
+    void subscribeOnMethodEntry(YouthEventSubscriber<YouthMethodEntryEvent> listener);
 
     void notifyOfMethodEntry(YouthMethodEntryEvent event);
 
-    void subscribeOnAccessWatchpoint(Consumer<YouthAccessWatchpointEvent> listener);
+    void subscribeOnAccessWatchpoint(YouthEventSubscriber<YouthAccessWatchpointEvent> listener);
 
     void notifyOfAccessWatchpoint(YouthAccessWatchpointEvent event);
 
-    void subscribeOnModificationWatchpoint(Consumer<YouthModificationWatchpointEvent> listener);
+    void subscribeOnModificationWatchpoint(YouthEventSubscriber<YouthModificationWatchpointEvent> listener);
 
     void notifyOfModificationWatchpoint(YouthModificationWatchpointEvent event);
 
-    void subscribeOnThreadDeath(Consumer<YouthThreadDeathEvent> listener);
+    void subscribeOnThreadDeath(YouthEventSubscriber<YouthThreadDeathEvent> listener);
 
     void notifyOfThreadDeath(YouthThreadDeathEvent event);
 
-    void subscribeOnThreadStart(Consumer<YouthThreadStartEvent> listener);
+    void subscribeOnThreadStart(YouthEventSubscriber<YouthThreadStartEvent> listener);
 
     void notifyOfThreadStart(YouthThreadStartEvent event);
 
-    void subscribeOnMonitorWaited(Consumer<YouthMonitorWaitedEvent> listener);
+    void subscribeOnMonitorWaited(YouthEventSubscriber<YouthMonitorWaitedEvent> listener);
 
     void notifyOfMonitorWaited(YouthMonitorWaitedEvent event);
 
-    void subscribeOnMonitorWait(Consumer<YouthMonitorWaitEvent> listener);
+    void subscribeOnMonitorWait(YouthEventSubscriber<YouthMonitorWaitEvent> listener);
 
     void notifyOfMonitorWait(YouthMonitorWaitEvent event);
 
-    void subscribeOnMonitorContendedEntered(Consumer<YouthMonitorContendedEnteredEvent> listener);
+    void subscribeOnMonitorContendedEntered(YouthEventSubscriber<YouthMonitorContendedEnteredEvent> listener);
 
     void notifyOfMonitorContendedEntered(YouthMonitorContendedEnteredEvent event);
 
-    void subscribeOnMonitorContendedEnter(Consumer<YouthMonitorContendedEnterEvent> listener);
+    void subscribeOnMonitorContendedEnter(YouthEventSubscriber<YouthMonitorContendedEnterEvent> listener);
 
     void notifyOfMonitorContendedEnter(YouthMonitorContendedEnterEvent event);
 }

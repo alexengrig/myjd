@@ -5,230 +5,228 @@ import dev.alexengrig.myjdi.event.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class MyEventSubscriptionManager implements YouthEventSubscriptionManager {
     protected final YouthVirtualMachine virtualMachine;
 
-    protected List<Consumer<YouthExceptionEvent>> exceptionListeners;
-    protected List<Consumer<YouthBreakpointEvent>> breakpointListeners;
-    protected List<Consumer<YouthStepEvent>> stepListeners;
-    protected List<Consumer<YouthVMDeathEvent>> vMDeathListeners;
-    protected List<Consumer<YouthVMDisconnectEvent>> vMDisconnectListeners;
-    protected List<Consumer<YouthVMStartEvent>> vMStartListeners;
-    protected List<Consumer<YouthClassUnloadEvent>> classUnloadListeners;
-    protected List<Consumer<YouthClassPrepareEvent>> classPrepareListeners;
-    protected List<Consumer<YouthMethodExitEvent>> methodExitListeners;
-    protected List<Consumer<YouthMethodEntryEvent>> methodEntryListeners;
-    protected List<Consumer<YouthAccessWatchpointEvent>> accessWatchpointListeners;
-    protected List<Consumer<YouthModificationWatchpointEvent>> modificationWatchpointListeners;
-    protected List<Consumer<YouthThreadDeathEvent>> threadDeathListeners;
-    protected List<Consumer<YouthThreadStartEvent>> threadStartListeners;
-    protected List<Consumer<YouthMonitorWaitedEvent>> monitorWaitedListeners;
-    protected List<Consumer<YouthMonitorWaitEvent>> monitorWaitListeners;
-    protected List<Consumer<YouthMonitorContendedEnteredEvent>> monitorContendedEnteredListeners;
-    protected List<Consumer<YouthMonitorContendedEnterEvent>> monitorContendedEnterListeners;
+    protected List<YouthEventSubscriber<YouthExceptionEvent>> exceptionSubscribers;
+    protected List<YouthEventSubscriber<YouthBreakpointEvent>> breakpointSubscribers;
+    protected List<YouthEventSubscriber<YouthStepEvent>> stepSubscribers;
+    protected List<YouthEventSubscriber<YouthVMDeathEvent>> vMDeathSubscribers;
+    protected List<YouthEventSubscriber<YouthVMDisconnectEvent>> vMDisconnectSubscribers;
+    protected List<YouthEventSubscriber<YouthVMStartEvent>> vMStartSubscribers;
+    protected List<YouthEventSubscriber<YouthClassUnloadEvent>> classUnloadSubscribers;
+    protected List<YouthEventSubscriber<YouthClassPrepareEvent>> classPrepareSubscribers;
+    protected List<YouthEventSubscriber<YouthMethodExitEvent>> methodExitSubscribers;
+    protected List<YouthEventSubscriber<YouthMethodEntryEvent>> methodEntrySubscribers;
+    protected List<YouthEventSubscriber<YouthAccessWatchpointEvent>> accessWatchpointSubscribers;
+    protected List<YouthEventSubscriber<YouthModificationWatchpointEvent>> modificationWatchpointSubscribers;
+    protected List<YouthEventSubscriber<YouthThreadDeathEvent>> threadDeathSubscribers;
+    protected List<YouthEventSubscriber<YouthThreadStartEvent>> threadStartSubscribers;
+    protected List<YouthEventSubscriber<YouthMonitorWaitedEvent>> monitorWaitedSubscribers;
+    protected List<YouthEventSubscriber<YouthMonitorWaitEvent>> monitorWaitSubscribers;
+    protected List<YouthEventSubscriber<YouthMonitorContendedEnteredEvent>> monitorContendedEnteredSubscribers;
+    protected List<YouthEventSubscriber<YouthMonitorContendedEnterEvent>> monitorContendedEnterSubscribers;
 
     public MyEventSubscriptionManager(YouthVirtualMachine virtualMachine) {
         this.virtualMachine = virtualMachine;
-        this.exceptionListeners = new ArrayList<>();
-        this.breakpointListeners = new ArrayList<>();
-        this.stepListeners = new ArrayList<>();
-        this.vMDeathListeners = new ArrayList<>();
-        this.vMDisconnectListeners = new ArrayList<>();
-        this.vMStartListeners = new ArrayList<>();
-        this.classUnloadListeners = new ArrayList<>();
-        this.classPrepareListeners = new ArrayList<>();
-        this.methodExitListeners = new ArrayList<>();
-        this.methodEntryListeners = new ArrayList<>();
-        this.accessWatchpointListeners = new ArrayList<>();
-        this.modificationWatchpointListeners = new ArrayList<>();
-        this.threadDeathListeners = new ArrayList<>();
-        this.threadStartListeners = new ArrayList<>();
-        this.monitorWaitedListeners = new ArrayList<>();
-        this.monitorWaitListeners = new ArrayList<>();
-        this.monitorContendedEnteredListeners = new ArrayList<>();
-        this.monitorContendedEnterListeners = new ArrayList<>();
-
+        this.exceptionSubscribers = new ArrayList<>();
+        this.breakpointSubscribers = new ArrayList<>();
+        this.stepSubscribers = new ArrayList<>();
+        this.vMDeathSubscribers = new ArrayList<>();
+        this.vMDisconnectSubscribers = new ArrayList<>();
+        this.vMStartSubscribers = new ArrayList<>();
+        this.classUnloadSubscribers = new ArrayList<>();
+        this.classPrepareSubscribers = new ArrayList<>();
+        this.methodExitSubscribers = new ArrayList<>();
+        this.methodEntrySubscribers = new ArrayList<>();
+        this.accessWatchpointSubscribers = new ArrayList<>();
+        this.modificationWatchpointSubscribers = new ArrayList<>();
+        this.threadDeathSubscribers = new ArrayList<>();
+        this.threadStartSubscribers = new ArrayList<>();
+        this.monitorWaitedSubscribers = new ArrayList<>();
+        this.monitorWaitSubscribers = new ArrayList<>();
+        this.monitorContendedEnteredSubscribers = new ArrayList<>();
+        this.monitorContendedEnterSubscribers = new ArrayList<>();
     }
 
     @Override
-    public void subscribeOnException(Consumer<YouthExceptionEvent> listener) {
-        exceptionListeners.add(listener);
+    public void subscribeOnException(YouthEventSubscriber<YouthExceptionEvent> subscriber) {
+        exceptionSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfException(YouthExceptionEvent event) {
-        exceptionListeners.forEach(listener -> listener.accept(event));
+        exceptionSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnBreakpoint(Consumer<YouthBreakpointEvent> listener) {
-        breakpointListeners.add(listener);
+    public void subscribeOnBreakpoint(YouthEventSubscriber<YouthBreakpointEvent> subscriber) {
+        breakpointSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfBreakpoint(YouthBreakpointEvent event) {
-        breakpointListeners.forEach(listener -> listener.accept(event));
+        breakpointSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnStep(Consumer<YouthStepEvent> listener) {
-        stepListeners.add(listener);
+    public void subscribeOnStep(YouthEventSubscriber<YouthStepEvent> subscriber) {
+        stepSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfStep(YouthStepEvent event) {
-        stepListeners.forEach(listener -> listener.accept(event));
+        stepSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnVMDeath(Consumer<YouthVMDeathEvent> listener) {
-        vMDeathListeners.add(listener);
+    public void subscribeOnVMDeath(YouthEventSubscriber<YouthVMDeathEvent> subscriber) {
+        vMDeathSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfVMDeath(YouthVMDeathEvent event) {
-        vMDeathListeners.forEach(listener -> listener.accept(event));
+        vMDeathSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnVMDisconnect(Consumer<YouthVMDisconnectEvent> listener) {
-        vMDisconnectListeners.add(listener);
+    public void subscribeOnVMDisconnect(YouthEventSubscriber<YouthVMDisconnectEvent> subscriber) {
+        vMDisconnectSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfVMDisconnect(YouthVMDisconnectEvent event) {
-        vMDisconnectListeners.forEach(listener -> listener.accept(event));
+        vMDisconnectSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnVMStart(Consumer<YouthVMStartEvent> listener) {
-        vMStartListeners.add(listener);
+    public void subscribeOnVMStart(YouthEventSubscriber<YouthVMStartEvent> subscriber) {
+        vMStartSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfVMStart(YouthVMStartEvent event) {
-        vMStartListeners.forEach(listener -> listener.accept(event));
+        vMStartSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnClassUnload(Consumer<YouthClassUnloadEvent> listener) {
-        classUnloadListeners.add(listener);
+    public void subscribeOnClassUnload(YouthEventSubscriber<YouthClassUnloadEvent> subscriber) {
+        classUnloadSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfClassUnload(YouthClassUnloadEvent event) {
-        classUnloadListeners.forEach(listener -> listener.accept(event));
+        classUnloadSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnClassPrepare(Consumer<YouthClassPrepareEvent> listener) {
-        classPrepareListeners.add(listener);
+    public void subscribeOnClassPrepare(YouthEventSubscriber<YouthClassPrepareEvent> subscriber) {
+        classPrepareSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfClassPrepare(YouthClassPrepareEvent event) {
-        classPrepareListeners.forEach(listener -> listener.accept(event));
+        classPrepareSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnMethodExit(Consumer<YouthMethodExitEvent> listener) {
-        methodExitListeners.add(listener);
+    public void subscribeOnMethodExit(YouthEventSubscriber<YouthMethodExitEvent> subscriber) {
+        methodExitSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfMethodExit(YouthMethodExitEvent event) {
-        methodExitListeners.forEach(listener -> listener.accept(event));
+        methodExitSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnMethodEntry(Consumer<YouthMethodEntryEvent> listener) {
-        methodEntryListeners.add(listener);
+    public void subscribeOnMethodEntry(YouthEventSubscriber<YouthMethodEntryEvent> subscriber) {
+        methodEntrySubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfMethodEntry(YouthMethodEntryEvent event) {
-        methodEntryListeners.forEach(listener -> listener.accept(event));
+        methodEntrySubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnAccessWatchpoint(Consumer<YouthAccessWatchpointEvent> listener) {
-        accessWatchpointListeners.add(listener);
+    public void subscribeOnAccessWatchpoint(YouthEventSubscriber<YouthAccessWatchpointEvent> subscriber) {
+        accessWatchpointSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfAccessWatchpoint(YouthAccessWatchpointEvent event) {
-        accessWatchpointListeners.forEach(listener -> listener.accept(event));
+        accessWatchpointSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnModificationWatchpoint(Consumer<YouthModificationWatchpointEvent> listener) {
-        modificationWatchpointListeners.add(listener);
+    public void subscribeOnModificationWatchpoint(YouthEventSubscriber<YouthModificationWatchpointEvent> subscriber) {
+        modificationWatchpointSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfModificationWatchpoint(YouthModificationWatchpointEvent event) {
-        modificationWatchpointListeners.forEach(listener -> listener.accept(event));
+        modificationWatchpointSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnThreadDeath(Consumer<YouthThreadDeathEvent> listener) {
-        threadDeathListeners.add(listener);
+    public void subscribeOnThreadDeath(YouthEventSubscriber<YouthThreadDeathEvent> subscriber) {
+        threadDeathSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfThreadDeath(YouthThreadDeathEvent event) {
-        threadDeathListeners.forEach(listener -> listener.accept(event));
+        threadDeathSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnThreadStart(Consumer<YouthThreadStartEvent> listener) {
-        threadStartListeners.add(listener);
+    public void subscribeOnThreadStart(YouthEventSubscriber<YouthThreadStartEvent> subscriber) {
+        threadStartSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfThreadStart(YouthThreadStartEvent event) {
-        threadStartListeners.forEach(listener -> listener.accept(event));
+        threadStartSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnMonitorWaited(Consumer<YouthMonitorWaitedEvent> listener) {
-        monitorWaitedListeners.add(listener);
+    public void subscribeOnMonitorWaited(YouthEventSubscriber<YouthMonitorWaitedEvent> subscriber) {
+        monitorWaitedSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfMonitorWaited(YouthMonitorWaitedEvent event) {
-        monitorWaitedListeners.forEach(listener -> listener.accept(event));
+        monitorWaitedSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnMonitorWait(Consumer<YouthMonitorWaitEvent> listener) {
-        monitorWaitListeners.add(listener);
+    public void subscribeOnMonitorWait(YouthEventSubscriber<YouthMonitorWaitEvent> subscriber) {
+        monitorWaitSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfMonitorWait(YouthMonitorWaitEvent event) {
-        monitorWaitListeners.forEach(listener -> listener.accept(event));
+        monitorWaitSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnMonitorContendedEntered(Consumer<YouthMonitorContendedEnteredEvent> listener) {
-        monitorContendedEnteredListeners.add(listener);
+    public void subscribeOnMonitorContendedEntered(YouthEventSubscriber<YouthMonitorContendedEnteredEvent> subscriber) {
+        monitorContendedEnteredSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfMonitorContendedEntered(YouthMonitorContendedEnteredEvent event) {
-        monitorContendedEnteredListeners.forEach(listener -> listener.accept(event));
+        monitorContendedEnteredSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 
     @Override
-    public void subscribeOnMonitorContendedEnter(Consumer<YouthMonitorContendedEnterEvent> listener) {
-        monitorContendedEnterListeners.add(listener);
+    public void subscribeOnMonitorContendedEnter(YouthEventSubscriber<YouthMonitorContendedEnterEvent> subscriber) {
+        monitorContendedEnterSubscribers.add(subscriber);
     }
 
     @Override
     public void notifyOfMonitorContendedEnter(YouthMonitorContendedEnterEvent event) {
-        monitorContendedEnterListeners.forEach(listener -> listener.accept(event));
+        monitorContendedEnterSubscribers.forEach(subscriber -> subscriber.accept(event));
     }
 }

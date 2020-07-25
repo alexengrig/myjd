@@ -1,7 +1,6 @@
 package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.event.BreakpointEvent;
-import dev.alexengrig.myjdi.event.delegate.YouthLocatableEventDelegate;
 import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthBreakpointEvent extends YouthEvent, BreakpointEvent {

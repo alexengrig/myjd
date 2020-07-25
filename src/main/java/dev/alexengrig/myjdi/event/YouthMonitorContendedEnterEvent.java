@@ -2,7 +2,6 @@ package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.ObjectReference;
 import com.sun.jdi.event.MonitorContendedEnterEvent;
-import dev.alexengrig.myjdi.event.delegate.YouthLocatableEventDelegate;
 import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthMonitorContendedEnterEvent extends YouthEvent, MonitorContendedEnterEvent {

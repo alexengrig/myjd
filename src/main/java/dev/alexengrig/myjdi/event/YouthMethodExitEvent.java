@@ -3,7 +3,6 @@ package dev.alexengrig.myjdi.event;
 import com.sun.jdi.Method;
 import com.sun.jdi.Value;
 import com.sun.jdi.event.MethodExitEvent;
-import dev.alexengrig.myjdi.event.delegate.YouthLocatableEventDelegate;
 import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthMethodExitEvent extends YouthEvent, MethodExitEvent {

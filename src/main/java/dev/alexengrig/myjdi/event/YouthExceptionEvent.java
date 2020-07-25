@@ -3,7 +3,6 @@ package dev.alexengrig.myjdi.event;
 import com.sun.jdi.Location;
 import com.sun.jdi.ObjectReference;
 import com.sun.jdi.event.ExceptionEvent;
-import dev.alexengrig.myjdi.event.delegate.YouthLocatableEventDelegate;
 import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthExceptionEvent extends YouthEvent, ExceptionEvent {

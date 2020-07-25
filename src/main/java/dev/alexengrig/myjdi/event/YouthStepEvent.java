@@ -1,7 +1,6 @@
 package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.event.StepEvent;
-import dev.alexengrig.myjdi.event.delegate.YouthLocatableEventDelegate;
 import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthStepEvent extends YouthEvent, StepEvent {

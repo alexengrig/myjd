@@ -2,7 +2,6 @@ package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.event.*;
-import dev.alexengrig.myjdi.event.delegate.YouthBreakpointEventDelegate;
 import dev.alexengrig.myjdi.handle.YouthEventHandler;
 import dev.alexengrig.myjdi.request.YouthEventRequest;
 
@@ -13,7 +12,7 @@ public interface YouthEvent extends Event {
         if (event instanceof ExceptionEvent) {
             return new YouthExceptionEvent.Delegate((ExceptionEvent) event);
         } else if (event instanceof BreakpointEvent) {
-            return new YouthBreakpointEventDelegate((BreakpointEvent) event);
+            return new YouthBreakpointEvent.Delegate((BreakpointEvent) event);
         } else if (event instanceof StepEvent) {
             return new YouthStepEvent.Delegate((StepEvent) event);
         }

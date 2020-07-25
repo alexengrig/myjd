@@ -1,4 +1,4 @@
-package dev.alexengrig.myjdi.event.delegate;
+package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.Field;
 import com.sun.jdi.ObjectReference;

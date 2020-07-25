@@ -1,7 +1,6 @@
 package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.event.AccessWatchpointEvent;
-import dev.alexengrig.myjdi.event.delegate.YouthWatchpointEventDelegate;
 import dev.alexengrig.myjdi.handle.YouthEventHandler;
 
 public interface YouthAccessWatchpointEvent extends YouthEvent, AccessWatchpointEvent {

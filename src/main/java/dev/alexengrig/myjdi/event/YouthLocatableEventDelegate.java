@@ -1,9 +1,8 @@
-package dev.alexengrig.myjdi.event.delegate;
+package dev.alexengrig.myjdi.event;
 
 import com.sun.jdi.Location;
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.event.LocatableEvent;
-import dev.alexengrig.myjdi.event.YouthEvent;
 
 public abstract class YouthLocatableEventDelegate<E extends LocatableEvent>
         extends YouthEvent.Delegate<E>

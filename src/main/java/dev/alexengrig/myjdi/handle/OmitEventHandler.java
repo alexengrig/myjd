@@ -4,7 +4,7 @@ import dev.alexengrig.myjdi.event.*;
 
 import java.util.logging.Logger;
 
-public class OmitEventHandler implements YouthEventHandler {
+public abstract class OmitEventHandler implements YouthEventHandler {
     private static final Logger log = Logger.getLogger(OmitEventHandler.class.getSimpleName());
 
     @Override

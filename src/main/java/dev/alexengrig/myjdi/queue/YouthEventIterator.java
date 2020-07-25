@@ -27,12 +27,12 @@ public interface YouthEventIterator extends EventIterator {
 
         @Override
         public YouthEvent nextEvent() {
-            return YouthEvent.findOut(iterator.nextEvent());
+            return next();
         }
 
         @Override
         public YouthEvent next() {
-            return nextEvent();
+            return YouthEvent.findOut(iterator.nextEvent());
         }
 
         @Override

@@ -1,12 +1,17 @@
 package dev.alexengrig.myjdi.handle;
 
-import com.sun.jdi.event.ClassPrepareEvent;
+import dev.alexengrig.myjdi.event.YouthBreakpointEvent;
+import dev.alexengrig.myjdi.event.YouthClassPrepareEvent;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 public interface YouthEventHandleManager {
-    YouthClassPrepareHandle createClassPrepareHandle(Consumer<ClassPrepareEvent> handler);
+    YouthClassPrepareHandle createClassPrepareHandle(Consumer<YouthClassPrepareEvent> handler);
 
     List<YouthClassPrepareHandle> classPrepareHandles();
+
+    YouthEventHandle<YouthBreakpointEvent> createBreakpointHandle(Consumer<YouthBreakpointEvent> handler);
+
+    List<YouthBreakpointHandle> breakpointHandles();
 }

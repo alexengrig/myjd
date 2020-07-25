@@ -14,9 +14,7 @@ public interface YouthBreakpointEvent extends YouthEvent, BreakpointEvent {
         handler.handleBreakpoint(this);
     }
 
-    class Delegate
-            extends YouthLocatableEventDelegate<BreakpointEvent>
-            implements YouthBreakpointEvent {
+    class Delegate extends YouthLocatableEventDelegate<BreakpointEvent> implements YouthBreakpointEvent {
         public Delegate(BreakpointEvent event) {
             super(event);
         }

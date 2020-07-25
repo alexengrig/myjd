@@ -1,9 +1,13 @@
 package dev.alexengrig.myjdi.queue;
 
+import com.sun.jdi.event.EventQueue;
 import dev.alexengrig.myjdi.YouthVirtualMachine;
 
 public class MyEventQueue extends YouthEventQueue.Delegate implements YouthEventQueue {
-    public MyEventQueue(YouthVirtualMachine virtualMachine) {
-        super(virtualMachine.eventQueue());
+    protected final YouthVirtualMachine virtualMachine;
+
+    public MyEventQueue(YouthVirtualMachine virtualMachine, EventQueue eventQueue) {
+        super(eventQueue);
+        this.virtualMachine = virtualMachine;
     }
 }

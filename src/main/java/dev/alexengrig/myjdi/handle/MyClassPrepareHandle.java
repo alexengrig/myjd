@@ -1,11 +1,11 @@
 package dev.alexengrig.myjdi.handle;
 
-import com.sun.jdi.event.ClassPrepareEvent;
+import dev.alexengrig.myjdi.event.YouthClassPrepareEvent;
 
 import java.util.function.Consumer;
 
-public class MyClassPrepareHandle extends MyEventHandle<ClassPrepareEvent> implements YouthClassPrepareHandle {
-    public MyClassPrepareHandle(Consumer<ClassPrepareEvent> handler) {
+public class MyClassPrepareHandle extends MyEventHandle<YouthClassPrepareEvent> implements YouthClassPrepareHandle {
+    public MyClassPrepareHandle(Consumer<YouthClassPrepareEvent> handler) {
         super(handler);
     }
 }

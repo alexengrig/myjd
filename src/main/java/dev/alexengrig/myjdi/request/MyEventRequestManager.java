@@ -5,6 +5,7 @@ import com.sun.jdi.Location;
 import com.sun.jdi.ReferenceType;
 import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.ClassPrepareRequest;
+import com.sun.jdi.request.EventRequestManager;
 import dev.alexengrig.myjdi.YouthVirtualMachine;
 import dev.alexengrig.myjdi.handle.YouthClassPrepareHandle;
 
@@ -13,8 +14,8 @@ import java.util.List;
 public class MyEventRequestManager extends YouthEventRequestManager.Delegate implements YouthEventRequestManager {
     protected final YouthVirtualMachine virtualMachine;
 
-    public MyEventRequestManager(YouthVirtualMachine virtualMachine) {
-        super(virtualMachine.eventRequestManager());
+    public MyEventRequestManager(YouthVirtualMachine virtualMachine, EventRequestManager eventRequestManager) {
+        super(eventRequestManager);
         this.virtualMachine = virtualMachine;
     }
 

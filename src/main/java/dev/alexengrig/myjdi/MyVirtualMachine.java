@@ -25,13 +25,13 @@ public class MyVirtualMachine extends YouthVirtualMachine.Delegate implements Yo
     }
 
     @Override
-    protected YouthEventQueue createEventQueue(VirtualMachine ignore) {
-        return new MyEventQueue(this);
+    protected YouthEventQueue createEventQueue(VirtualMachine virtualMachine) {
+        return new MyEventQueue(this, virtualMachine.eventQueue());
     }
 
     @Override
-    protected YouthEventRequestManager createEventRequestManager(VirtualMachine ignore) {
-        return new MyEventRequestManager(this);
+    protected YouthEventRequestManager createEventRequestManager(VirtualMachine virtualMachine) {
+        return new MyEventRequestManager(this, virtualMachine.eventRequestManager());
     }
 
     protected YouthEventHandler createEventHandler(YouthVirtualMachine virtualMachine) {

@@ -1,7 +1,8 @@
-package dev.alexengrig.myjdi.event;
+package dev.alexengrig.myjdi.queue;
 
 import com.sun.jdi.event.Event;
 import com.sun.jdi.event.EventIterator;
+import dev.alexengrig.myjdi.event.YouthEvent;
 
 import java.util.Objects;
 import java.util.function.Consumer;

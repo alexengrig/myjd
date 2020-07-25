@@ -1,9 +1,10 @@
 package dev.alexengrig.myjdi;
 
 import com.sun.jdi.*;
-import dev.alexengrig.myjdi.event.YouthEventQueue;
 import dev.alexengrig.myjdi.handle.YouthEventHandleManager;
+import dev.alexengrig.myjdi.queue.YouthEventQueue;
 import dev.alexengrig.myjdi.request.YouthEventRequestManager;
+import dev.alexengrig.myjdi.subscription.YouthEventSubscriptionManager;
 
 import java.util.List;
 import java.util.Map;
@@ -23,21 +24,42 @@ public interface YouthVirtualMachine extends VirtualMachine {
         throw new UnsupportedOperationException();
     }
 
+    default YouthEventSubscriptionManager eventSubscriptionManager() {
+        throw new UnsupportedOperationException();
+    }
+
     class Delegate implements YouthVirtualMachine {
-        protected final VirtualMachine virtualMachine;
+        protected VirtualMachine virtualMachine;
+        protected YouthEventQueue eventQueue;
+        protected YouthEventRequestManager eventRequestManager;
 
         public Delegate(VirtualMachine virtualMachine) {
             this.virtualMachine = virtualMachine;
+            this.eventQueue = createEventQueue(virtualMachine);
+            this.eventRequestManager = createEventRequestManager(virtualMachine);
+        }
+
+        protected YouthEventQueue createEventQueue(VirtualMachine virtualMachine) {
+            return YouthEventQueue.delegate(virtualMachine.eventQueue());
+        }
+
+        protected YouthEventRequestManager createEventRequestManager(VirtualMachine virtualMachine) {
+            return YouthEventRequestManager.delegate(virtualMachine.eventRequestManager());
+        }
+
+        @Override
+        public YouthVirtualMachine virtualMachine() {
+            return this;
         }
 
         @Override
         public YouthEventQueue eventQueue() {
-            return YouthEventQueue.delegate(virtualMachine.eventQueue());
+            return eventQueue;
         }
 
         @Override
         public YouthEventRequestManager eventRequestManager() {
-            return YouthEventRequestManager.delegate(virtualMachine.eventRequestManager());
+            return eventRequestManager;
         }
 
         @Override
@@ -288,11 +310,6 @@ public interface YouthVirtualMachine extends VirtualMachine {
         @Override
         public void setDebugTraceMode(int traceFlags) {
             virtualMachine.setDebugTraceMode(traceFlags);
-        }
-
-        @Override
-        public VirtualMachine virtualMachine() {
-            return virtualMachine.virtualMachine();
         }
 
         @Override

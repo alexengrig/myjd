@@ -1,4 +1,4 @@
-package dev.alexengrig.myjdi.event;
+package dev.alexengrig.myjdi.queue;
 
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.event.EventQueue;

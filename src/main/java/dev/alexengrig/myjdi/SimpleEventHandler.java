@@ -2,9 +2,9 @@ package dev.alexengrig.myjdi;
 
 import com.sun.jdi.VMDisconnectedException;
 import dev.alexengrig.myjdi.event.YouthEvent;
-import dev.alexengrig.myjdi.event.YouthEventIterator;
-import dev.alexengrig.myjdi.event.YouthEventQueue;
 import dev.alexengrig.myjdi.handle.OmitEventHandler;
+import dev.alexengrig.myjdi.queue.YouthEventIterator;
+import dev.alexengrig.myjdi.queue.YouthEventQueue;
 
 public class SimpleEventHandler extends OmitEventHandler implements Runnable {
     protected final YouthEventQueue eventQueue;
@@ -29,6 +29,7 @@ public class SimpleEventHandler extends OmitEventHandler implements Runnable {
                 }
                 eventQueue.virtualMachine().resume();
             } catch (InterruptedException | VMDisconnectedException ignore) {
+                Thread.currentThread().interrupt();
                 break;
             }
         }

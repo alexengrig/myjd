@@ -4,10 +4,16 @@ import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.VMStartException;
 import dev.alexengrig.myjdi.connect.YouthConnector;
 import dev.alexengrig.myjdi.connect.YouthConnectors;
-import dev.alexengrig.myjdi.event.*;
+import dev.alexengrig.myjdi.event.YouthClassPrepareEvent;
+import dev.alexengrig.myjdi.event.YouthEvent;
+import dev.alexengrig.myjdi.event.YouthVMDeathEvent;
+import dev.alexengrig.myjdi.event.YouthVMDisconnectEvent;
 import dev.alexengrig.myjdi.handle.OmitEventHandler;
 import dev.alexengrig.myjdi.handle.YouthClassPrepareHandle;
 import dev.alexengrig.myjdi.handle.YouthEventHandleManager;
+import dev.alexengrig.myjdi.queue.YouthEventIterator;
+import dev.alexengrig.myjdi.queue.YouthEventQueue;
+import dev.alexengrig.myjdi.queue.YouthEventSet;
 import dev.alexengrig.myjdi.request.YouthEventRequestManager;
 
 import java.io.IOException;
@@ -58,6 +64,7 @@ public class DebugRunner {
                 vm.resume();
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                Thread.currentThread().interrupt();
                 break;
             }
         }

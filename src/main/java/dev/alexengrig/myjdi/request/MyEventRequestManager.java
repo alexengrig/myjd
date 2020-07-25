@@ -5,23 +5,17 @@ import com.sun.jdi.Location;
 import com.sun.jdi.ReferenceType;
 import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.ClassPrepareRequest;
-import com.sun.jdi.request.EventRequestManager;
-import dev.alexengrig.myjdi.handle.MyEventHandleManager;
+import dev.alexengrig.myjdi.YouthVirtualMachine;
 import dev.alexengrig.myjdi.handle.YouthClassPrepareHandle;
-import dev.alexengrig.myjdi.handle.YouthEventHandleManager;
 
 import java.util.List;
 
 public class MyEventRequestManager extends YouthEventRequestManager.Delegate implements YouthEventRequestManager {
-    protected final YouthEventHandleManager handleManager;
+    protected final YouthVirtualMachine virtualMachine;
 
-    public MyEventRequestManager(EventRequestManager requestManager) {
-        this(requestManager, new MyEventHandleManager());
-    }
-
-    protected MyEventRequestManager(EventRequestManager requestManager, YouthEventHandleManager handleManager) {
-        super(requestManager);
-        this.handleManager = handleManager;
+    public MyEventRequestManager(YouthVirtualMachine virtualMachine) {
+        super(virtualMachine.eventRequestManager());
+        this.virtualMachine = virtualMachine;
     }
 
     @Override
@@ -29,7 +23,7 @@ public class MyEventRequestManager extends YouthEventRequestManager.Delegate imp
         ClassPrepareRequest request = requestManager.createClassPrepareRequest();
         request.addClassFilter(className);
         request.enable();
-        YouthClassPrepareHandle handle = handleManager.createClassPrepareHandle(event -> {
+        YouthClassPrepareHandle handle = virtualMachine.eventHandleManager().createClassPrepareHandle(event -> {
             ReferenceType type = event.referenceType();
             if (className.equals(type.name())) {
                 try {

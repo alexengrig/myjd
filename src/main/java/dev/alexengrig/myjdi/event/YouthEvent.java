@@ -72,7 +72,7 @@ public interface YouthEvent extends Event {
     YouthEventRequest request();
 
     default void accept(YouthEventHandler handler) {
-        handler.handle(this);
+        throw new UnsupportedOperationException();
     }
 
     class Delegate<E extends Event> implements YouthEvent {

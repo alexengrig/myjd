@@ -8,8 +8,8 @@ import dev.alexengrig.myjdi.queue.YouthEventQueue;
 
 import java.util.logging.Logger;
 
-public class MyEventHandler extends OmitEventHandler implements YouthEventHandler {
-    private static final Logger log = Logger.getLogger(MyEventHandle.class.getName());
+public class MyEventHandler implements YouthEventHandler {
+    private static final Logger log = Logger.getLogger(MyEventHandler.class.getName());
 
     protected final YouthVirtualMachine virtualMachine;
     protected boolean running;
@@ -36,10 +36,10 @@ public class MyEventHandler extends OmitEventHandler implements YouthEventHandle
                     event.accept(this);
                 }
                 virtualMachine.resume();
-            } catch (VMDisconnectedException e) {
-                handleVMDisconnectedException(e);
-            } catch (InterruptedException e) {
-                handleInterruptedException(e);
+            } catch (VMDisconnectedException ignore) {
+                handleVMDisconnectedException();
+            } catch (InterruptedException ignore) {
+                handleInterruptedException();
                 Thread.currentThread().interrupt();
             }
         }
@@ -51,7 +51,7 @@ public class MyEventHandler extends OmitEventHandler implements YouthEventHandle
      * with exit events (VMDeath, VMDisconnect) so that we terminate
      * correctly.
      */
-    protected synchronized void handleVMDisconnectedException(VMDisconnectedException vmDisconnectedException) {
+    protected synchronized void handleVMDisconnectedException() {
         FlushHandler flushHandler = new FlushHandler();
         while (running) {
             try {
@@ -61,18 +61,18 @@ public class MyEventHandler extends OmitEventHandler implements YouthEventHandle
                     event.accept(flushHandler);
                 }
                 virtualMachine.resume();
-            } catch (InterruptedException e) {
-                handleInterruptedException(e);
+            } catch (InterruptedException ignore) {
+                handleInterruptedException();
                 Thread.currentThread().interrupt();
             }
         }
-        log.warning("VM disconnected exception: " + vmDisconnectedException);
+        log.warning("VM disconnected exception.");
     }
 
-    protected void handleInterruptedException(InterruptedException interruptedException) {
+    protected void handleInterruptedException() {
         running = false;
         interrupted = true;
-        log.warning("Interrupted exception: " + interruptedException);
+        log.warning("Interrupted exception.");
     }
 
     @Override
@@ -174,7 +174,7 @@ public class MyEventHandler extends OmitEventHandler implements YouthEventHandle
         virtualMachine.eventSubscriptionManager().notifyOfThreadStart(event);
     }
 
-    protected class FlushHandler extends OmitEventHandler {
+    protected class FlushHandler implements YouthEventHandler {
         @Override
         public void handleVmDeath(YouthVMDeathEvent event) {
             MyEventHandler.this.handleVmDeath(event);
@@ -183,6 +183,91 @@ public class MyEventHandler extends OmitEventHandler implements YouthEventHandle
         @Override
         public void handleVmDisconnect(YouthVMDisconnectEvent event) {
             MyEventHandler.this.handleVmDisconnect(event);
+        }
+
+        @Override
+        public void run() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void handleException(YouthExceptionEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleBreakpoint(YouthBreakpointEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleStep(YouthStepEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleAccessWatchpoint(YouthAccessWatchpointEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleModificationWatchpoint(YouthModificationWatchpointEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleMethodExit(YouthMethodExitEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleMethodEntry(YouthMethodEntryEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleMonitorWaited(YouthMonitorWaitedEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleMonitorWait(YouthMonitorWaitEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleMonitorContendedEntered(YouthMonitorContendedEnteredEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleMonitorContendedEnter(YouthMonitorContendedEnterEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleClassUnload(YouthClassUnloadEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleClassPrepare(YouthClassPrepareEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleThreadDeath(YouthThreadDeathEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleThreadStart(YouthThreadStartEvent event) {
+            // skipping
+        }
+
+        @Override
+        public void handleVmStart(YouthVMStartEvent event) {
+            // skipping
         }
     }
 }

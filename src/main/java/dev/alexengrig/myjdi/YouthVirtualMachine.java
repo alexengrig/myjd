@@ -1,7 +1,6 @@
 package dev.alexengrig.myjdi;
 
 import com.sun.jdi.*;
-import dev.alexengrig.myjdi.handle.YouthEventHandleManager;
 import dev.alexengrig.myjdi.handle.YouthEventHandler;
 import dev.alexengrig.myjdi.queue.YouthEventQueue;
 import dev.alexengrig.myjdi.request.YouthEventRequestManager;
@@ -22,10 +21,6 @@ public interface YouthVirtualMachine extends VirtualMachine {
     YouthEventRequestManager eventRequestManager();
 
     default YouthEventHandler eventHandler() {
-        throw new UnsupportedOperationException();
-    }
-
-    default YouthEventHandleManager eventHandleManager() {
         throw new UnsupportedOperationException();
     }
 

@@ -6,8 +6,8 @@ import com.sun.jdi.ReferenceType;
 import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.ClassPrepareRequest;
 import com.sun.jdi.request.EventRequestManager;
+import com.sun.jdi.request.ExceptionRequest;
 import dev.alexengrig.myjdi.YouthVirtualMachine;
-import dev.alexengrig.myjdi.handle.YouthClassPrepareHandle;
 
 import java.util.List;
 
@@ -21,14 +21,14 @@ public class MyEventRequestManager extends YouthEventRequestManager.Delegate imp
 
     @Override
     public void createExceptionRequest(String className, boolean notifyCaught, boolean notifyUncaught) {
-        YouthEventRequestManager eventRequestManager = virtualMachine.eventRequestManager();
-        ClassPrepareRequest classPrepareRequest = eventRequestManager.createClassPrepareRequest();
+        ClassPrepareRequest classPrepareRequest = createClassPrepareRequest();
         classPrepareRequest.addClassFilter(className);
         classPrepareRequest.enable();
         virtualMachine.eventSubscriptionManager().subscribeOnClassPrepare(event -> {
             ReferenceType referenceType = event.referenceType();
             if (referenceType.name().equals(className)) {
-                eventRequestManager.createExceptionRequest(referenceType, notifyCaught, notifyUncaught).enable();
+                ExceptionRequest exceptionRequest = createExceptionRequest(referenceType, notifyCaught, notifyUncaught);
+                exceptionRequest.enable();
             }
         });
     }
@@ -50,18 +50,17 @@ public class MyEventRequestManager extends YouthEventRequestManager.Delegate imp
 
     @Override
     public void createBreakpointRequest(String className, int line) {
-        YouthEventRequestManager eventRequestManager = virtualMachine.eventRequestManager();
-        ClassPrepareRequest request = eventRequestManager.createClassPrepareRequest();
-        request.addClassFilter(className);
-        request.enable();
-        YouthClassPrepareHandle handle = virtualMachine.eventHandleManager().createClassPrepareHandle(event -> {
+        ClassPrepareRequest classPrepareRequest = createClassPrepareRequest();
+        classPrepareRequest.addClassFilter(className);
+        classPrepareRequest.enable();
+        virtualMachine.eventSubscriptionManager().subscribeOnClassPrepare(event -> {
             ReferenceType type = event.referenceType();
             if (className.equals(type.name())) {
                 try {
                     List<Location> locations = type.locationsOfLine(type.defaultStratum(), type.sourceName(), line);
                     if (!locations.isEmpty()) {
                         Location location = locations.get(0);
-                        BreakpointRequest breakpointRequest = eventRequestManager.createBreakpointRequest(location);
+                        BreakpointRequest breakpointRequest = createBreakpointRequest(location);
                         breakpointRequest.enable();
                     }
                 } catch (AbsentInformationException e) {
@@ -69,6 +68,5 @@ public class MyEventRequestManager extends YouthEventRequestManager.Delegate imp
                 }
             }
         });
-        handle.enable();
     }
 }

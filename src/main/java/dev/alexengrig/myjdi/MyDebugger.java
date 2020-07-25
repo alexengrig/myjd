@@ -5,9 +5,9 @@ import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.VMStartException;
 import dev.alexengrig.myjdi.connect.YouthConnector;
 import dev.alexengrig.myjdi.connect.YouthConnectors;
-import dev.alexengrig.myjdi.handle.YouthEventHandleManager;
 import dev.alexengrig.myjdi.handle.YouthEventHandler;
 import dev.alexengrig.myjdi.request.YouthEventRequestManager;
+import dev.alexengrig.myjdi.subscription.YouthEventSubscriptionManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,10 +24,10 @@ public class MyDebugger {
         String mainClass = "dev.alexengrig.example.Main";
         YouthConnector connector = YouthConnectors.commandLine(classpath, mainClass);
         YouthVirtualMachine vm = connector.connect();
-        YouthEventHandleManager handleManager = vm.eventHandleManager();
         YouthEventRequestManager requestManager = vm.eventRequestManager();
+        YouthEventSubscriptionManager subscriptionManager = vm.eventSubscriptionManager();
 
-        handleManager.createBreakpointHandle(breakpoint -> {
+        subscriptionManager.subscribeOnBreakpoint(breakpoint -> {
             try {
                 List<StackFrame> frames = breakpoint.thread().frames(0, 1);
                 Map<LocalVariable, Value> variables = frames.get(0).getValues(frames.get(0).visibleVariables());
@@ -38,9 +38,9 @@ public class MyDebugger {
                 e.printStackTrace();
             }
         });
-        requestManager.createBreakpointRequest("dev.alexengrig.example.Main", 9);
+        requestManager.createBreakpointRequest("dev.alexengrig.example.Main", 12);
 
-        handleManager.createExceptionHandle(event -> {
+        subscriptionManager.subscribeOnException(event -> {
             String name = event.exception().referenceType().name();
             log.info("Exception: " + name + ", on " + event.location());
         });

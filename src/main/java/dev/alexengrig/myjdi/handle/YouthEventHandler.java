@@ -3,8 +3,6 @@ package dev.alexengrig.myjdi.handle;
 import dev.alexengrig.myjdi.event.*;
 
 public interface YouthEventHandler extends Runnable {
-    void handle(YouthEvent event);
-
     void handleException(YouthExceptionEvent event);
 
     void handleBreakpoint(YouthBreakpointEvent event);

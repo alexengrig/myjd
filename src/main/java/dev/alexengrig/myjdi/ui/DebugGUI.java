@@ -1,14 +1,9 @@
 package dev.alexengrig.myjdi.ui;
 
-import com.sun.jdi.VirtualMachine;
-import com.sun.jdi.connect.IllegalConnectorArgumentsException;
-import com.sun.jdi.connect.VMStartException;
-import dev.alexengrig.myjdi.MyDebugger;
 import dev.alexengrig.myjdi.connect.YouthConnector;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -92,40 +87,7 @@ public class DebugGUI extends JFrame {
 
     private void doDebug(YouthConnector connector) {
         background.execute(() -> {
-            try {
-                VirtualMachine vm = connector.connect();
-                MyDebugger debugger = new MyDebugger(vm);
-                resumeButton.addActionListener(ac -> vm.resume());
-/*                debugger.addBreakpointHandler(e -> {
-                    try {
-                        ThreadReference thread = e.thread();
-                        List<StackFrame> frames = thread.frames();
-                        List<String> frameValues = new ArrayList<>();
-                        for (StackFrame frame : frames) {
-                            frameValues.add(frame.location().toString());
-                        }
-                        SwingUtilities.invokeAndWait(() -> stackFramePane.updateValues(frameValues));
-                        StackFrame frame = frames.get(0);
-                        Map<LocalVariable, Value> values = frame.getValues(frame.visibleVariables());
-                        ArrayList<String> variables = new ArrayList<>();
-                        variables.add("this=" + frame.thisObject());
-                        for (Map.Entry<LocalVariable, Value> entry : values.entrySet()) {
-                            variables.add(entry.getKey().name() + "=" + entry.getValue());
-                        }
-                        SwingUtilities.invokeAndWait(() -> variablePane.updateValues(variables));
-                        e.virtualMachine().suspend();
-                    } catch (IncompatibleThreadStateException | InterruptedException | InvocationTargetException | AbsentInformationException ex) {
-                        ex.printStackTrace();
-                    }
-                })*/
-                debugger.addBreakpoint("dev.alexengrig.example.Main", 9);
-                debugger.addBreakpoint("dev.alexengrig.example.Main", 14);
-                debugger.addBreakpoint("dev.alexengrig.example.Main", 20);
-                debugger.run();
-                System.out.println("Finished.");
-            } catch (IllegalConnectorArgumentsException | IOException | VMStartException ex) {
-                ex.printStackTrace();
-            }
+
         });
     }
 }

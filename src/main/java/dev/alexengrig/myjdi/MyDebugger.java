@@ -3,6 +3,7 @@ package dev.alexengrig.myjdi;
 import com.sun.jdi.*;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.VMStartException;
+import com.sun.jdi.request.StepRequest;
 import dev.alexengrig.myjdi.connect.YouthConnector;
 import dev.alexengrig.myjdi.connect.YouthConnectors;
 import dev.alexengrig.myjdi.handle.YouthEventHandler;
@@ -14,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import static com.sun.jdi.request.StepRequest.STEP_MIN;
+import static com.sun.jdi.request.StepRequest.STEP_OVER;
 
 public class MyDebugger {
     private static final Logger log = Logger.getLogger(MyDebugger.class.getName());
@@ -27,24 +31,29 @@ public class MyDebugger {
         YouthEventRequestManager requestManager = vm.eventRequestManager();
         YouthEventSubscriptionManager subscriptionManager = vm.eventSubscriptionManager();
 
-        subscriptionManager.subscribeOnBreakpoint(breakpoint -> {
-            try {
-                List<StackFrame> frames = breakpoint.thread().frames(0, 1);
-                Map<LocalVariable, Value> variables = frames.get(0).getValues(frames.get(0).visibleVariables());
-                log.info("Variables: " + variables.entrySet().stream()
-                        .map(e -> e.getKey().name() + ": " + e.getValue())
-                        .collect(Collectors.joining("; ")));
-            } catch (IncompatibleThreadStateException | AbsentInformationException e) {
-                e.printStackTrace();
-            }
-        });
-        requestManager.createBreakpointRequest("dev.alexengrig.example.Main", 12);
-
         subscriptionManager.subscribeOnException(event -> {
             String name = event.exception().referenceType().name();
             log.info("Exception: " + name + ", on " + event.location());
         });
         requestManager.createAllExceptionRequest("dev.alexengrig.example.exception.ExampleException");
+
+        subscriptionManager.subscribeOnBreakpoint(breakpoint -> {
+            try {
+                log.info("Breakpoint on " + breakpoint.location());
+                List<StackFrame> frames = breakpoint.thread().frames(0, 1);
+                Map<LocalVariable, Value> variables = frames.get(0).getValues(frames.get(0).visibleVariables());
+                log.info("Variables: " + variables.entrySet().stream()
+                        .map(e -> e.getKey().name() + ": " + e.getValue())
+                        .collect(Collectors.joining("; ")));
+                StepRequest stepRequest = requestManager.createStepRequest(breakpoint.thread(), STEP_MIN, STEP_OVER);
+                stepRequest.addCountFilter(1);
+                stepRequest.enable();
+            } catch (IncompatibleThreadStateException | AbsentInformationException e) {
+                e.printStackTrace();
+            }
+        });
+        subscriptionManager.subscribeOnStep(step -> log.info("Step to " + step.location()));
+        requestManager.createBreakpointRequest("dev.alexengrig.example.Main", 12);
 
         YouthEventHandler handler = vm.eventHandler();
         handler.run();

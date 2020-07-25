@@ -8,6 +8,11 @@ public abstract class OmitEventHandler implements YouthEventHandler {
     private static final Logger log = Logger.getLogger(OmitEventHandler.class.getSimpleName());
 
     @Override
+    public void run() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void handle(YouthEvent event) {
         log.info("Omitted event: " + event);
     }

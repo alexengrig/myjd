@@ -15,8 +15,8 @@ import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class DebugRunner {
-    private static final Logger log = Logger.getLogger(DebugRunner.class.getName());
+public class MyDebugger {
+    private static final Logger log = Logger.getLogger(MyDebugger.class.getName());
 
     public static void main(String[] args) throws IOException, IllegalConnectorArgumentsException, VMStartException {
         log.info("Started.");

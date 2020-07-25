@@ -86,7 +86,7 @@ public class MyEventHandler extends OmitEventHandler implements YouthEventHandle
         died = true;
         running = false;
         virtualMachine.eventSubscriptionManager().notifyOfVMDeath(event);
-        log.warning("VM is died.");
+        log.info("VM is died.");
     }
 
     @Override
@@ -95,7 +95,7 @@ public class MyEventHandler extends OmitEventHandler implements YouthEventHandle
         running = false;
         virtualMachine.eventSubscriptionManager().notifyOfVMDisconnect(event);
         if (disconnected) {
-            log.warning("VM is disconnected.");
+            log.info("VM is disconnected.");
         }
     }
 

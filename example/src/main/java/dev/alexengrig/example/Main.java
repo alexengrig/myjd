@@ -1,5 +1,8 @@
 package dev.alexengrig.example;
 
+import dev.alexengrig.example.exception.CaughtExampleException;
+import dev.alexengrig.example.exception.UncaughtExampleException;
+
 public class Main {
     public static void main(String[] args) {
         int one = 1;
@@ -12,12 +15,15 @@ public class Main {
         int eight = 8;
         int nine = 9;
         int ten = 10;
-        foo();
+        try {
+            throw new CaughtExampleException();
+        } catch (CaughtExampleException ignore) {
+        }
+        throwUncaughtException();
         System.out.println("END!");
     }
 
-    public static void foo() {
-        int numberA = 'A';
-        int numberB = 'B';
+    private static void throwUncaughtException() {
+        throw new UncaughtExampleException();
     }
 }

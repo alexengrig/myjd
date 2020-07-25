@@ -20,8 +20,38 @@ public class MyEventRequestManager extends YouthEventRequestManager.Delegate imp
     }
 
     @Override
+    public void createExceptionRequest(String className, boolean notifyCaught, boolean notifyUncaught) {
+        YouthEventRequestManager eventRequestManager = virtualMachine.eventRequestManager();
+        ClassPrepareRequest classPrepareRequest = eventRequestManager.createClassPrepareRequest();
+        classPrepareRequest.addClassFilter(className);
+        classPrepareRequest.enable();
+        virtualMachine.eventSubscriptionManager().subscribeOnClassPrepare(event -> {
+            ReferenceType referenceType = event.referenceType();
+            if (referenceType.name().equals(className)) {
+                eventRequestManager.createExceptionRequest(referenceType, notifyCaught, notifyUncaught).enable();
+            }
+        });
+    }
+
+    @Override
+    public void createAllExceptionRequest(String className) {
+        createExceptionRequest(className, true, true);
+    }
+
+    @Override
+    public void createCaughtExceptionRequest(String className) {
+        createExceptionRequest(className, true, false);
+    }
+
+    @Override
+    public void createUncaughtExceptionRequest(String className) {
+        createExceptionRequest(className, false, true);
+    }
+
+    @Override
     public void createBreakpointRequest(String className, int line) {
-        ClassPrepareRequest request = requestManager.createClassPrepareRequest();
+        YouthEventRequestManager eventRequestManager = virtualMachine.eventRequestManager();
+        ClassPrepareRequest request = eventRequestManager.createClassPrepareRequest();
         request.addClassFilter(className);
         request.enable();
         YouthClassPrepareHandle handle = virtualMachine.eventHandleManager().createClassPrepareHandle(event -> {
@@ -31,7 +61,7 @@ public class MyEventRequestManager extends YouthEventRequestManager.Delegate imp
                     List<Location> locations = type.locationsOfLine(type.defaultStratum(), type.sourceName(), line);
                     if (!locations.isEmpty()) {
                         Location location = locations.get(0);
-                        BreakpointRequest breakpointRequest = requestManager.createBreakpointRequest(location);
+                        BreakpointRequest breakpointRequest = eventRequestManager.createBreakpointRequest(location);
                         breakpointRequest.enable();
                     }
                 } catch (AbsentInformationException e) {

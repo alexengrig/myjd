@@ -3,6 +3,7 @@ package dev.alexengrig.myjdi.handle;
 import dev.alexengrig.myjdi.YouthVirtualMachine;
 import dev.alexengrig.myjdi.event.YouthBreakpointEvent;
 import dev.alexengrig.myjdi.event.YouthClassPrepareEvent;
+import dev.alexengrig.myjdi.event.YouthExceptionEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +19,11 @@ public class MyEventHandleManager implements YouthEventHandleManager {
         this.virtualMachine = virtualMachine;
         this.classPrepareHandles = new ArrayList<>();
         this.breakpointHandles = new ArrayList<>();
+    }
+
+    @Override
+    public void createExceptionHandle(Consumer<YouthExceptionEvent> handler) {
+        virtualMachine.eventSubscriptionManager().subscribeOnException(handler::accept);
     }
 
     @Override

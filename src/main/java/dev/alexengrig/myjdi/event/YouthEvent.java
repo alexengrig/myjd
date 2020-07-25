@@ -60,7 +60,7 @@ public interface YouthEvent extends Event {
         }
         // unexpected
         else {
-            throw new Error(String.format("Unexpected event type: %s.", event.getClass().getName()));
+            throw new IllegalArgumentException(String.format("Unexpected event type: %s.", event.getClass().getName()));
         }
     }
 

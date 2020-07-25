@@ -1,38 +1,63 @@
 package dev.alexengrig.myjdi;
 
 import com.sun.jdi.VirtualMachine;
+import dev.alexengrig.myjdi.handle.MyEventHandleManager;
+import dev.alexengrig.myjdi.handle.MyEventHandler;
 import dev.alexengrig.myjdi.handle.YouthEventHandleManager;
+import dev.alexengrig.myjdi.handle.YouthEventHandler;
 import dev.alexengrig.myjdi.queue.MyEventQueue;
 import dev.alexengrig.myjdi.queue.YouthEventQueue;
 import dev.alexengrig.myjdi.request.MyEventRequestManager;
 import dev.alexengrig.myjdi.request.YouthEventRequestManager;
+import dev.alexengrig.myjdi.subscription.MyEventSubscriptionManager;
 import dev.alexengrig.myjdi.subscription.YouthEventSubscriptionManager;
 
 public class MyVirtualMachine extends YouthVirtualMachine.Delegate implements YouthVirtualMachine {
-    protected YouthEventHandleManager handleManager;
-    protected YouthEventSubscriptionManager subscriptionManager;
+    protected YouthEventHandler eventHandler;
+    protected YouthEventHandleManager eventHandleManager;
+    protected YouthEventSubscriptionManager eventSubscriptionManager;
 
     public MyVirtualMachine(VirtualMachine virtualMachine) {
         super(virtualMachine);
+        this.eventHandler = createEventHandler(this);
+        this.eventHandleManager = createEventHandleManager(this);
+        this.eventSubscriptionManager = createEventSubscriptionManager(this);
     }
 
     @Override
-    protected YouthEventQueue createEventQueue(VirtualMachine virtualMachine) {
+    protected YouthEventQueue createEventQueue(VirtualMachine ignore) {
         return new MyEventQueue(this);
     }
 
     @Override
-    protected YouthEventRequestManager createEventRequestManager(VirtualMachine virtualMachine) {
+    protected YouthEventRequestManager createEventRequestManager(VirtualMachine ignore) {
         return new MyEventRequestManager(this);
+    }
+
+    protected YouthEventHandler createEventHandler(YouthVirtualMachine virtualMachine) {
+        return new MyEventHandler(virtualMachine);
+    }
+
+    protected YouthEventHandleManager createEventHandleManager(YouthVirtualMachine virtualMachine) {
+        return new MyEventHandleManager(virtualMachine);
+    }
+
+    protected YouthEventSubscriptionManager createEventSubscriptionManager(YouthVirtualMachine virtualMachine) {
+        return new MyEventSubscriptionManager(virtualMachine);
+    }
+
+    @Override
+    public YouthEventHandler eventHandler() {
+        return eventHandler;
     }
 
     @Override
     public YouthEventHandleManager eventHandleManager() {
-        return handleManager;
+        return eventHandleManager;
     }
 
     @Override
     public YouthEventSubscriptionManager eventSubscriptionManager() {
-        return subscriptionManager;
+        return eventSubscriptionManager;
     }
 }

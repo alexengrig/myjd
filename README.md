@@ -3,7 +3,9 @@
 MYJDI (MYJDI Youth Java Debug Implementation) is JDI implementation.
 
 
-## [Structure Overview](https://docs.oracle.com/javase/8/docs/technotes/guides/jpda/architecture.html)
+## Structure Overview
+
+### [Java Platform Debugger Architecture](https://docs.oracle.com/javase/8/docs/technotes/guides/jpda/architecture.html)
 
 The Java Platform Debugger Architecture is structured as follows:
 
@@ -24,8 +26,6 @@ The Java Platform Debugger Architecture is structured as follows:
                      |      UI      |
                      |--------------|
 ```
-
-### Java Platform Debugger Architecture
 
 __JPDA__ is a multi-tiered debugging architecture
 that allows tools developers to easily create debugger applications which run portably across platforms,

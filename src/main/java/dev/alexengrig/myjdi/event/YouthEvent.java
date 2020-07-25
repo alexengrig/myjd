@@ -16,17 +16,37 @@ public interface YouthEvent extends Event {
         } else if (event instanceof StepEvent) {
             return new YouthStepEvent.Delegate((StepEvent) event);
         }
-        // watchpoint events
-        else if (event instanceof AccessWatchpointEvent) {
-            return new YouthAccessWatchpointEvent.Delegate((AccessWatchpointEvent) event);
-        } else if (event instanceof ModificationWatchpointEvent) {
-            return new YouthModificationWatchpointEvent.Delegate((ModificationWatchpointEvent) event);
+        // vm events
+        else if (event instanceof VMDeathEvent) {
+            return new YouthVMDeathEvent.Delegate((VMDeathEvent) event);
+        } else if (event instanceof VMDisconnectEvent) {
+            return new YouthVMDisconnectEvent.Delegate((VMDisconnectEvent) event);
+        } else if (event instanceof VMStartEvent) {
+            return new YouthVMStartEvent.Delegate((VMStartEvent) event);
+        }
+        // class events
+        else if (event instanceof ClassUnloadEvent) {
+            return new YouthClassUnloadEvent.Delegate((ClassUnloadEvent) event);
+        } else if (event instanceof ClassPrepareEvent) {
+            return new YouthClassPrepareEvent.Delegate((ClassPrepareEvent) event);
         }
         // method events
         else if (event instanceof MethodExitEvent) {
             return new YouthMethodExitEvent.Delegate((MethodExitEvent) event);
         } else if (event instanceof MethodEntryEvent) {
             return new YouthMethodEntryEvent.Delegate((MethodEntryEvent) event);
+        }
+        // watchpoint events
+        else if (event instanceof AccessWatchpointEvent) {
+            return new YouthAccessWatchpointEvent.Delegate((AccessWatchpointEvent) event);
+        } else if (event instanceof ModificationWatchpointEvent) {
+            return new YouthModificationWatchpointEvent.Delegate((ModificationWatchpointEvent) event);
+        }
+        // thread events
+        else if (event instanceof ThreadDeathEvent) {
+            return new YouthThreadDeathEvent.Delegate((ThreadDeathEvent) event);
+        } else if (event instanceof ThreadStartEvent) {
+            return new YouthThreadStartEvent.Delegate((ThreadStartEvent) event);
         }
         // monitor events
         else if (event instanceof MonitorWaitedEvent) {
@@ -37,26 +57,6 @@ public interface YouthEvent extends Event {
             return new YouthMonitorContendedEnteredEvent.Delegate((MonitorContendedEnteredEvent) event);
         } else if (event instanceof MonitorContendedEnterEvent) {
             return new YouthMonitorContendedEnterEvent.Delegate((MonitorContendedEnterEvent) event);
-        }
-        // class events
-        else if (event instanceof ClassUnloadEvent) {
-            return new YouthClassUnloadEvent.Delegate((ClassUnloadEvent) event);
-        } else if (event instanceof ClassPrepareEvent) {
-            return new YouthClassPrepareEvent.Delegate((ClassPrepareEvent) event);
-        }
-        // thread events
-        else if (event instanceof ThreadDeathEvent) {
-            return new YouthThreadDeathEvent.Delegate((ThreadDeathEvent) event);
-        } else if (event instanceof ThreadStartEvent) {
-            return new YouthThreadStartEvent.Delegate((ThreadStartEvent) event);
-        }
-        // vm events
-        else if (event instanceof VMDeathEvent) {
-            return new YouthVMDeathEvent.Delegate((VMDeathEvent) event);
-        } else if (event instanceof VMDisconnectEvent) {
-            return new YouthVMDisconnectEvent.Delegate((VMDisconnectEvent) event);
-        } else if (event instanceof VMStartEvent) {
-            return new YouthVMStartEvent.Delegate((VMStartEvent) event);
         }
         // unexpected
         else {

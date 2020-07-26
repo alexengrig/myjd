@@ -3,7 +3,7 @@ package dev.alexengrig.myjdi.connect;
 import com.sun.jdi.VirtualMachineManager;
 import com.sun.jdi.connect.AttachingConnector;
 import com.sun.jdi.connect.Connector;
-import dev.alexengrig.myjdi.YouthVirtualMachine;
+import dev.alexengrig.myjdi.vm.YouthVirtualMachine;
 
 import java.util.Map;
 

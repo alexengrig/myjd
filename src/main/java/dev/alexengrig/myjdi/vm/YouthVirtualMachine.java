@@ -1,4 +1,4 @@
-package dev.alexengrig.myjdi;
+package dev.alexengrig.myjdi.vm;
 
 import com.sun.jdi.*;
 import dev.alexengrig.myjdi.handle.YouthEventHandler;

@@ -9,6 +9,7 @@ import dev.alexengrig.myjdi.connect.YouthConnectors;
 import dev.alexengrig.myjdi.handle.YouthEventHandler;
 import dev.alexengrig.myjdi.request.YouthEventRequestManager;
 import dev.alexengrig.myjdi.subscription.YouthEventSubscriptionManager;
+import dev.alexengrig.myjdi.vm.YouthVirtualMachine;
 
 import java.io.IOException;
 import java.util.List;

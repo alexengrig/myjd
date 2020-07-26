@@ -1,7 +1,7 @@
 package dev.alexengrig.myjdi.connect;
 
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
-import dev.alexengrig.myjdi.YouthVirtualMachine;
+import dev.alexengrig.myjdi.vm.YouthVirtualMachine;
 
 import java.io.IOException;
 

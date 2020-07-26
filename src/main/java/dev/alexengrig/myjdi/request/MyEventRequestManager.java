@@ -7,7 +7,7 @@ import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.ClassPrepareRequest;
 import com.sun.jdi.request.EventRequestManager;
 import com.sun.jdi.request.ExceptionRequest;
-import dev.alexengrig.myjdi.YouthVirtualMachine;
+import dev.alexengrig.myjdi.vm.YouthVirtualMachine;
 
 import java.util.List;
 

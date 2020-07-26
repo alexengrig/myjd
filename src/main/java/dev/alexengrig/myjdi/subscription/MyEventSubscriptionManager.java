@@ -1,7 +1,7 @@
 package dev.alexengrig.myjdi.subscription;
 
-import dev.alexengrig.myjdi.YouthVirtualMachine;
 import dev.alexengrig.myjdi.event.*;
+import dev.alexengrig.myjdi.vm.YouthVirtualMachine;
 
 import java.util.ArrayList;
 import java.util.List;

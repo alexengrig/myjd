@@ -1,10 +1,10 @@
 package dev.alexengrig.myjdi.handle;
 
 import com.sun.jdi.VMDisconnectedException;
-import dev.alexengrig.myjdi.YouthVirtualMachine;
 import dev.alexengrig.myjdi.event.*;
 import dev.alexengrig.myjdi.queue.YouthEventIterator;
 import dev.alexengrig.myjdi.queue.YouthEventQueue;
+import dev.alexengrig.myjdi.vm.YouthVirtualMachine;
 
 import java.util.logging.Logger;
 

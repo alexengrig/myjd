@@ -4,7 +4,7 @@
     <module name="myjdi.main" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="dev.alexengrig.myjdi.*" />
+        <option name="PATTERN" value="dev.alexengrig.myjdi.vm.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

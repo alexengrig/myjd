@@ -16,6 +16,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.github.alexengrig:lambdax:0.5.0'
     implementation ':tools:1.8.0_241'
     testCompile 'junit:junit:4.12'
 }

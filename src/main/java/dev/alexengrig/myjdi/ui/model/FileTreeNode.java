@@ -19,8 +19,8 @@ public class FileTreeNode implements TreeNode {
     private final Supplier<List<FileTreeNode>> childrenSupplier;
     private List<FileTreeNode> children;
 
-    public FileTreeNode(String path, FileFilter fileFilter) {
-        this(null, new File(path), fileFilter);
+    public FileTreeNode(File file, FileFilter fileFilter) {
+        this(null, file, fileFilter);
     }
 
     public FileTreeNode(FileTreeNode parent, File file, FileFilter fileFilter) {

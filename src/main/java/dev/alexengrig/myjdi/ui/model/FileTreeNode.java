@@ -9,15 +9,13 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class FileTreeNode implements TreeNode {
     private final String name;
     private final boolean isFile;
     private final FileTreeNode parent;
-    private final Supplier<List<FileTreeNode>> childrenSupplier;
-    private List<FileTreeNode> children;
+    private final List<FileTreeNode> children;
 
     public FileTreeNode(File file, FileFilter fileFilter) {
         this(null, file, fileFilter);
@@ -30,7 +28,7 @@ public class FileTreeNode implements TreeNode {
         this.name = file.getName();
         this.isFile = file.isFile();
         this.parent = parent;
-        this.childrenSupplier = () -> ChainX.of(file)
+        this.children = ChainX.of(file)
                 .map(File::listFiles)
                 .stream()
                 .flatMap(Arrays::stream)
@@ -39,21 +37,14 @@ public class FileTreeNode implements TreeNode {
                 .collect(Collectors.toList());
     }
 
-    private List<FileTreeNode> getChildren() {
-        if (children == null) {
-            children = childrenSupplier.get();
-        }
-        return children;
-    }
-
     @Override
     public FileTreeNode getChildAt(int childIndex) {
-        return getChildren().get(childIndex);
+        return children.get(childIndex);
     }
 
     @Override
     public int getChildCount() {
-        return getChildren().size();
+        return children.size();
     }
 
     @Override
@@ -67,7 +58,7 @@ public class FileTreeNode implements TreeNode {
     }
 
     public int getIndex(FileTreeNode node) {
-        return getChildren().indexOf(node);
+        return children.indexOf(node);
     }
 
     @Override
@@ -82,7 +73,7 @@ public class FileTreeNode implements TreeNode {
 
     @Override
     public Enumeration<FileTreeNode> children() {
-        return new FileTreeNodeEnumeration(getChildren());
+        return new FileTreeNodeEnumeration(children);
     }
 
     @Override

@@ -1,9 +1,15 @@
 package dev.alexengrig.myjdi;
 
+import dev.alexengrig.myjdi.ui.JFileTree;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.util.logging.Logger;
 
 public class MyDebuggerGUI extends JFrame {
+    private static final Logger log = Logger.getLogger(MyDebuggerGUI.class.getName());
+
     public MyDebuggerGUI() {
         init();
         setTitle("MYJDI");
@@ -20,10 +26,12 @@ public class MyDebuggerGUI extends JFrame {
     private void init() {
         BorderLayout layout = new BorderLayout();
         JPanel contentPane = new JPanel(layout);
-        JTabbedPane fileTabPane = new JTabbedPane(SwingConstants.TOP);
-        fileTabPane.addTab("File 1", new JPanel());
-        fileTabPane.addTab("File 2", new JPanel());
-        contentPane.add(fileTabPane);
+        JComponent projectTree = createFileTree("./example");
+        contentPane.add(projectTree);
         setContentPane(contentPane);
+    }
+
+    private JTree createFileTree(String rootPath) {
+        return new JFileTree(new File(rootPath), file -> file.getName().endsWith(".java"));
     }
 }

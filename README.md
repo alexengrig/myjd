@@ -1,6 +1,6 @@
 # myjdi
 
-MYJDI (MYJDI Youth Java Debug Implementation) is JDI implementation.
+***MYJDI*** (***M***YJDI ***Y***outh ***J***ava ***D***ebug ***I***mplementation) is JDI implementation.
 
 
 ## Structure Overview
